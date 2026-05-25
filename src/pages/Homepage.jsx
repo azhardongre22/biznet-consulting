@@ -7,7 +7,6 @@ import LeadModal from "../components/LeadModal";
 const WhoWeAreSection = lazy(() => import("../components/WhoWeAreSection"));
 const ExploreGrid = lazy(() => import("../components/ExploreGrid"));
 const CEOMessage = lazy(() => import("../components/CEOMessage"));
-const Testimonials = lazy(() => import("../components/Testimonials"));
 const Footer = lazy(() => import("../components/Footer"));
 
 // ─── Lead modal frequency policy ────────────────────────────────────────────
@@ -136,9 +135,7 @@ function Homepage() {
         <div id="projects">
           <CEOMessage />
         </div>
-        {/* <div id="insights">
-          <Testimonials />
-        </div> */}
+       
         <div>
           <SuccessStories />
         </div>
