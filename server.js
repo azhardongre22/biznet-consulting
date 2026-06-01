@@ -25,7 +25,7 @@ const PUBLIC_SITE_URL = (
 
 const COMPANY = {
   name: "Biznet Consulting",
-  address: "1204, Capricorn Tower, Sheikh Zayed Road, Dubai, UAE",
+  address: "Oud Metha Offices Building, Office 324, Dubai",
   email: "hello@biznetconsulting.com",
   phone: "+971 52 748 8855",
 };
