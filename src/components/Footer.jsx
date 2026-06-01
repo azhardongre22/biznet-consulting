@@ -247,7 +247,7 @@ function Footer() {
         {/* Newsletter + contact form on same line */}
         <div className="mt-8 flex w-full min-w-0 flex-col gap-5 md:flex-row md:items-stretch">
           {/* Newsletter subscribe */}
-          <div className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/3 p-4 backdrop-blur-md sm:p-5 md:w-1/2 md:p-6">
+          <div className="flex w-full min-w-0 flex-col rounded-2xl border border-white/10 bg-white/3 p-4 backdrop-blur-md sm:p-5 md:w-1/2 md:p-6">
             <div className="text-center sm:text-left">
               <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-white/55">
                 {t("footer.newsletterEyebrow")}
@@ -259,7 +259,7 @@ function Footer() {
             </div>
 
             <form
-              className="mt-5 flex min-w-0 flex-col gap-3 sm:mt-6 sm:flex-row sm:items-center"
+              className="mt-5 flex min-w-0 flex-1 flex-col gap-3 sm:mt-6"
               onSubmit={submitNewsletter}
             >
               {/* Honeypot — visually hidden, ignored by humans, filled by bots. */}
@@ -287,7 +287,7 @@ function Footer() {
               </div>
 
               <input
-                className="h-11 min-h-[44px] min-w-0 flex-1 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4"
+                className="h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4"
                 placeholder={t("footer.emailPlaceholder")}
                 type="email"
                 autoComplete="email"
@@ -307,46 +307,47 @@ function Footer() {
                   );
                 }}
               />
+              <label className="mt-4 flex cursor-pointer items-start gap-2.5 text-left text-[11px] leading-[1.55] text-white/55">
+                <input
+                  type="checkbox"
+                  checked={newsletterConsent}
+                  onChange={(e) => {
+                    setNewsletterConsent(e.target.checked);
+                    setNewsletterState((s) =>
+                      s.ok || s.error
+                        ? {
+                            loading: false,
+                            ok: false,
+                            message: "",
+                            error: "",
+                          }
+                        : s,
+                    );
+                  }}
+                  className="mt-[2px] h-3.5 w-3.5 shrink-0 cursor-pointer accent-[#7C878E]"
+                />
+                <span>
+                  {t("footer.consentPrefix")}
+                  <Link
+                    to="/privacy-policy"
+                    className="text-white/80 underline decoration-white/30 underline-offset-2 transition hover:text-[#7C878E]"
+                  >
+                    {t("footer.consentLink")}
+                  </Link>
+                  {t("footer.consentSuffix")}
+                </span>
+              </label>
 
-              <SlideButton
-                loading={newsletterState.loading}
-                loadingChildren={t("footer.subscribing")}
-                className="w-full shrink-0 sm:w-fit"
-              >
-                {t("footer.subscribeCta")}
-              </SlideButton>
-            </form>
-
-            <label className="mt-4 flex cursor-pointer items-start gap-2.5 text-left text-[11px] leading-[1.55] text-white/55">
-              <input
-                type="checkbox"
-                checked={newsletterConsent}
-                onChange={(e) => {
-                  setNewsletterConsent(e.target.checked);
-                  setNewsletterState((s) =>
-                    s.ok || s.error
-                      ? {
-                          loading: false,
-                          ok: false,
-                          message: "",
-                          error: "",
-                        }
-                      : s,
-                  );
-                }}
-                className="mt-[2px] h-3.5 w-3.5 shrink-0 cursor-pointer accent-[#7C878E]"
-              />
-              <span>
-                {t("footer.consentPrefix")}
-                <Link
-                  to="/privacy-policy"
-                  className="text-white/80 underline decoration-white/30 underline-offset-2 transition hover:text-[#7C878E]"
+              <div className="mt-auto flex justify-end pt-2">
+                <SlideButton
+                  loading={newsletterState.loading}
+                  loadingChildren={t("footer.subscribing")}
+                  className="w-fit max-w-full"
                 >
-                  {t("footer.consentLink")}
-                </Link>
-                {t("footer.consentSuffix")}
-              </span>
-            </label>
+                  {t("footer.subscribeCta")}
+                </SlideButton>
+              </div>
+            </form>
 
             {newsletterState.ok ? (
               <p className="mt-3 text-center text-[12px] text-emerald-200/90 sm:text-left">
@@ -365,6 +366,9 @@ function Footer() {
             <div className="text-center sm:text-left">
               <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-white/55">
                 {t("footer.contactEyebrow")}
+              </p>
+              <p className="mx-auto mt-3 max-w-[420px] break-words text-justify text-[13px] leading-relaxed text-white/72 [hyphens:auto] [word-spacing:-0.04em] sm:mx-0">
+                {t("footer.contactCopy")}
               </p>
             </div>
 
