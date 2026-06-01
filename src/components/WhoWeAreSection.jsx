@@ -99,6 +99,11 @@ function WhoWeAreSection() {
     objectPositionMobile: slideObjectPositions[i],
     description: Array.isArray(s.description) ? s.description : [s.description],
     points: [],
+    // Slide 1 ("BIZNESS NETWORK") is brand wordmark — never translated, never RTL-swapped.
+    ...(i === 0 && {
+      leftWord: { partOne: "Biz", partTwo: "ness" },
+      rightWord: { partOne: "Net", partTwo: "work" },
+    }),
   }));
 
   const total = slides.length;
@@ -174,6 +179,11 @@ function WhoWeAreSection() {
   };
 
   const slide = slides[active];
+  // Slide 1 is the brand wordmark — bypass RTL handling so it always reads LTR.
+  const headingRTL = isRTL && active !== 0;
+  // Slide 1's heading is the brand wordmark — keep its original font/case/tracking
+  // even when the document is in Arabic mode.
+  const headingLangKeep = active === 0 ? " lang-keep" : "";
 
   return (
     <section
@@ -217,7 +227,7 @@ function WhoWeAreSection() {
         {/* Mobile stacked heading */}
         <div
           className="absolute inset-x-5 top-[17%] z-30 md:hidden"
-          dir={isRTL ? "rtl" : "ltr"}
+          dir={headingRTL ? "rtl" : "ltr"}
         >
           <AnimatePresence mode="wait">
             <motion.h2
@@ -226,7 +236,7 @@ function WhoWeAreSection() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="font-['Inter',Arial,sans-serif] text-[30px] font-extrabold uppercase leading-[0.95] tracking-[0.035em] text-white drop-shadow-[0_6px_14px_rgba(0,0,0,0.35)] sm:text-[34px]"
+              className={`font-['Inter',Arial,sans-serif] text-[30px] font-extrabold uppercase leading-[0.95] tracking-[0.035em] text-white drop-shadow-[0_6px_14px_rgba(0,0,0,0.35)] sm:text-[34px]${headingLangKeep}`}
             >
               <span className="block text-[#DDE5E8]/72">
                 {renderSplitWord(slide.leftWord, "left")}
@@ -249,10 +259,10 @@ function WhoWeAreSection() {
                   initial="initial"
                   animate="animate"
                   exit="exit"
-                  className="text-right font-['Inter',Arial,sans-serif] text-[48px] font-extrabold uppercase leading-[0.92] tracking-[0.035em] text-[#DDE5E8]/48 lg:text-[66px] xl:text-[82px]"
+                  className={`text-right font-['Inter',Arial,sans-serif] text-[48px] font-extrabold uppercase leading-[0.92] tracking-[0.035em] text-[#DDE5E8]/48 lg:text-[66px] xl:text-[82px]${headingLangKeep}`}
                 >
                   {renderSplitWord(
-                    isRTL ? slide.rightWord : slide.leftWord,
+                    headingRTL ? slide.rightWord : slide.leftWord,
                     "left",
                   )}
                 </motion.h2>
@@ -269,10 +279,10 @@ function WhoWeAreSection() {
                   initial="initial"
                   animate="animate"
                   exit="exit"
-                  className="font-['Inter',Arial,sans-serif] text-[48px] font-extrabold uppercase leading-[0.92] tracking-[0.035em] text-white drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)] lg:text-[66px] xl:text-[82px]"
+                  className={`font-['Inter',Arial,sans-serif] text-[48px] font-extrabold uppercase leading-[0.92] tracking-[0.035em] text-white drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)] lg:text-[66px] xl:text-[82px]${headingLangKeep}`}
                 >
                   {renderSplitWord(
-                    isRTL ? slide.leftWord : slide.rightWord,
+                    headingRTL ? slide.leftWord : slide.rightWord,
                     "right",
                   )}
                 </motion.h2>

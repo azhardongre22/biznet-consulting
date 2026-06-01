@@ -221,22 +221,27 @@ html[lang="ar"] body {
   font-family: var(--font-arabic);
 }
 
-html[lang="ar"] h1,
-html[lang="ar"] h2,
-html[lang="ar"] h3,
-html[lang="ar"] h4,
-html[lang="ar"] h5,
-html[lang="ar"] h6,
-html[lang="ar"] .font-headline,
-html[lang="ar"] .font-subtext,
-html[lang="ar"] [class*="font-['"] {
+html[lang="ar"] h1:not(.lang-keep, .lang-keep *),
+html[lang="ar"] h2:not(.lang-keep, .lang-keep *),
+html[lang="ar"] h3:not(.lang-keep, .lang-keep *),
+html[lang="ar"] h4:not(.lang-keep, .lang-keep *),
+html[lang="ar"] h5:not(.lang-keep, .lang-keep *),
+html[lang="ar"] h6:not(.lang-keep, .lang-keep *),
+html[lang="ar"] .font-headline:not(.lang-keep, .lang-keep *),
+html[lang="ar"] .font-subtext:not(.lang-keep, .lang-keep *),
+html[lang="ar"] [class*="font-['"]:not(.lang-keep, .lang-keep *) {
   font-family: var(--font-arabic) !important;
 }
 
-html[lang="ar"] [class*="uppercase"] {
+html[lang="ar"] [class*="uppercase"]:not(.lang-keep, .lang-keep *) {
   text-transform: none !important;
 }
 
-html[lang="ar"] [class*="tracking-"] {
+html[lang="ar"] [class*="tracking-"]:not(.lang-keep, .lang-keep *) {
   letter-spacing: 0 !important;
 }
+
+/* Escape hatch: add the `lang-keep` class to any element whose text is
+   always English / never translated (brand wordmarks, email addresses,
+   watermarks, etc.). The element and all its descendants will keep their
+   original font, uppercase, and tracking even in Arabic mode. */
