@@ -11,6 +11,7 @@ import ivyPrestoTextThin from "../assets/fonts/ivy-presto-headline/Ivy-Presto-Te
 import HeroBg from "../assets/images/HeroBg.png";
 import ceoLogoBlack from "../assets/images/CEO LOGO PANTONE BLUE.png";
 import BNLogo from "../assets/images/BN_Logo.png";
+import FaviconBlue from "../assets/images/FAVICON BLUE.png";
 
 import SocialMediaIcons from "../components/SocialMediaIcons";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -171,12 +172,12 @@ function CeoMessageLanding() {
         >
           <div className="text-center">
             <a
-              href="#top"
+              href=""
               className="inline-flex items-center justify-center"
               aria-label="Biznet Consulting home"
             >
               <img
-                src={BNLogo}
+                src={FaviconBlue}
                 alt="Biznet Consulting"
                 className="h-auto w-[60px] object-contain sm:w-[72px]"
               />
@@ -276,9 +277,9 @@ function CeoMessageLanding() {
                   type="submit"
                   disabled={status.loading}
                   aria-disabled={status.loading}
-                  className="group inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#0E4174] bg-[#0E4174] px-6 text-sm text-white transition duration-300 hover:bg-[#0a2f55] focus:outline-none focus:ring-4 focus:ring-[#0E4174]/20 disabled:cursor-not-allowed disabled:opacity-60"
+                  className=" cursor-pointer group inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#0E4174] bg-[#0E4174] px-6 text-sm text-white transition duration-300 hover:bg-[#0a2f55] focus:outline-none focus:ring-4 focus:ring-[#0E4174]/20 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {status.loading ? t("ceoLanding.joiningState") : t("ceoLanding.joinCta")}
+                   TAP THE TEAM
                   <Send className="h-4 w-4 text-white transition-transform group-hover:translate-x-0.5" />
                 </button>
               </div>

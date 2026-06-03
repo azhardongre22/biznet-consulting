@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import Homepage from "./pages/Homepage";
 import Services from "./pages/Services";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ContactUsPage from "./pages/ContactUsPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import ScrollToTop from "./components/ScrollToTop";
@@ -14,6 +14,32 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import CeoMessageLanding from "./pages/CeoMessageLanding";
 import BNIcon from "./components/BNIcon";
+
+const AppContent = () => {
+  const location = useLocation();
+  const hideBNIcon = location.pathname === "/scan";
+
+  return (
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<ContactUsPage />} />
+        <Route path="/about" element={<AboutUsPage />} />
+        <Route path="/coming-soon" element={<ComingSoon />} />
+        <Route path="/recent-projects" element={<RecentProjects />} />
+        <Route path="/legacy" element={<Legacy />} />
+        <Route path="/press-release" element={<PressRelease />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="/scan" element={<CeoMessageLanding />} />
+      </Routes>
+
+      {!hideBNIcon && <BNIcon />}
+    </>
+  );
+};
 
 const App = () => {
   useEffect(() => {
@@ -42,12 +68,10 @@ const App = () => {
       const el = document.getElementById(id);
       if (!el) return;
 
-      // Match the fixed navbar height.
       lenis.scrollTo(el, { offset: -68 });
     };
 
     window.addEventListener("hashchange", scrollToHash);
-    // If user loads with a hash, scroll on first mount.
     queueMicrotask(scrollToHash);
 
     return () => {
@@ -60,21 +84,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/contact" element={<ContactUsPage />} />
-        <Route path="/about" element={<AboutUsPage />} />
-        <Route path="/coming-soon" element={<ComingSoon />} />
-        <Route path="/recent-projects" element={<RecentProjects />} />
-        <Route path="/legacy" element={<Legacy />} />
-        <Route path="/press-release" element={<PressRelease />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-        <Route path="/scan" element={<CeoMessageLanding />} />
-      </Routes>
-      <BNIcon />
+      <AppContent />
     </BrowserRouter>
   );
 };
