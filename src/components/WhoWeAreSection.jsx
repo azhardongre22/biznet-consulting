@@ -179,7 +179,11 @@ function WhoWeAreSection() {
   };
 
   const slide = slides[active];
-  // Slide 1 is the brand wordmark — bypass RTL handling so it always reads LTR.
+  // In Arabic, swap which word renders on each side so the natural
+  // right-to-left reading order is preserved. e.g. slide 3 should read
+  // "ماذا نعمل" — that means "ماذا" (originally the leftWord) needs to
+  // sit on the right and "نعمل" on the left. Slide 1 is the brand
+  // wordmark ("BIZNESS NETWORK") and stays LTR regardless.
   const headingRTL = isRTL && active !== 0;
   // Slide 1's heading is the brand wordmark — keep its original font/case/tracking
   // even when the document is in Arabic mode.
@@ -248,8 +252,13 @@ function WhoWeAreSection() {
           </AnimatePresence>
         </div>
 
-        {/* Main split word title */}
-        <div className="relative z-30 hidden h-full md:grid md:grid-cols-2">
+        {/* Main split word title — the two-column grid stays LTR (left
+            column → right column physically). The word swap for Arabic
+            is handled below via `headingRTL` on the renderSplitWord call. */}
+        <div
+          className="relative z-30 hidden h-full md:grid md:grid-cols-2"
+          dir="ltr"
+        >
           <div className="relative">
             <div className="absolute right-0 top-[33%] pr-4 md:pr-2">
               <AnimatePresence mode="wait">

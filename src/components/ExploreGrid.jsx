@@ -43,7 +43,14 @@ function getObjectPositionClass(mobile) {
   }
 }
 
-function DesktopCard({ card, isActive, isAnyActive, onEnter, discoverLabel }) {
+function DesktopCard({
+  card,
+  isActive,
+  isAnyActive,
+  onEnter,
+  discoverLabel,
+  isRTL,
+}) {
   return (
     <motion.div
       onMouseEnter={onEnter}
@@ -51,7 +58,10 @@ function DesktopCard({ card, isActive, isAnyActive, onEnter, discoverLabel }) {
       animate={{ flexGrow: isActive ? 8 : 1 }}
       transition={{ duration: 1.1, ease: EASE }}
       style={{ flexBasis: 0 }}
-      className="group relative h-full min-w-[72px] overflow-hidden text-left lg:min-w-[88px]"
+      dir={isRTL ? "rtl" : "ltr"}
+      className={`group relative h-full min-w-[72px] overflow-hidden lg:min-w-[88px] ${
+        isRTL ? "text-right" : "text-left"
+      }`}
     >
       {/* IMAGE */}
       <motion.img
@@ -84,7 +94,11 @@ function DesktopCard({ card, isActive, isAnyActive, onEnter, discoverLabel }) {
       />
 
       {/* Index marker */}
-      <div className="absolute left-5 top-5 z-10 flex items-center gap-3">
+      <div
+        className={`absolute top-5 z-10 flex items-center gap-3 ${
+          isRTL ? "right-5" : "left-5"
+        }`}
+      >
         <motion.span
           animate={{ opacity: isAnyActive && !isActive ? 0.45 : 1 }}
           transition={{ duration: 0.6, ease: EASE }}
@@ -99,7 +113,7 @@ function DesktopCard({ card, isActive, isAnyActive, onEnter, discoverLabel }) {
             opacity: isActive ? 1 : 0.35,
           }}
           transition={{ duration: 0.6, ease: EASE }}
-          style={{ transformOrigin: "left" }}
+          style={{ transformOrigin: isRTL ? "right" : "left" }}
           className="block h-px w-8 bg-white/65"
         />
       </div>
@@ -186,25 +200,30 @@ function DesktopCard({ card, isActive, isAnyActive, onEnter, discoverLabel }) {
         )}
       </AnimatePresence>
 
-      {/* Left accent */}
+      {/* Side accent — flips to the right edge in Arabic */}
       <motion.span
         animate={{ scaleY: isActive ? 1 : 0 }}
         transition={{ duration: 0.7, ease: EASE }}
         style={{ transformOrigin: "bottom" }}
-        className="pointer-events-none absolute bottom-0 left-0 top-0 w-[2px] bg-gradient-to-b from-transparent via-[#7C878E] to-[#0E4174]"
+        className={`pointer-events-none absolute bottom-0 top-0 w-[2px] bg-gradient-to-b from-transparent via-[#7C878E] to-[#0E4174] ${
+          isRTL ? "right-0" : "left-0"
+        }`}
       />
     </motion.div>
   );
 }
 
-function StackedCard({ card, index, discoverLabel }) {
+function StackedCard({ card, index, discoverLabel, isRTL }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.9, ease: EASE, delay: index * 0.06 }}
-      className="group relative block aspect-[4/5] w-full overflow-hidden sm:aspect-[16/11]"
+      dir={isRTL ? "rtl" : "ltr"}
+      className={`group relative block aspect-[4/5] w-full overflow-hidden sm:aspect-[16/11] ${
+        isRTL ? "text-right" : "text-left"
+      }`}
     >
       <img
         src={card.image}
@@ -216,7 +235,11 @@ function StackedCard({ card, index, discoverLabel }) {
 
       <div className="absolute inset-0 bg-gradient-to-t from-[#04080f] via-[#04080f]/65 to-transparent" />
 
-      <div className="absolute left-5 top-5 flex items-center gap-3">
+      <div
+        className={`absolute top-5 flex items-center gap-3 ${
+          isRTL ? "right-5" : "left-5"
+        }`}
+      >
         <span className="text-[10px] uppercase tracking-[0.4em] text-white/85">
           {card.num}
         </span>
@@ -242,14 +265,19 @@ function StackedCard({ card, index, discoverLabel }) {
         </Link>
       </div>
 
-      <span className="pointer-events-none absolute bottom-0 left-0 top-0 w-[2px] bg-gradient-to-b from-transparent via-[#7C878E] to-[#0E4174]" />
+      <span
+        className={`pointer-events-none absolute bottom-0 top-0 w-[2px] bg-gradient-to-b from-transparent via-[#7C878E] to-[#0E4174] ${
+          isRTL ? "right-0" : "left-0"
+        }`}
+      />
     </motion.div>
   );
 }
 
 function ExploreGrid() {
   const [active, setActive] = useState(null);
-  const { t, tArray } = useLanguage();
+  const { t, tArray, language } = useLanguage();
+  const isRTL = language === "ar";
   const cardContent = tArray("exploreGrid.cards");
   const cards = cardContent.map((c, i) => ({
     ...c,
@@ -297,6 +325,7 @@ function ExploreGrid() {
               isAnyActive={active !== null}
               onEnter={() => setActive(i)}
               discoverLabel={discoverLabel}
+              isRTL={isRTL}
             />
           ))}
         </motion.div>
@@ -309,6 +338,7 @@ function ExploreGrid() {
               card={card}
               index={i}
               discoverLabel={discoverLabel}
+              isRTL={isRTL}
             />
           ))}
         </div>

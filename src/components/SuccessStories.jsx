@@ -56,6 +56,7 @@ export default function SuccessStories() {
       </motion.div>
 
       <div
+        dir="ltr"
         className="relative"
         onMouseEnter={() => setMarqueePaused(true)}
         onMouseLeave={() => setMarqueePaused(false)}

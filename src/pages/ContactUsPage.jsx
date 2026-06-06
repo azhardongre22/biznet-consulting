@@ -21,12 +21,11 @@ const staggerWrap = {
 };
 
 export default function ContactUsPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const isRTL = language === "ar";
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
-    phone: "",
     message: "",
   });
   const [touched, setTouched] = useState({});
@@ -53,10 +52,8 @@ export default function ContactUsPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setTouched({
-      firstName: true,
-      lastName: true,
+      name: true,
       email: true,
-      phone: true,
       message: true,
     });
     if (!isValid) return;
@@ -74,10 +71,8 @@ export default function ContactUsPage() {
       }
       setSubmitState({ loading: false, ok: true, error: "" });
       setForm({
-        firstName: "",
-        lastName: "",
+        name: "",
         email: "",
-        phone: "",
         message: "",
       });
       setTouched({});
@@ -104,7 +99,13 @@ export default function ContactUsPage() {
               animate="visible"
               className="grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20"
             >
-              <motion.div variants={fadeUp} className="max-w-xl pt-2 lg:pt-10">
+              <motion.div
+                variants={fadeUp}
+                className={`max-w-xl pt-2 lg:pt-10 ${
+                  isRTL ? "text-right" : "text-left"
+                }`}
+                dir={isRTL ? "rtl" : "ltr"}
+              >
                 <p className="mb-7 font-['Aktiv_Grotesk'] text-xs font-normal uppercase tracking-[0.36em] text-white/80">
                   {t("contactPage.eyebrow")}
                 </p>
@@ -122,7 +123,7 @@ export default function ContactUsPage() {
                     <p className="mb-1 text-xs uppercase tracking-[0.22em] text-white/55">
                       {t("contactPage.contactLabel")}
                     </p>
-                    <div className="space-y-1">
+                    <div className="space-y-1" dir="ltr">
                       <a
                         href="tel:+971527488855"
                         className="block transition hover:text-white"
@@ -159,6 +160,7 @@ export default function ContactUsPage() {
                     </p>
                     <a
                       href="mailto:hello@biznetconsulting.ae"
+                      dir="ltr"
                       className="transition hover:text-white"
                     >
                       hello@biznetconsulting.ae
@@ -170,50 +172,36 @@ export default function ContactUsPage() {
               <motion.div
                 variants={fadeUp}
                 className="rounded-[2rem] border border-white/12 bg-white/5 p-5 shadow-[0_30px_90px_rgba(0,0,0,0.38)] backdrop-blur-2xl sm:p-8 lg:p-10"
+                dir={isRTL ? "rtl" : "ltr"}
               >
                 <form className="grid gap-7" onSubmit={handleSubmit} noValidate>
-                  <div className="grid gap-7 sm:grid-cols-2">
-                    <FloatingInput
-                      label={t("contactPage.firstName")}
-                      name="firstName"
-                      value={form.firstName}
-                      onChange={(e) => setField("firstName", e.target.value)}
-                      onBlur={() => touchField("firstName")}
-                      error={touched.firstName ? errors.firstName : undefined}
-                    />
-                    <FloatingInput
-                      label={t("contactPage.lastName")}
-                      name="lastName"
-                      value={form.lastName}
-                      onChange={(e) => setField("lastName", e.target.value)}
-                      onBlur={() => touchField("lastName")}
-                      error={touched.lastName ? errors.lastName : undefined}
-                    />
-                  </div>
+                  <FloatingInput
+                    label={t("contactPage.name")}
+                    name="name"
+                    value={form.name}
+                    onChange={(e) => setField("name", e.target.value)}
+                    onBlur={() => touchField("name")}
+                    error={touched.name ? errors.name : undefined}
+                    isRTL={isRTL}
+                  />
 
-                  <div className="grid gap-7 sm:grid-cols-2">
-                    <FloatingInput
-                      label={t("contactPage.email")}
-                      name="email"
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => setField("email", e.target.value)}
-                      onBlur={() => touchField("email")}
-                      error={touched.email ? errors.email : undefined}
-                    />
-                    <FloatingInput
-                      label={t("contactPage.phone")}
-                      name="phone"
-                      type="tel"
-                      value={form.phone}
-                      onChange={(e) => setField("phone", e.target.value)}
-                      onBlur={() => touchField("phone")}
-                      error={touched.phone ? errors.phone : undefined}
-                    />
-                  </div>
+                  <FloatingInput
+                    label={t("contactPage.email")}
+                    name="email"
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => setField("email", e.target.value)}
+                    onBlur={() => touchField("email")}
+                    error={touched.email ? errors.email : undefined}
+                    isRTL={isRTL}
+                  />
 
                   <label className="group block">
-                    <span className="font-['Ivy_Presto'] text-xl font-light italic text-white/85">
+                    <span
+                      className={`block font-['Ivy_Presto'] text-xl font-light italic text-white/85 ${
+                        isRTL ? "text-right" : "text-left"
+                      }`}
+                    >
                       {t("contactPage.message")}
                     </span>
                     <textarea
@@ -224,6 +212,8 @@ export default function ContactUsPage() {
                       onBlur={() => touchField("message")}
                       aria-invalid={Boolean(touched.message && errors.message)}
                       className={`mt-3 w-full resize-none border-0 border-b bg-transparent px-0 pb-3 font-['Aktiv_Grotesk'] text-base text-white/90 outline-none transition placeholder:text-white/35 focus:ring-0 ${
+                        isRTL ? "text-right" : "text-left"
+                      } ${
                         touched.message && errors.message
                           ? "border-red-400/70 focus:border-red-400"
                           : "border-white/25 focus:border-white/70"
@@ -231,7 +221,11 @@ export default function ContactUsPage() {
                       placeholder={t("contactPage.messagePlaceholder")}
                     />
                     {touched.message && errors.message ? (
-                      <p className="mt-2 font-['Aktiv_Grotesk'] text-xs text-red-200/90">
+                      <p
+                        className={`mt-2 font-['Aktiv_Grotesk'] text-xs text-red-200/90 ${
+                          isRTL ? "text-right" : "text-left"
+                        }`}
+                      >
                         {errors.message}
                       </p>
                     ) : null}
@@ -300,10 +294,14 @@ function FloatingInput({
   onChange,
   onBlur,
   error,
+  isRTL,
 }) {
+  const alignClass = isRTL ? "text-right" : "text-left";
   return (
     <label className="group block">
-      <span className="font-['Ivy_Presto'] text-xl font-light italic text-white/85">
+      <span
+        className={`block font-['Ivy_Presto'] text-xl font-light italic text-white/85 ${alignClass}`}
+      >
         {label}*
       </span>
       <input
@@ -313,14 +311,16 @@ function FloatingInput({
         onChange={onChange}
         onBlur={onBlur}
         aria-invalid={Boolean(error)}
-        className={`mt-4 w-full border-0 border-b bg-transparent px-0 pb-3 font-['Aktiv_Grotesk'] text-base text-white/90 outline-none transition placeholder:text-transparent focus:ring-0 ${
+        className={`mt-4 w-full border-0 border-b bg-transparent px-0 pb-3 font-['Aktiv_Grotesk'] text-base text-white/90 outline-none transition placeholder:text-transparent focus:ring-0 ${alignClass} ${
           error
             ? "border-red-400/70 focus:border-red-400"
             : "border-white/25 focus:border-white/70"
         }`}
       />
       {error ? (
-        <p className="mt-2 font-['Aktiv_Grotesk'] text-xs text-red-200/90">
+        <p
+          className={`mt-2 font-['Aktiv_Grotesk'] text-xs text-red-200/90 ${alignClass}`}
+        >
           {error}
         </p>
       ) : null}
@@ -330,25 +330,16 @@ function FloatingInput({
 
 function validateContactForm(form, t) {
   const next = {};
-  const firstName = form.firstName.trim();
-  const lastName = form.lastName.trim();
+  const name = form.name.trim();
   const email = form.email.trim();
-  const phone = form.phone.trim();
   const message = form.message.trim();
 
-  if (!firstName) next.firstName = t("contactPage.errors.firstName");
-  if (!lastName) next.lastName = t("contactPage.errors.lastName");
+  if (!name) next.name = t("contactPage.errors.nameRequired");
 
   if (!email) {
     next.email = t("contactPage.errors.emailRequired");
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
     next.email = t("contactPage.errors.emailInvalid");
-  }
-
-  if (!phone) {
-    next.phone = t("contactPage.errors.phoneRequired");
-  } else if (!/^[+()\d\s-]{7,}$/.test(phone)) {
-    next.phone = t("contactPage.errors.phoneInvalid");
   }
 
   if (!message) {

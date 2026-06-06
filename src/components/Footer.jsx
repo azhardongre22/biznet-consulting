@@ -39,7 +39,9 @@ function SlideButton({
   );
 }
 function Footer() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const isRTL = language === "ar";
+  const startText = isRTL ? "sm:text-right" : "sm:text-left";
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterHp, setNewsletterHp] = useState("");
   const [newsletterConsent, setNewsletterConsent] = useState(true);
@@ -192,7 +194,10 @@ function Footer() {
                     aria-hidden
                   />
                 </span>
-                <span className="min-w-0 break-words text-left md:text-center lg:text-left">
+                <span
+                  dir="ltr"
+                  className="min-w-0 break-words text-left md:text-center lg:text-left"
+                >
                   hello@biznetconsulting.com
                 </span>
               </a>
@@ -224,7 +229,7 @@ function Footer() {
                       aria-hidden
                     />
                   </span>
-                  <span>+971 52 748 8855</span>
+                  <span dir="ltr">+971 52 748 8855</span>
                 </a>
 
                 <a
@@ -237,7 +242,7 @@ function Footer() {
                       aria-hidden
                     />
                   </span>
-                  <span>04 343 3334</span>
+                  <span dir="ltr">04 343 3334</span>
                 </a>
               </div>
             </div>
@@ -247,13 +252,18 @@ function Footer() {
         {/* Newsletter + contact form on same line */}
         <div className="mt-8 flex w-full min-w-0 flex-col gap-5 md:flex-row md:items-stretch">
           {/* Newsletter subscribe */}
-          <div className="flex w-full min-w-0 flex-col rounded-2xl border border-white/10 bg-white/3 p-4 backdrop-blur-md sm:p-5 md:w-1/2 md:p-6">
-            <div className="text-center sm:text-left">
+          <div
+            className="flex w-full min-w-0 flex-col rounded-2xl border border-white/10 bg-white/3 p-4 backdrop-blur-md sm:p-5 md:w-1/2 md:p-6"
+            dir={isRTL ? "rtl" : "ltr"}
+          >
+            <div className={`text-center ${startText}`}>
               <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-white/55">
                 {t("footer.newsletterEyebrow")}
               </p>
 
-              <p className="mx-auto mt-3 max-w-[420px] break-words text-justify text-[13px] leading-relaxed text-white/72 [hyphens:auto] [word-spacing:-0.04em] sm:mx-0">
+              <p
+                className={`mx-auto mt-3 max-w-[420px] break-words text-justify text-[13px] leading-relaxed text-white/72 [hyphens:auto] [word-spacing:-0.04em] sm:mx-0`}
+              >
                 {t("footer.newsletterCopy")}
               </p>
             </div>
@@ -287,7 +297,9 @@ function Footer() {
               </div>
 
               <input
-                className="h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4"
+                className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
+                  isRTL ? "text-right" : "text-left"
+                }`}
                 placeholder={t("footer.emailPlaceholder")}
                 type="email"
                 autoComplete="email"
@@ -307,7 +319,11 @@ function Footer() {
                   );
                 }}
               />
-              <label className="mt-4 flex cursor-pointer items-start gap-2.5 text-left text-[11px] leading-[1.55] text-white/55">
+              <label
+                className={`mt-4 flex cursor-pointer items-start gap-2.5 text-[11px] leading-[1.55] text-white/55 ${
+                  isRTL ? "text-right" : "text-left"
+                }`}
+              >
                 <input
                   type="checkbox"
                   checked={newsletterConsent}
@@ -350,20 +366,27 @@ function Footer() {
             </form>
 
             {newsletterState.ok ? (
-              <p className="mt-3 text-center text-[12px] text-emerald-200/90 sm:text-left">
+              <p
+                className={`mt-3 text-center text-[12px] text-emerald-200/90 ${startText}`}
+              >
                 {newsletterState.message || t("footer.subscribedDefault")}
               </p>
             ) : null}
             {newsletterState.error ? (
-              <p className="mt-3 text-center text-[12px] text-red-200/90 sm:text-left">
+              <p
+                className={`mt-3 text-center text-[12px] text-red-200/90 ${startText}`}
+              >
                 {newsletterState.error}
               </p>
             ) : null}
           </div>
 
           {/* Contact form */}
-          <div className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/3 p-4 backdrop-blur-md sm:p-5 md:w-1/2 md:p-6">
-            <div className="text-center sm:text-left">
+          <div
+            className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/3 p-4 backdrop-blur-md sm:p-5 md:w-1/2 md:p-6"
+            dir={isRTL ? "rtl" : "ltr"}
+          >
+            <div className={`text-center ${startText}`}>
               <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-white/55">
                 {t("footer.contactEyebrow")}
               </p>
@@ -376,50 +399,57 @@ function Footer() {
               className="mt-5 grid min-w-0 gap-3 sm:mt-6"
               onSubmit={submitFooterContact}
             >
-              <div className="grid min-w-0 gap-3 sm:grid-cols-2">
-                <input
-                  className="h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4"
-                  placeholder={t("footer.nameRequired")}
-                  type="text"
-                  autoComplete="name"
-                  required
-                  value={footerContact.name}
-                  onChange={(e) => {
-                    setFooterContact((p) => ({
-                      ...p,
-                      name: e.target.value,
-                    }));
-                    setFooterContactState((s) =>
-                      s.ok || s.error
-                        ? { loading: false, ok: false, error: "" }
-                        : s,
-                    );
-                  }}
-                />
+              {/* Single column so Name → Email → Message stacks in the
+                  requested order; on sm+ we still stack to keep the form
+                  reading top-to-bottom regardless of language. */}
+              <input
+                className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
+                  isRTL ? "text-right" : "text-left"
+                }`}
+                placeholder={t("footer.nameRequired")}
+                type="text"
+                autoComplete="name"
+                required
+                value={footerContact.name}
+                onChange={(e) => {
+                  setFooterContact((p) => ({
+                    ...p,
+                    name: e.target.value,
+                  }));
+                  setFooterContactState((s) =>
+                    s.ok || s.error
+                      ? { loading: false, ok: false, error: "" }
+                      : s,
+                  );
+                }}
+              />
 
-                <input
-                  className="h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4"
-                  placeholder={t("footer.emailRequired")}
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={footerContact.email}
-                  onChange={(e) => {
-                    setFooterContact((p) => ({
-                      ...p,
-                      email: e.target.value,
-                    }));
-                    setFooterContactState((s) =>
-                      s.ok || s.error
-                        ? { loading: false, ok: false, error: "" }
-                        : s,
-                    );
-                  }}
-                />
-              </div>
+              <input
+                className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
+                  isRTL ? "text-right" : "text-left"
+                }`}
+                placeholder={t("footer.emailRequired")}
+                type="email"
+                autoComplete="email"
+                required
+                value={footerContact.email}
+                onChange={(e) => {
+                  setFooterContact((p) => ({
+                    ...p,
+                    email: e.target.value,
+                  }));
+                  setFooterContactState((s) =>
+                    s.ok || s.error
+                      ? { loading: false, ok: false, error: "" }
+                      : s,
+                  );
+                }}
+              />
 
               <textarea
-                className="min-h-[100px] w-full min-w-0 resize-none rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 py-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4"
+                className={`min-h-[100px] w-full min-w-0 resize-none rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 py-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
+                  isRTL ? "text-right" : "text-left"
+                }`}
                 placeholder={t("footer.messagePlaceholder")}
                 required
                 value={footerContact.message}
@@ -447,12 +477,16 @@ function Footer() {
               </div>
             </form>
             {footerContactState.ok ? (
-              <p className="mt-3 text-center text-[12px] text-emerald-200/90 sm:text-left">
+              <p
+                className={`mt-3 text-center text-[12px] text-emerald-200/90 ${startText}`}
+              >
                 {t("footer.contactOk")}
               </p>
             ) : null}
             {footerContactState.error ? (
-              <p className="mt-3 text-center text-[12px] text-red-200/90 sm:text-left">
+              <p
+                className={`mt-3 text-center text-[12px] text-red-200/90 ${startText}`}
+              >
                 {footerContactState.error}
               </p>
             ) : null}

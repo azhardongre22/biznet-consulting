@@ -157,12 +157,7 @@ export default function AboutUsPage() {
         {/* ambient image backdrop */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.18]"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=2400&q=80')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+          
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#020812] via-[#020812]/85 to-[#020812]" />
         <div

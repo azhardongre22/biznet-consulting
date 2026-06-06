@@ -44,15 +44,15 @@ function lookup(dictionary, key) {
 export function LanguageProvider({ children }) {
   const [language, setLanguageState] = useState(readInitialLanguage);
 
-  const dir = "ltr";
+  const dir = language === "ar" ? "rtl" : "ltr";
 
   useEffect(() => {
     if (typeof document === "undefined") return;
     document.documentElement.lang = language;
-    document.documentElement.dir = "ltr";
-    document.documentElement.classList.remove("rtl");
-    document.documentElement.classList.add("ltr");
-  }, [language]);
+    document.documentElement.dir = dir;
+    document.documentElement.classList.remove("rtl", "ltr");
+    document.documentElement.classList.add(dir);
+  }, [language, dir]);
 
   const setLanguage = useCallback((next) => {
     if (next !== "ar" && next !== "en") return;

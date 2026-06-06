@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(node -e \"const t = require\\('./src/i18n/translations.js'\\); console.log\\('en keys:', Object.keys\\(t.translations.en\\).length\\); console.log\\('ar keys:', Object.keys\\(t.translations.ar\\).length\\);\")",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(npx vite *)",
+      "Bash(node -e \"console.log\\(require\\('docx'\\).Document ? 'ok' : 'missing'\\)\")"
     ]
   }
 }

@@ -14,7 +14,22 @@ import BNLogo from "../assets/images/BN_Logo.png";
 import FaviconBlue from "../assets/images/FAVICON BLUE.png";
 
 import SocialMediaIcons from "../components/SocialMediaIcons";
-import { useLanguage } from "../i18n/LanguageContext";
+
+// This page is intentionally English-only (it's the post-QR-scan landing).
+// Do not wire it up to the language context.
+const CEO_LANDING_COPY = {
+  eyebrow: "CEO Message",
+  quote:
+    '"At Biznet, we don\'t chase growth, we create it. Our focus is simple: build with purpose, scale with precision, and lead with impact. The future isn\'t something we wait for; it\'s something we shape."',
+  ceoName: "Ismail Al Hammadi",
+  ceoTitle: "Chief Executive Officer",
+  newsletter: "Newsletter",
+  emailPlaceholder: "Email address",
+  consent:
+    "I agree to receive marketing emails from Biznet Consulting. I can unsubscribe at any time.",
+  ok: "Thank you for subscribing.",
+  consentRequired: "Please tick the consent box to subscribe.",
+};
 
 const globalStyles = `
   @font-face {
@@ -75,7 +90,6 @@ const globalStyles = `
 `;
 
 function CeoMessageLanding() {
-  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [hp, setHp] = useState("");
   const [consent, setConsent] = useState(true);
@@ -109,7 +123,7 @@ function CeoMessageLanding() {
         loading: false,
         ok: false,
         message: "",
-        error: t("footer.consentRequired"),
+        error: CEO_LANDING_COPY.consentRequired,
       });
       return;
     }
@@ -129,8 +143,8 @@ function CeoMessageLanding() {
       });
       const data = await resp.json().catch(() => ({}));
       if (!resp.ok || !data?.ok)
-        throw new Error(data?.error || t("ceoLanding.ok"));
-      const message = data?.message || t("ceoLanding.ok");
+        throw new Error(data?.error || CEO_LANDING_COPY.ok);
+      const message = data?.message || CEO_LANDING_COPY.ok;
       setStatus({ loading: false, ok: true, message, error: "" });
       setEmail("");
       setHp("");
@@ -139,7 +153,7 @@ function CeoMessageLanding() {
         loading: false,
         ok: false,
         message: "",
-        error: err?.message || t("ceoLanding.ok"),
+        error: err?.message || CEO_LANDING_COPY.ok,
       });
     }
   };
@@ -187,7 +201,7 @@ function CeoMessageLanding() {
 
             <div className="mx-auto mt-1 max-w-[900px]">
               <p className="text-center text-[0.64rem] uppercase tracking-[0.32em] text-[#5F6F7A]">
-                {t("ceoLanding.eyebrow")}
+                {CEO_LANDING_COPY.eyebrow}
               </p>
 
               <div className="mt-6 flex flex-col items-center gap-6 md:flex-row md:items-center md:gap-8 md:text-left">
@@ -201,15 +215,15 @@ function CeoMessageLanding() {
 
                 <div className="max-w-[650px] text-center md:text-left">
                   <p className="biznet-serif text-balance text-[1rem] leading-7 text-[#384967] sm:text-[1.16rem] sm:leading-8">
-                    {t("ceoLanding.quote")}
+                    {CEO_LANDING_COPY.quote}
                   </p>
 
                   <div className="mt-5 text-sm text-[#5F6F7A]">
                     <span className="text-2xl text-[#384967]">
-                      {t("ceoLanding.ceoName")}
+                      {CEO_LANDING_COPY.ceoName}
                     </span>
                     <br />
-                    {t("ceoLanding.ceoTitle")}
+                    {CEO_LANDING_COPY.ceoTitle}
                   </div>
                 </div>
               </div>
@@ -227,7 +241,7 @@ function CeoMessageLanding() {
               className="mx-auto mt-7 max-w-[520px]"
             >
               <p className="mb-3 text-[0.64rem] uppercase tracking-[0.3em] text-[#5F6F7A]">
-                {t("ceoLanding.newsletter")}
+                {CEO_LANDING_COPY.newsletter}
               </p>
 
               {/* Honeypot — visually hidden, ignored by humans, filled by bots. */}
@@ -256,7 +270,7 @@ function CeoMessageLanding() {
 
               <div className="flex flex-col gap-2.5 sm:flex-row">
                 <label htmlFor="newsletter-email" className="sr-only">
-                  {t("ceoLanding.emailPlaceholder")}
+                  {CEO_LANDING_COPY.emailPlaceholder}
                 </label>
                 <div className="relative flex-1">
                   <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5F6F7A]" />
@@ -269,7 +283,7 @@ function CeoMessageLanding() {
                       setEmail(event.target.value);
                       clearStatus();
                     }}
-                    placeholder={t("ceoLanding.emailPlaceholder")}
+                    placeholder={CEO_LANDING_COPY.emailPlaceholder}
                     className="h-11 w-full rounded-full border border-[#5F6F7A]/45 bg-[#F5F8FC]/90 pl-11 pr-4 text-sm text-[#384967] outline-none transition placeholder:text-[#5F6F7A] focus:border-[#0E4174] focus:ring-4 focus:ring-[#0E4174]/10"
                   />
                 </div>
@@ -294,13 +308,13 @@ function CeoMessageLanding() {
                   }}
                   className="mt-[2px] h-3.5 w-3.5 shrink-0 cursor-pointer accent-[#0E4174]"
                 />
-                <span>{t("ceoLanding.consent")}</span>
+                <span>{CEO_LANDING_COPY.consent}</span>
               </label>
 
               {status.ok ? (
                 <p className="mt-3 inline-flex items-center gap-2 text-sm text-[#0E4174]">
                   <CheckCircle2 className="h-4 w-4" />{" "}
-                  {status.message || t("ceoLanding.ok")}
+                  {status.message || CEO_LANDING_COPY.ok}
                 </p>
               ) : null}
               {status.error ? (

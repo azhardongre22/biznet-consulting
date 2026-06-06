@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import ceoImage from "../assets/images/ceo2.jpg";
+import ceoImage from "../assets/images/ceo4.jpg";
 import LightRays from "./LightRays";
 import { useLanguage } from "../i18n/LanguageContext";
 
@@ -84,11 +84,14 @@ const CEOMessage = () => {
                 alt="Ismail Al Hammadi, Chief Executive Officer"
                 loading="lazy"
                 decoding="async"
-                className="absolute inset-0 h-full w-full object-cover object-[center_22%] saturate-[0.9] transition duration-[1400ms] ease-out group-hover:scale-[1.04]"
+                // Brightness + slight contrast lift to address feedback
+                // that the portrait was reading too dark on the page.
+                style={{ filter: "brightness(1.18) contrast(1.04)" }}
+                className="absolute inset-0 h-full w-full object-cover object-[center_22%] transition duration-[1400ms] ease-out group-hover:scale-[1.04]"
               />
 
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#02060c]/0 via-[#020812]/15 to-[#020812]/85" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#020812]/45 via-transparent to-[#0d2640]/25 mix-blend-multiply" />
+              {/* <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#02060c]/0 via-[#020812]/15 to-[#020812]/85" /> */}
+              {/* <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#020812]/45 via-transparent to-[#0d2640]/25 mix-blend-multiply" /> */}
             </motion.div>
 
             <div className="pointer-events-none absolute -bottom-10 left-1/2 h-[60px] w-[78%] -translate-x-1/2 rounded-[50%] bg-[#7C878E]/[0.18] blur-[40px]" />

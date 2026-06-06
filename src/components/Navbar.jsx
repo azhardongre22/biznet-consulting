@@ -28,6 +28,7 @@ function navKeyFromPathAndHash(pathname, hash) {
 
 function Navbar() {
   const { t, language, toggleLanguage } = useLanguage();
+  const isRTL = language === "ar";
 
   const menuItems = [
     {
@@ -182,6 +183,7 @@ function Navbar() {
     <>
       {/* TOP NAVBAR */}
       <nav
+        dir="ltr"
         className={`fixed left-0 right-0 top-0 z-[300] flex h-[68px] items-center justify-between px-4 transition-[transform,background-color,border-color,backdrop-filter] duration-500 sm:px-6 md:px-10 ${
           open
             ? "border-b border-transparent bg-transparent"
@@ -318,6 +320,7 @@ function Navbar() {
 
       {/* MENU OVERLAY */}
       <div
+        dir="ltr"
         className={`fixed inset-0 z-[290] transition duration-700 ease-[cubic-bezier(.4,0,.2,1)] ${
           open
             ? "pointer-events-auto opacity-100"
@@ -401,7 +404,9 @@ function Navbar() {
                       <span>{item.label}</span>
 
                       <span
-                        className={`absolute left-4 top-1/2 -translate-y-1/2 text-[8px] tracking-[0.1em] transition ${
+                        className={`absolute top-1/2 -translate-y-1/2 text-[8px] tracking-[0.1em] transition ${
+                          isRTL ? "right-4" : "left-4"
+                        } ${
                           isActive
                             ? "text-[#7C878E]"
                             : "text-white/25 group-hover:text-[#7C878E]"
@@ -506,7 +511,9 @@ function Navbar() {
                     <span>{item.label}</span>
 
                     <span
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-[8px] text-[#7C878E]"
+                      className={`absolute top-1/2 -translate-y-1/2 text-[8px] text-[#7C878E] ${
+                        isRTL ? "right-4" : "left-4"
+                      }`}
                     >
                       {item.num}
                     </span>
