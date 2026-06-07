@@ -9,12 +9,13 @@ import pressReleaseImage from "../assets/images/press-release.png";
 import { useLanguage } from "../i18n/LanguageContext";
 
 const cardImages = [
-  recentProjectsImage,
   servicesImage,
+  recentProjectsImage,
   legacyInProgressImage,
   pressReleaseImage,
 ];
-const cardHrefs = ["/recent-projects", "/services", "/legacy", "/press-release"];
+
+const cardHrefs = ["/services", "/recent-projects", "/legacy", "/press-release"];
 const cardObjectPositions = [undefined, undefined, undefined, "left-soft"];
 
 const EASE = [0.22, 1, 0.36, 1];

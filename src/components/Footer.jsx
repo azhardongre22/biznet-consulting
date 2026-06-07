@@ -180,7 +180,7 @@ function Footer() {
 
           {/* Right: partnership text + contact */}
           <div className="min-w-0 lg:col-span-6">
-            <p className="max-w-[520px] text-left text-[15px] leading-relaxed text-white/78 md:mx-auto md:text-center lg:mx-0 lg:text-left">
+            <p className="max-w-[420px] pl-[30px] text-left text-[15px] leading-relaxed text-white/78 md:mx-auto md:text-center md:pl-0 lg:mx-0 lg:pl-[30px] lg:text-left">
               {t("footer.partnership")}
             </p>
             <div className="mt-6 flex w-full min-w-0 flex-col items-start gap-4 text-[15px] leading-relaxed text-white/80 sm:mt-7 md:items-center lg:items-start lg:text-[16px]">

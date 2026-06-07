@@ -80,13 +80,13 @@ export const translations = {
       cards: [
         {
           num: "01",
-          label: "Recent Project",
-          desc: "A closer look at the developments, and milestones shaping Biznet's growing presence.",
+          label: "Services",
+          desc: "Integrated consultancy services designed to move projects from concept to completion with precision and intent.",
         },
         {
           num: "02",
-          label: "Services",
-          desc: "Integrated consultancy services designed to move projects from concept to completion with precision and intent.",
+          label: "Recent Project",
+          desc: "A closer look at the developments, and milestones shaping Biznet's growing presence.",
         },
         {
           num: "03",

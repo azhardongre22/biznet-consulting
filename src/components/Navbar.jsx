@@ -106,7 +106,12 @@ function Navbar() {
     setActivePage(page);
     setPreviewPage(page);
     closeMenu();
-
+  
+    if (page === "home") {
+      navigateRouter("/");
+      return;
+    }
+  
     if (page === "services") {
       navigateRouter("/services");
       return;
@@ -117,13 +122,13 @@ function Navbar() {
       navigateRouter("/about");
       return;
     }
-
+  
     // These map to sections on the homepage (hash navigation).
     if (location.pathname !== "/") {
       navigateRouter(`/#${page}`);
       return;
     }
-
+  
     navigateRouter({ pathname: "/", hash: `#${page}` });
     requestAnimationFrame(() => {
       const el = document.getElementById(page);
