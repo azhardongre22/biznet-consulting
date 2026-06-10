@@ -185,7 +185,7 @@ function Footer() {
             </p>
             <div className="mt-6 flex w-full min-w-0 flex-col items-start gap-4 text-[15px] leading-relaxed text-white/80 sm:mt-7 md:items-center lg:items-start lg:text-[16px]">
               <a
-                href="mailto:hello@biznetconsulting.com"
+                href="mailto:hello@biznetconsulting.ae"
                 className="flex w-full max-w-[420px] items-start justify-start gap-3 transition hover:text-white md:justify-center lg:justify-start"
               >
                 <span className="inline-flex h-[1.25em] w-[18px] shrink-0 items-center justify-center pt-0.5">
@@ -198,7 +198,7 @@ function Footer() {
                   dir="ltr"
                   className="min-w-0 break-words text-left md:text-center lg:text-left"
                 >
-                  hello@biznetconsulting.com
+                  hello@biznetconsulting.ae
                 </span>
               </a>
 
