@@ -300,7 +300,7 @@ function Footer() {
                 className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
                   isRTL ? "text-right" : "text-left"
                 }`}
-                placeholder={t("footer.emailPlaceholder")}
+                placeholder="Email"
                 type="email"
                 autoComplete="email"
                 required
@@ -401,12 +401,15 @@ function Footer() {
             >
               {/* Single column so Name → Email → Message stacks in the
                   requested order; on sm+ we still stack to keep the form
-                  reading top-to-bottom regardless of language. */}
+                  reading top-to-bottom regardless of language. Per
+                  stakeholder spec the placeholders stay English ("Name",
+                  "Email", "Message") even when the rest of the site is
+                  in Arabic — only the alignment flips. */}
               <input
                 className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
                   isRTL ? "text-right" : "text-left"
                 }`}
-                placeholder={t("footer.nameRequired")}
+                placeholder="Name *"
                 type="text"
                 autoComplete="name"
                 required
@@ -428,7 +431,7 @@ function Footer() {
                 className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
                   isRTL ? "text-right" : "text-left"
                 }`}
-                placeholder={t("footer.emailRequired")}
+                placeholder="Email *"
                 type="email"
                 autoComplete="email"
                 required
@@ -450,7 +453,7 @@ function Footer() {
                 className={`min-h-[100px] w-full min-w-0 resize-none rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 py-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
                   isRTL ? "text-right" : "text-left"
                 }`}
-                placeholder={t("footer.messagePlaceholder")}
+                placeholder="Message"
                 required
                 value={footerContact.message}
                 onChange={(e) => {

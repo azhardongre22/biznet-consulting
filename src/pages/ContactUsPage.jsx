@@ -174,9 +174,12 @@ export default function ContactUsPage() {
                 className="rounded-[2rem] border border-white/12 bg-white/5 p-5 shadow-[0_30px_90px_rgba(0,0,0,0.38)] backdrop-blur-2xl sm:p-8 lg:p-10"
                 dir={isRTL ? "rtl" : "ltr"}
               >
+                {/* Per stakeholder spec, form field labels stay English
+                    ("Name", "Email", "Message") even when the rest of
+                    the site is in Arabic; only the alignment flips. */}
                 <form className="grid gap-7" onSubmit={handleSubmit} noValidate>
                   <FloatingInput
-                    label={t("contactPage.name")}
+                    label="Name"
                     name="name"
                     value={form.name}
                     onChange={(e) => setField("name", e.target.value)}
@@ -186,7 +189,7 @@ export default function ContactUsPage() {
                   />
 
                   <FloatingInput
-                    label={t("contactPage.email")}
+                    label="Email"
                     name="email"
                     type="email"
                     value={form.email}
@@ -202,7 +205,7 @@ export default function ContactUsPage() {
                         isRTL ? "text-right" : "text-left"
                       }`}
                     >
-                      {t("contactPage.message")}
+                      Message
                     </span>
                     <textarea
                       name="message"
@@ -218,7 +221,7 @@ export default function ContactUsPage() {
                           ? "border-red-400/70 focus:border-red-400"
                           : "border-white/25 focus:border-white/70"
                       }`}
-                      placeholder={t("contactPage.messagePlaceholder")}
+                      placeholder="Tell us how we may assist you"
                     />
                     {touched.message && errors.message ? (
                       <p

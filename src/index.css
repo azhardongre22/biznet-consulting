@@ -40,10 +40,36 @@ body {
   font-display: swap;
 }
 
+/* Portada Text — used for Arabic content only (see html[lang="ar"] block).
+   Three weights map approximately as: Book (350) → Regular (400) → SemiBold (600). */
+@font-face {
+  font-family: "Portada Text";
+  src: url("./assets/fonts/portada/fonnts.com-Portada-Text-Bk-.otf") format("opentype");
+  font-style: normal;
+  font-weight: 350;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Portada Text";
+  src: url("./assets/fonts/portada/fonnts.com-Portada-Text-.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Portada Text";
+  src: url("./assets/fonts/portada/fonnts.com-Portada-Text-Sb-.otf") format("opentype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
 :root {
   --font-headline: "Ivy Presto", "Times New Roman", serif;
   --font-subtext: "Aktiv Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-arabic: "Tajawal", "Cairo", "Segoe UI", "Tahoma", sans-serif;
+  --font-arabic: "Portada Text", "Tajawal", "Cairo", "Segoe UI", "Tahoma", sans-serif;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -211,10 +237,12 @@ h6,
 
 /* ──────────────────────────────────────────────────────────────────────────
    Arabic font support
-   Arabic content keeps the LTR layout but swaps to Tajawal everywhere —
-   including headings — because Ivy Presto has no Arabic glyphs. Tracking
-   (letter-spacing) is reset because Arabic letterforms join and look broken
-   when spaced apart, and uppercase is disabled since Arabic has no case.
+   Arabic content swaps to "Portada Text" everywhere — including headings —
+   because Ivy Presto / Aktiv Grotesk have no Arabic glyphs. Tajawal and
+   Cairo are kept as fallbacks for any Arabic glyph Portada does not ship.
+   Tracking (letter-spacing) is reset because Arabic letterforms join and
+   look broken when spaced apart, and uppercase is disabled since Arabic
+   has no case.
    ────────────────────────────────────────────────────────────────────── */
 html[lang="ar"],
 html[lang="ar"] body {
