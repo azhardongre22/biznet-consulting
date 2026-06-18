@@ -1,9 +1,15 @@
 import { Suspense, lazy } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
-import { useLanguage } from "../i18n/LanguageContext";
+import { translations } from "../i18n/translations";
 
 const Footer = lazy(() => import("../components/Footer"));
+
+// This page is intentionally English-only and LTR. Even when the rest of
+// the site is in Arabic, the legal text here must read in English with
+// left-to-right flow. We import the English terms copy directly from the
+// translations bundle rather than going through the language context.
+const COPY = translations.en.terms;
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -22,11 +28,17 @@ const stagger = {
 };
 
 export default function TermsAndConditions() {
-  const { t, tArray } = useLanguage();
-  const sections = tArray("terms.sections");
+  const sections = COPY.sections;
 
   return (
-    <main className="min-h-screen overflow-x-clip bg-[#020812] text-white">
+    <main
+      // dir="ltr" + lang="en" overrides any global Arabic settings on
+      // <html>; lang-keep prevents the Portada Arabic-font rules from
+      // applying to this page's English copy.
+      dir="ltr"
+      lang="en"
+      className="lang-keep min-h-screen overflow-x-clip bg-[#020812] text-white"
+    >
       <Navbar />
 
       <section className="relative overflow-hidden bg-[#020812] pt-[180px] pb-[100px] md:pt-[220px] md:pb-[140px]">
@@ -57,16 +69,16 @@ export default function TermsAndConditions() {
             className="mb-6 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.42em] text-[#7C878E]"
           >
             <span className="h-px w-8 bg-[#7C878E]/70" />
-            {t("terms.eyebrow")}
+            {COPY.eyebrow}
           </motion.div>
 
           <motion.h1
             variants={fadeUp}
             className="font-headline text-[44px] font-light leading-[1] tracking-[-0.025em] text-[#eef3f8] md:text-[68px] lg:text-[80px]"
           >
-            {t("terms.titleLead")}
+            {COPY.titleLead}
             <span className="block  font-light text-[#5aa9d6]">
-              {t("terms.titleEm")}
+              {COPY.titleEm}
             </span>
           </motion.h1>
 
@@ -79,14 +91,14 @@ export default function TermsAndConditions() {
             variants={fadeUp}
             className="font-subtext mt-8 max-w-[640px] text-[16px] font-light leading-[1.85] text-[#b6c8d9]"
           >
-            {t("terms.intro")}
+            {COPY.intro}
           </motion.p>
 
           <motion.p
             variants={fadeUp}
             className="font-subtext mt-6 text-[12px] uppercase tracking-[0.32em] text-[#7C878E]"
           >
-            {t("terms.effective")}
+            {COPY.effective}
           </motion.p>
         </motion.div>
       </section>
@@ -111,12 +123,12 @@ export default function TermsAndConditions() {
           >
             <div className="absolute left-0 top-0 h-full w-[2px] bg-gradient-to-b from-[#7C878E] via-[#0E4174] to-transparent" />
             <p className="font-headline text-[22px] font-light italic leading-[1.45] text-[#eef3f8] md:text-[26px]">
-              {t("terms.quote")}
+              {COPY.quote}
             </p>
             <div className="mt-5 flex items-center gap-3">
               <span className="h-px w-8 bg-[#7C878E]" />
               <span className="text-[10px] font-semibold uppercase tracking-[0.42em] text-[#7C878E]">
-                {t("terms.quoteAttr")}
+                {COPY.quoteAttr}
               </span>
             </div>
           </motion.div>
@@ -190,11 +202,11 @@ export default function TermsAndConditions() {
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#0E4174]/30 via-[#384967]/10 to-transparent" />
             <div className="relative mx-auto max-w-[980px] text-center">
               <div className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#eef3f8]/70 sm:text-[11px] sm:tracking-[0.42em]">
-                {t("terms.ctaEyebrow")}
+                {COPY.ctaEyebrow}
               </div>
 
               <p className="mx-auto mt-5 max-w-[900px] font-headline text-[24px] font-light leading-[1.3] text-[#eef3f8] sm:text-[30px] md:text-[38px] lg:text-[44px] xl:text-[48px]">
-                {t("terms.ctaTitle")}
+                {COPY.ctaTitle}
               </p>
 
               <div className="mt-8 flex justify-center">
