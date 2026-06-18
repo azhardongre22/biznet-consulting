@@ -75,7 +75,7 @@ export const translations = {
 
     exploreGrid: {
       eyebrow: "Explore",
-      lead: "A walk through Biznet — projects, services, insights and the press around them.",
+      lead: "A walk through Biznet",
       discover: "Discover",
       cards: [
         {
