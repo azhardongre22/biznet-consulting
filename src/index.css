@@ -269,6 +269,84 @@ html[lang="ar"] [class*="tracking-"]:not(.lang-keep, .lang-keep *) {
   letter-spacing: 0 !important;
 }
 
+/* ─── Premium Arabic text rules ──────────────────────────────────────────
+   - Disable CSS hyphenation: hyphens / dashes must not appear in Arabic
+     copy, so neutralise the [hyphens:auto] Tailwind utilities used for
+     English body text.
+   - Reset the negative word-spacing utilities (tuned for English) so
+     Arabic word-joining and syllable flow stays natural.
+   - Honor explicit \n line breaks in translation strings so each new
+     sentence starts on its own line (per spec).
+   ────────────────────────────────────────────────────────────────────── */
+html[lang="ar"]:not(.lang-keep) *:not(.lang-keep, .lang-keep *) {
+  hyphens: none !important;
+  -webkit-hyphens: none !important;
+}
+
+html[lang="ar"] [class*="word-spacing"]:not(.lang-keep, .lang-keep *) {
+  word-spacing: 0 !important;
+}
+
+html[lang="ar"] p:not(.lang-keep, .lang-keep *) {
+  white-space: pre-line;
+}
+
+/* ─── Arabic font-size bump (+2px on every breakpoint) ──────────────────
+   Substring-match selectors targeting Tailwind's arbitrary text-[Npx]
+   utility classes. Listed in ascending size order so when an element has
+   multiple responsive variants (e.g. text-[14px] md:text-[15.5px]), the
+   larger size wins by source order — keeping Arabic at least +2px above
+   the English baseline at every breakpoint.
+   ────────────────────────────────────────────────────────────────────── */
+html[lang="ar"] [class*="text-[8px]"]:not(.lang-keep, .lang-keep *)    { font-size: 10px !important; }
+html[lang="ar"] [class*="text-[9px]"]:not(.lang-keep, .lang-keep *)    { font-size: 11px !important; }
+html[lang="ar"] [class*="text-[10px]"]:not(.lang-keep, .lang-keep *)   { font-size: 12px !important; }
+html[lang="ar"] [class*="text-[11px]"]:not(.lang-keep, .lang-keep *)   { font-size: 13px !important; }
+html[lang="ar"] [class*="text-[12px]"]:not(.lang-keep, .lang-keep *)   { font-size: 14px !important; }
+html[lang="ar"] [class*="text-[13px]"]:not(.lang-keep, .lang-keep *)   { font-size: 15px !important; }
+html[lang="ar"] [class*="text-[13.5px]"]:not(.lang-keep, .lang-keep *) { font-size: 15.5px !important; }
+html[lang="ar"] [class*="text-[14px]"]:not(.lang-keep, .lang-keep *)   { font-size: 16px !important; }
+html[lang="ar"] [class*="text-[14.5px]"]:not(.lang-keep, .lang-keep *) { font-size: 16.5px !important; }
+html[lang="ar"] [class*="text-[15px]"]:not(.lang-keep, .lang-keep *)   { font-size: 17px !important; }
+html[lang="ar"] [class*="text-[15.5px]"]:not(.lang-keep, .lang-keep *) { font-size: 17.5px !important; }
+html[lang="ar"] [class*="text-[16px]"]:not(.lang-keep, .lang-keep *)   { font-size: 18px !important; }
+html[lang="ar"] [class*="text-[16.5px]"]:not(.lang-keep, .lang-keep *) { font-size: 18.5px !important; }
+html[lang="ar"] [class*="text-[17px]"]:not(.lang-keep, .lang-keep *)   { font-size: 19px !important; }
+html[lang="ar"] [class*="text-[17.5px]"]:not(.lang-keep, .lang-keep *) { font-size: 19.5px !important; }
+html[lang="ar"] [class*="text-[18px]"]:not(.lang-keep, .lang-keep *)   { font-size: 20px !important; }
+html[lang="ar"] [class*="text-[19px]"]:not(.lang-keep, .lang-keep *)   { font-size: 21px !important; }
+html[lang="ar"] [class*="text-[20px]"]:not(.lang-keep, .lang-keep *)   { font-size: 22px !important; }
+html[lang="ar"] [class*="text-[22px]"]:not(.lang-keep, .lang-keep *)   { font-size: 24px !important; }
+html[lang="ar"] [class*="text-[24px]"]:not(.lang-keep, .lang-keep *)   { font-size: 26px !important; }
+html[lang="ar"] [class*="text-[26px]"]:not(.lang-keep, .lang-keep *)   { font-size: 28px !important; }
+html[lang="ar"] [class*="text-[28px]"]:not(.lang-keep, .lang-keep *)   { font-size: 30px !important; }
+html[lang="ar"] [class*="text-[30px]"]:not(.lang-keep, .lang-keep *)   { font-size: 32px !important; }
+html[lang="ar"] [class*="text-[32px]"]:not(.lang-keep, .lang-keep *)   { font-size: 34px !important; }
+html[lang="ar"] [class*="text-[34px]"]:not(.lang-keep, .lang-keep *)   { font-size: 36px !important; }
+html[lang="ar"] [class*="text-[36px]"]:not(.lang-keep, .lang-keep *)   { font-size: 38px !important; }
+html[lang="ar"] [class*="text-[38px]"]:not(.lang-keep, .lang-keep *)   { font-size: 40px !important; }
+html[lang="ar"] [class*="text-[40px]"]:not(.lang-keep, .lang-keep *)   { font-size: 42px !important; }
+html[lang="ar"] [class*="text-[42px]"]:not(.lang-keep, .lang-keep *)   { font-size: 44px !important; }
+html[lang="ar"] [class*="text-[44px]"]:not(.lang-keep, .lang-keep *)   { font-size: 46px !important; }
+html[lang="ar"] [class*="text-[46px]"]:not(.lang-keep, .lang-keep *)   { font-size: 48px !important; }
+html[lang="ar"] [class*="text-[48px]"]:not(.lang-keep, .lang-keep *)   { font-size: 50px !important; }
+html[lang="ar"] [class*="text-[50px]"]:not(.lang-keep, .lang-keep *)   { font-size: 52px !important; }
+html[lang="ar"] [class*="text-[52px]"]:not(.lang-keep, .lang-keep *)   { font-size: 54px !important; }
+html[lang="ar"] [class*="text-[54px]"]:not(.lang-keep, .lang-keep *)   { font-size: 56px !important; }
+html[lang="ar"] [class*="text-[56px]"]:not(.lang-keep, .lang-keep *)   { font-size: 58px !important; }
+html[lang="ar"] [class*="text-[62px]"]:not(.lang-keep, .lang-keep *)   { font-size: 64px !important; }
+html[lang="ar"] [class*="text-[64px]"]:not(.lang-keep, .lang-keep *)   { font-size: 66px !important; }
+html[lang="ar"] [class*="text-[66px]"]:not(.lang-keep, .lang-keep *)   { font-size: 68px !important; }
+html[lang="ar"] [class*="text-[68px]"]:not(.lang-keep, .lang-keep *)   { font-size: 70px !important; }
+html[lang="ar"] [class*="text-[80px]"]:not(.lang-keep, .lang-keep *)   { font-size: 82px !important; }
+html[lang="ar"] [class*="text-[82px]"]:not(.lang-keep, .lang-keep *)   { font-size: 84px !important; }
+html[lang="ar"] [class*="text-[84px]"]:not(.lang-keep, .lang-keep *)   { font-size: 86px !important; }
+html[lang="ar"] [class*="text-[96px]"]:not(.lang-keep, .lang-keep *)   { font-size: 98px !important; }
+html[lang="ar"] [class*="text-[100px]"]:not(.lang-keep, .lang-keep *)  { font-size: 102px !important; }
+html[lang="ar"] [class*="text-[150px]"]:not(.lang-keep, .lang-keep *)  { font-size: 152px !important; }
+html[lang="ar"] [class*="text-[180px]"]:not(.lang-keep, .lang-keep *)  { font-size: 182px !important; }
+html[lang="ar"] [class*="text-[220px]"]:not(.lang-keep, .lang-keep *)  { font-size: 222px !important; }
+
 /* Escape hatch: add the `lang-keep` class to any element whose text is
    always English / never translated (brand wordmarks, email addresses,
    watermarks, etc.). The element and all its descendants will keep their

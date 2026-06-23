@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 
 import recentProjectsImage from "../assets/images/recent-project.png";
-import servicesImage from "../assets/images/services.png";
+import servicesImage from "../assets/images/services.jpg";
 import legacyInProgressImage from "../assets/images/legacy-in-progress.png";
 import pressReleaseImage from "../assets/images/press-release.png";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -15,8 +15,18 @@ const cardImages = [
   pressReleaseImage,
 ];
 
-const cardHrefs = ["/services", "/recent-projects", "/legacy", "/press-release"];
-const cardObjectPositions = [undefined, undefined, undefined, "left-soft"];
+const cardHrefs = [
+  "/services",
+  "/recent-projects",
+  "/legacy",
+  "/press-release",
+];
+const cardObjectPositions = [
+  undefined,
+  undefined,
+  undefined,
+  "press-release-right",
+];
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -39,6 +49,8 @@ function getObjectPositionClass(mobile) {
       return "object-top";
     case "bottom":
       return "object-bottom";
+    case "press-release-right":
+      return "object-[35%_50%]";
     default:
       return "";
   }
@@ -77,7 +89,11 @@ function DesktopCard({
               : "grayscale(0%) brightness(0.85)",
         }}
         transition={{ duration: 1.1, ease: EASE }}
-        className="absolute inset-0 h-full w-full object-cover"
+        className={`absolute inset-0 h-full w-full object-cover ${
+          card.href === "/press-release"
+            ? "lg:object-[35%_50%] xl:object-[40%_50%]"
+            : ""
+        }`}
       />
 
       {/* TINT */}
@@ -131,7 +147,11 @@ function DesktopCard({
             className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center"
           >
             <span
-              className="font-headline text-[12px] font-medium uppercase tracking-[0.42em] text-white/85 lg:text-[13px]"
+              className={`font-headline font-medium text-white/85 ${
+                isRTL
+                  ? "text-[14px] tracking-normal lg:text-[15px]"
+                  : "text-[12px] uppercase tracking-[0.42em] lg:text-[13px]"
+              }`}
               style={{
                 writingMode: "vertical-rl",
                 transform: "rotate(180deg)",
@@ -158,7 +178,11 @@ function DesktopCard({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.7, ease: EASE, delay: 0.25 }}
-              className="w-full break-words font-headline font-light uppercase leading-[1.08] tracking-[-0.01em] text-white text-lg md:max-w-[520px] md:text-xl lg:max-w-[440px] lg:text-2xl xl:max-w-[480px] xl:text-3xl"
+              className={`w-full break-words font-headline font-light leading-[1.2] text-white md:max-w-[520px] lg:max-w-[440px] xl:max-w-[480px] ${
+                isRTL
+                  ? "text-[20px] tracking-normal md:text-[22px] lg:text-[26px] xl:text-[32px]"
+                  : "text-lg uppercase tracking-[-0.01em] md:text-xl lg:text-2xl xl:text-3xl"
+              }`}
             >
               {card.label}
             </motion.h3>
@@ -168,7 +192,11 @@ function DesktopCard({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.65, ease: EASE, delay: 0.35 }}
-              className="mt-5 w-full break-words pr-2 font-subtext font-light text-[#cdd8e4] text-justify [hyphens:auto] [word-spacing:-0.04em] text-[13px] leading-[1.75] md:max-w-[320px] md:text-[14px] lg:max-w-[300px] xl:max-w-[320px]"
+              className={`mt-5 w-full pr-2 font-subtext font-light text-[#cdd8e4] md:max-w-[320px] lg:max-w-[300px] xl:max-w-[320px] ${
+                isRTL
+                  ? "whitespace-pre-line break-words text-justify text-[15px] leading-[1.85] [word-spacing:-0.04em] md:text-[16px]"
+                  : "break-words text-justify text-[13px] leading-[1.75] [hyphens:auto] [word-spacing:-0.04em] md:text-[14px]"
+              }`}
             >
               {card.desc}
             </motion.p>
@@ -181,7 +209,11 @@ function DesktopCard({
             >
               <Link
                 to={card.href}
-                className="mt-7 inline-flex items-center gap-3 self-start border-b border-[#7C878E]/45 pb-2 text-[10px] uppercase tracking-[0.36em] text-white transition-all duration-500 hover:border-white"
+                className={`mt-7 inline-flex items-center gap-3 self-start border-b border-[#7C878E]/45 pb-2 text-white transition-all duration-500 hover:border-white ${
+                  isRTL
+                    ? "text-[12px] tracking-normal"
+                    : "text-[10px] uppercase tracking-[0.36em]"
+                }`}
               >
                 {discoverLabel}
                 <motion.span
@@ -249,17 +281,33 @@ function StackedCard({ card, index, discoverLabel, isRTL }) {
       </div>
 
       <div className="absolute inset-x-0 bottom-0 flex flex-col px-5 pb-7 sm:px-7 sm:pb-9">
-        <h3 className="w-full break-words font-headline font-light uppercase leading-[1.08] tracking-[-0.01em] text-white text-[20px] sm:text-[24px]">
+        <h3
+          className={`w-full break-words font-headline font-light leading-[1.2] text-white ${
+            isRTL
+              ? "text-[22px] tracking-normal sm:text-[26px]"
+              : "text-[20px] uppercase tracking-[-0.01em] sm:text-[24px]"
+          }`}
+        >
           {card.label}
         </h3>
 
-        <p className="mt-3 w-full break-words pr-2 font-subtext font-light text-[#cdd8e4] text-justify [hyphens:auto] [word-spacing:-0.04em] text-[13px] leading-[1.65]">
+        <p
+          className={`mt-3 w-full pr-2 font-subtext font-light text-[#cdd8e4] ${
+            isRTL
+              ? "whitespace-pre-line break-words text-justify text-[15px] leading-[1.85] [word-spacing:-0.04em]"
+              : "break-words text-justify text-[13px] leading-[1.65] [hyphens:auto] [word-spacing:-0.04em]"
+          }`}
+        >
           {card.desc}
         </p>
 
         <Link
           to={card.href}
-          className="mt-5 inline-flex items-center gap-3 self-start border-b border-[#7C878E]/45 pb-1.5 text-[10px] uppercase tracking-[0.34em] text-white transition-all duration-500 hover:border-white"
+          className={`mt-5 inline-flex items-center gap-3 self-start border-b border-[#7C878E]/45 pb-1.5 text-white transition-all duration-500 hover:border-white ${
+            isRTL
+              ? "text-[12px] tracking-normal"
+              : "text-[10px] uppercase tracking-[0.34em]"
+          }`}
         >
           {discoverLabel}
           <span className="text-[#7C878E]">↗</span>
@@ -289,7 +337,7 @@ function ExploreGrid() {
   const discoverLabel = t("exploreGrid.discover");
 
   return (
-    <section className="relative isolate min-h-screen overflow-hidden bg-[#04080f] text-white md:h-screen">
+    <section className="relative isolate min-h-screen overflow-hidden bg-gradient-to-b from-[#EEF3F8] to-[#DDE5E8] text-[#384967] md:h-screen">
       <div className="relative z-10 mx-auto flex min-h-screen max-w-[1540px] flex-col px-5 py-10 sm:px-7 sm:py-12 md:h-screen md:min-h-0 md:px-12 md:py-12 lg:px-[102px] lg:py-14">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -299,11 +347,23 @@ function ExploreGrid() {
           className="mb-8 flex shrink-0 flex-col gap-5 md:mb-8 lg:mb-10"
         >
           <div className="flex flex-col gap-1.5">
-            <span className="text-[10px] uppercase tracking-[0.46em] text-[#7C878E]">
+            <span
+              className={`text-[#0E4174] ${
+                isRTL
+                  ? "text-[16px] tracking-normal"
+                  : "text-[12px] uppercase tracking-[0.46em]"
+              }`}
+            >
               {t("exploreGrid.eyebrow")}
             </span>
 
-            <span className="max-w-[680px] font-subtext text-[13px] font-light leading-[1.65] text-[#dbe6f2] md:text-[14px]">
+            <span
+              className={`max-w-[680px] font-subtext font-light text-[#5F6F7A] ${
+                isRTL
+                  ? "break-words text-justify text-[17px] leading-[1.65] md:text-[20px] [word-spacing:-0.04em]"
+                  : "text-[13px] leading-[1.65] md:text-[16px]"
+              }`}
+            >
               {t("exploreGrid.lead")}
             </span>
           </div>

@@ -5,7 +5,7 @@ import UpcomingProjects from "../components/UpcomingProjects";
 import HeroSlider from "../components/HeroSlider";
 import SuccessStories from "../components/SuccessStories";
 import SliderImg1 from "../assets/images/ServiceSlider1-1.png";
-import SliderImg2 from "../assets/images/ServiceSlider2-2-2.png";
+import SliderImg2 from "../assets/images/ServiceSlider2-1.png";
 import SliderImg3 from "../assets/images/ServiceSlider2-2.png";
 import { useLanguage } from "../i18n/LanguageContext";
 
@@ -27,7 +27,7 @@ const Services = () => {
     <>
       <Navbar />
       <HeroSlider slides={serviceSlides} sectionId="services-hero" autoPlay />
-      <ServicesGrid />
+      <ServicesGrid variant="light" />
       <UpcomingProjects />
       <SuccessStories />
       <Footer />

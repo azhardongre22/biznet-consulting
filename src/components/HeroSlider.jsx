@@ -140,12 +140,24 @@ function HeroSlider({
           }`}
         >
           <div
-            className={`absolute inset-0 bg-cover transition-transform duration-[7000ms] ${getBgPositionClass(slide.bgPositionMobile)}`}
+            className={`absolute inset-0 bg-cover transition-transform duration-[7000ms] ${
+              slide.bgMobile ? "hidden md:block" : ""
+            } ${getBgPositionClass(slide.bgPositionMobile)}`}
             style={{
               backgroundImage: `url(${slide.bg})`,
               transform: active === index ? "scale(1.015)" : "scale(1.05)",
             }}
           />
+
+          {slide.bgMobile ? (
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[7000ms] md:hidden"
+              style={{
+                backgroundImage: `url(${slide.bgMobile})`,
+                transform: active === index ? "scale(1.015)" : "scale(1.05)",
+              }}
+            />
+          ) : null}
 
           <div className="absolute inset-0 bg-[#06111d]/12" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#020812]/40 via-[#020812]/20 to-transparent" />

@@ -37,7 +37,7 @@ function getObjectPositionClass(mobile) {
   }
 }
 
-function ServiceContent({ card, isMobile = false }) {
+function ServiceContent({ card, isMobile = false, isRTL = false }) {
   const introLines = Array.isArray(card?.intro)
     ? card.intro
     : card?.intro
@@ -49,10 +49,15 @@ function ServiceContent({ card, isMobile = false }) {
     <>
       <h3
         className={[
-          "w-full break-words font-headline font-light uppercase leading-[1.08] tracking-[-0.01em] text-white md:max-w-[520px] lg:max-w-[440px] xl:max-w-[480px]",
+          "w-full break-words font-headline font-light leading-[1.2] text-white md:max-w-[520px] lg:max-w-[440px] xl:max-w-[480px]",
+          isRTL ? "tracking-normal" : "uppercase tracking-[-0.01em]",
           isMobile
-            ? "text-[20px] sm:text-[24px]"
-            : "text-lg md:text-xl lg:text-2xl xl:text-3xl",
+            ? isRTL
+              ? "text-[22px] sm:text-[26px]"
+              : "text-[20px] sm:text-[24px]"
+            : isRTL
+              ? "text-[20px] md:text-[22px] lg:text-[26px] xl:text-[32px]"
+              : "text-lg md:text-xl lg:text-2xl xl:text-3xl",
         ].join(" ")}
       >
         {card?.label ?? ""}
@@ -60,10 +65,15 @@ function ServiceContent({ card, isMobile = false }) {
 
       <div
         className={[
-          "mt-5 w-full break-words pr-2 font-subtext font-light text-[#cdd8e4] text-justify [hyphens:auto] [word-spacing:-0.04em] md:max-w-[520px] lg:max-w-[440px] xl:max-w-[480px]",
+          "mt-5 w-full break-words pr-2 font-subtext font-light text-[#cdd8e4] text-justify [word-spacing:-0.04em] md:max-w-[520px] lg:max-w-[440px] xl:max-w-[480px]",
+          isRTL ? "whitespace-pre-line" : "[hyphens:auto]",
           isMobile
-            ? "text-[13px] leading-[1.65]"
-            : "text-[13px] leading-[1.75] md:text-[14px]",
+            ? isRTL
+              ? "text-[15px] leading-[1.85]"
+              : "text-[13px] leading-[1.65]"
+            : isRTL
+              ? "text-[15px] leading-[1.85] md:text-[16px]"
+              : "text-[13px] leading-[1.75] md:text-[14px]",
         ].join(" ")}
       >
         <div className="space-y-2.5">
@@ -74,7 +84,13 @@ function ServiceContent({ card, isMobile = false }) {
 
         {includeItems.length > 0 && card?.includesTitle ? (
           <>
-            <p className="mt-5 text-[10px] uppercase tracking-[0.32em] text-white/70">
+            <p
+              className={`mt-5 text-white/70 ${
+                isRTL
+                  ? "text-[12px] tracking-normal"
+                  : "text-[10px] uppercase tracking-[0.32em]"
+              }`}
+            >
               {card?.includesTitle}
             </p>
 
@@ -97,7 +113,7 @@ function ServiceContent({ card, isMobile = false }) {
   );
 }
 
-function DesktopCard({ card, isActive, isAnyActive, onEnter, onClick }) {
+function DesktopCard({ card, isActive, isAnyActive, onEnter, onClick, isRTL }) {
   return (
     <motion.div
       onMouseEnter={onEnter}
@@ -108,7 +124,10 @@ function DesktopCard({ card, isActive, isAnyActive, onEnter, onClick }) {
       style={{ flexBasis: 0 }}
       tabIndex={0}
       role="group"
-      className="group relative h-full min-w-[72px] overflow-hidden text-left outline-none lg:min-w-[88px]"
+      dir={isRTL ? "rtl" : "ltr"}
+      className={`group relative h-full min-w-[72px] overflow-hidden outline-none lg:min-w-[88px] ${
+        isRTL ? "text-right" : "text-left"
+      }`}
     >
       <motion.img
         src={card?.image ?? ""}
@@ -137,7 +156,11 @@ function DesktopCard({ card, isActive, isAnyActive, onEnter, onClick }) {
         className="absolute inset-0 bg-gradient-to-tr from-[#0E4174]/55 via-transparent to-[#384967]/35 mix-blend-multiply"
       />
 
-      <div className="absolute left-5 top-5 z-10 flex items-center gap-3">
+      <div
+        className={`absolute top-5 z-10 flex items-center gap-3 ${
+          isRTL ? "right-5" : "left-5"
+        }`}
+      >
         <motion.span
           animate={{ opacity: isAnyActive && !isActive ? 0.45 : 1 }}
           transition={{ duration: 0.6, ease: EASE }}
@@ -152,7 +175,7 @@ function DesktopCard({ card, isActive, isAnyActive, onEnter, onClick }) {
             opacity: isActive ? 1 : 0.35,
           }}
           transition={{ duration: 0.6, ease: EASE }}
-          style={{ transformOrigin: "left" }}
+          style={{ transformOrigin: isRTL ? "right" : "left" }}
           className="block h-px w-8 bg-white/65"
         />
       </div>
@@ -168,7 +191,11 @@ function DesktopCard({ card, isActive, isAnyActive, onEnter, onClick }) {
             className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center"
           >
             <span
-              className="font-headline text-[8px] font-medium uppercase tracking-[0.42em] text-white/85 lg:text-[10px]"
+              className={`font-headline font-medium text-white/85 ${
+                isRTL
+                  ? "text-[10px] tracking-normal lg:text-[12px]"
+                  : "text-[8px] uppercase tracking-[0.42em] lg:text-[10px]"
+              }`}
               style={{
                 writingMode: "vertical-rl",
                 transform: "rotate(180deg)",
@@ -196,7 +223,7 @@ function DesktopCard({ card, isActive, isAnyActive, onEnter, onClick }) {
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.65, ease: EASE, delay: 0.2 }}
             >
-              <ServiceContent card={card} />
+              <ServiceContent card={card} isRTL={isRTL} />
             </motion.div>
           </motion.div>
         )}
@@ -206,20 +233,25 @@ function DesktopCard({ card, isActive, isAnyActive, onEnter, onClick }) {
         animate={{ scaleY: isActive ? 1 : 0 }}
         transition={{ duration: 0.7, ease: EASE }}
         style={{ transformOrigin: "bottom" }}
-        className="pointer-events-none absolute bottom-0 left-0 top-0 w-[2px] bg-gradient-to-b from-transparent via-[#7C878E] to-[#0E4174]"
+        className={`pointer-events-none absolute bottom-0 top-0 w-[2px] bg-gradient-to-b from-transparent via-[#7C878E] to-[#0E4174] ${
+          isRTL ? "right-0" : "left-0"
+        }`}
       />
     </motion.div>
   );
 }
 
-function StackedCard({ card, index }) {
+function StackedCard({ card, index, isRTL }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.9, ease: EASE, delay: index * 0.06 }}
-      className="group relative block min-h-[620px] w-full overflow-hidden sm:min-h-[560px]"
+      dir={isRTL ? "rtl" : "ltr"}
+      className={`group relative block min-h-[620px] w-full overflow-hidden sm:min-h-[560px] ${
+        isRTL ? "text-right" : "text-left"
+      }`}
     >
       <img
         src={card?.image ?? ""}
@@ -232,7 +264,11 @@ function StackedCard({ card, index }) {
       <div className="absolute inset-0 bg-gradient-to-t from-[#04080f] via-[#04080f]/72 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-tr from-[#0E4174]/40 via-transparent to-[#384967]/25 mix-blend-multiply" />
 
-      <div className="absolute left-5 top-5 flex items-center gap-3">
+      <div
+        className={`absolute top-5 flex items-center gap-3 ${
+          isRTL ? "right-5" : "left-5"
+        }`}
+      >
         <span className="text-[10px] uppercase tracking-[0.4em] text-white/85">
           {card?.num ?? ""}
         </span>
@@ -240,17 +276,23 @@ function StackedCard({ card, index }) {
       </div>
 
       <div className="absolute inset-x-0 bottom-0 flex flex-col px-5 pb-7 sm:px-7 sm:pb-9">
-        <ServiceContent card={card} isMobile />
+        <ServiceContent card={card} isMobile isRTL={isRTL} />
       </div>
 
-      <span className="pointer-events-none absolute bottom-0 left-0 top-0 w-[2px] bg-gradient-to-b from-transparent via-[#7C878E] to-[#0E4174]" />
+      <span
+        className={`pointer-events-none absolute bottom-0 top-0 w-[2px] bg-gradient-to-b from-transparent via-[#7C878E] to-[#0E4174] ${
+          isRTL ? "right-0" : "left-0"
+        }`}
+      />
     </motion.div>
   );
 }
 
-function ServiceGrid() {
+function ServiceGrid({ variant = "dark" }) {
   const [active, setActive] = useState(null);
-  const { t, tArray } = useLanguage();
+  const { t, tArray, language } = useLanguage();
+  const isRTL = language === "ar";
+  const isLight = variant === "light";
   const cardContent = tArray("serviceGrid.cards");
   const safeCards = cardContent.map((c, i) => ({
     ...c,
@@ -302,8 +344,18 @@ function ServiceGrid() {
   }, []);
 
   return (
-    <section className="relative isolate min-h-screen overflow-hidden bg-[#04080f] text-white md:h-screen">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#04080f] via-[#070d18] to-[#04080f]" />
+    <section
+      className={`relative isolate min-h-screen overflow-hidden md:h-screen ${
+        isLight ? "bg-[#EEF3F8] text-[#384967]" : "bg-[#04080f] text-white"
+      }`}
+    >
+      <div
+        className={`pointer-events-none absolute inset-0 ${
+          isLight
+            ? "bg-gradient-to-b from-[#EEF3F8] to-[#DDE5E8]"
+            : "bg-gradient-to-b from-[#04080f] via-[#070d18] to-[#04080f]"
+        }`}
+      />
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_18%,rgba(14,65,116,0.16),transparent_38%),radial-gradient(circle_at_8%_85%,rgba(56,73,103,0.14),transparent_40%)]" />
 
@@ -320,7 +372,13 @@ function ServiceGrid() {
           className="mb-8 flex shrink-0 flex-col gap-5 md:mb-8 lg:mb-10"
         >
           <div className="flex flex-col gap-1.5">
-            <span className="text-[9px] uppercase tracking-[0.32em] text-[#7C878E] sm:text-[10px] md:text-[11px] lg:text-[12px] md:tracking-[0.46em]">
+            <span
+              className={`${isLight ? "text-[#384967]" : "text-[#7C878E]"} ${
+                isRTL
+                  ? "text-[11px] tracking-normal sm:text-[12px] md:text-[13px] lg:text-[14px]"
+                  : "text-[9px] uppercase tracking-[0.32em] sm:text-[10px] md:text-[11px] md:tracking-[0.46em] lg:text-[12px]"
+              }`}
+            >
               {t("serviceGrid.eyebrow")}
             </span>
           </div>
@@ -342,13 +400,19 @@ function ServiceGrid() {
               isAnyActive={active !== null}
               onEnter={isTouchDevice ? undefined : () => setActive(i)}
               onClick={() => setActive((prev) => (prev === i ? null : i))}
+              isRTL={isRTL}
             />
           ))}
         </motion.div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:hidden">
           {safeCards.map((card, i) => (
-            <StackedCard key={card?.num ?? i} card={card} index={i} />
+            <StackedCard
+              key={card?.num ?? i}
+              card={card}
+              index={i}
+              isRTL={isRTL}
+            />
           ))}
         </div>
       </div>

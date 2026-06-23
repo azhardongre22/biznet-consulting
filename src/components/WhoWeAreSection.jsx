@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import whoWeAreImage from "../assets/images/who-we-are1.png";
+import whoWeAreImage from "../assets/images/who-we-are1.jpg";
 import whatWeAreImage from "../assets/images/what-we-are-2.png";
 import whatWeDoImage from "../assets/images/what-we-do-2.png";
+
 import { useLanguage } from "../i18n/LanguageContext";
 
 const slideImages = [whoWeAreImage, whatWeAreImage, whatWeDoImage];
-const slideObjectPositions = ["right-softer", undefined, undefined];
+const slideObjectPositions = ["right-softer", undefined, "right-soft"];
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -18,7 +19,8 @@ const wordVariants = {
     transition: { duration: 0.85, ease: EASE },
   },
   exit: {
-    opacity: 0, y: -32,
+    opacity: 0,
+    y: -32,
     transition: { duration: 0.42, ease: EASE },
   },
 };
@@ -192,23 +194,23 @@ function WhoWeAreSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full bg-[#06131f] text-white"
+      className="relative w-full text-white"
       style={{ height: `${total * SCROLL_SMOOTHNESS}vh` }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <AnimatePresence mode="wait">
+        <AnimatePresence initial={false}>
           <motion.div
             key={`bg-${slide.number}`}
-            initial={{ opacity: 0, scale: 1.04 }}
+            initial={{ opacity: 0, scale: 1.03 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.1, ease: EASE }}
+            exit={{ opacity: 0, scale: 1.01 }}
+            transition={{ duration: 1.15, ease: EASE }}
             className="absolute inset-0"
           >
             <img
               src={slide.image}
               alt=""
-              loading="lazy"
+              loading="eager"
               decoding="async"
               className={`h-full w-full object-cover ${getObjectPositionClass(slide.objectPositionMobile)}`}
             />
@@ -217,9 +219,9 @@ function WhoWeAreSection() {
 
         {/* Left frosted panel and central divider */}
         <div className="absolute inset-y-0 left-0 z-10 hidden md:block md:w-1/2">
-          <div className="absolute inset-0 backdrop-blur-[7px]" />
-          <div className="absolute inset-0 bg-[#0E4174]/40" />
-          <div className="absolute inset-0 bg-linear-to-r from-[#0E4174]/58 via-[#384967]/34 to-[#7C878E]/18" />
+          <div className="absolute inset-0 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-[#5aa9d6]/18" />
+          <div className="absolute inset-0 bg-linear-to-r from-[#5aa9d6]/28 via-[#9FB4D4]/20 to-[#EEF3F8]/12" />
         </div>
 
         <div className="pointer-events-none absolute left-1/2 top-0 z-20 hidden h-full w-px -translate-x-1/2 bg-white/24 md:block" />
@@ -240,7 +242,11 @@ function WhoWeAreSection() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className={`font-['Inter',Arial,sans-serif] text-[30px] font-extrabold uppercase leading-[0.95] tracking-[0.035em] text-white drop-shadow-[0_6px_14px_rgba(0,0,0,0.35)] sm:text-[34px]${headingLangKeep}`}
+              className={
+                headingRTL
+                  ? "font-headline text-[32px] font-extrabold leading-[1.15] tracking-normal text-white drop-shadow-[0_6px_14px_rgba(0,0,0,0.35)] sm:text-[36px]"
+                  : `font-['Inter',Arial,sans-serif] text-[30px] font-extrabold uppercase leading-[0.95] tracking-[0.035em] text-white drop-shadow-[0_6px_14px_rgba(0,0,0,0.35)] sm:text-[34px]${headingLangKeep}`
+              }
             >
               <span className="block text-[#DDE5E8]/72">
                 {renderSplitWord(slide.leftWord, "left")}
@@ -268,7 +274,19 @@ function WhoWeAreSection() {
                   initial="initial"
                   animate="animate"
                   exit="exit"
-                  className={`text-right font-['Inter',Arial,sans-serif] text-[48px] font-extrabold uppercase leading-[0.92] tracking-[0.035em] text-[#DDE5E8]/48 lg:text-[66px] xl:text-[82px]${headingLangKeep}`}
+                  className={
+                    headingRTL
+                      ? `text-right font-headline text-[50px] font-extrabold leading-[1.1] tracking-normal ${
+                          active === 1 || active === 2
+                            ? "text-[#0d5094]"
+                            : "text-[#DDE5E8]/48"
+                        } lg:text-[68px] xl:text-[84px]`
+                      : `text-right font-['Inter',Arial,sans-serif] text-[48px] font-extrabold uppercase leading-[0.92] tracking-[0.035em] ${
+                          active === 1 || active === 2
+                            ? "text-[#0d5094]"
+                            : "text-[#DDE5E8]/48"
+                        } lg:text-[66px] xl:text-[82px]${headingLangKeep}`
+                  }
                 >
                   {renderSplitWord(
                     headingRTL ? slide.rightWord : slide.leftWord,
@@ -288,7 +306,11 @@ function WhoWeAreSection() {
                   initial="initial"
                   animate="animate"
                   exit="exit"
-                  className={`font-['Inter',Arial,sans-serif] text-[48px] font-extrabold uppercase leading-[0.92] tracking-[0.035em] text-white drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)] lg:text-[66px] xl:text-[82px]${headingLangKeep}`}
+                  className={
+                    headingRTL
+                      ? "font-headline text-[50px] font-extrabold leading-[1.1] tracking-normal text-white drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)] lg:text-[68px] xl:text-[84px]"
+                      : `font-['Inter',Arial,sans-serif] text-[48px] font-extrabold uppercase leading-[0.92] tracking-[0.035em] text-white drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)] lg:text-[66px] xl:text-[82px]${headingLangKeep}`
+                  }
                 >
                   {renderSplitWord(
                     headingRTL ? slide.leftWord : slide.rightWord,
@@ -309,13 +331,25 @@ function WhoWeAreSection() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="max-h-[56vh] overflow-y-auto rounded-2xl bg-[#0E4174]/74 p-4 ring-1 ring-[#7C878E]/38 sm:p-5 md:max-h-none md:overflow-visible md:p-6 md:backdrop-blur-md"
+              className="max-h-[56vh] overflow-y-auto rounded-2xl bg-[#0E4174]/74 p-4 ring-1 ring-[#7C878E]/38 sm:p-5 md:max-h-none md:overflow-visible md:p-6 md:backdrop-blur-sm"
             >
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#E7EDF0] sm:text-[11px] sm:tracking-[0.22em]">
+              <p
+                className={`font-semibold text-[#E7EDF0] ${
+                  isRTL
+                    ? "text-[12px] tracking-normal sm:text-[13px]"
+                    : "text-[10px] uppercase tracking-[0.2em] sm:text-[11px] sm:tracking-[0.22em]"
+                }`}
+              >
                 {slide.discover}
               </p>
 
-              <div className="mt-2.5 max-w-[420px] whitespace-normal space-y-2.5 break-words text-justify text-[13px] leading-normal text-white/92 [hyphens:auto] [word-spacing:-0.04em] sm:mt-3 sm:space-y-3 sm:text-[14px] lg:max-w-[300px] xl:max-w-[360px]">
+              <div
+                className={`mt-2.5 whitespace-pre-line space-y-2.5 text-white/92 sm:mt-3 sm:space-y-3 ${
+                  isRTL
+                    ? "max-w-[420px] break-words text-justify font-light leading-[1.85] [word-spacing:-0.04em] text-[15px] sm:text-[16px] lg:max-w-[300px] xl:max-w-[360px]"
+                    : "max-w-[420px] break-words text-justify text-[13px] leading-normal [hyphens:auto] [word-spacing:-0.04em] sm:text-[14px] lg:max-w-[300px] xl:max-w-[360px]"
+                }`}
+              >
                 {(Array.isArray(slide.description)
                   ? slide.description
                   : [slide.description]
@@ -329,7 +363,11 @@ function WhoWeAreSection() {
                   {slide.points.map((point, i) => (
                     <li
                       key={i}
-                      className="flex items-start gap-2 text-[12px] leading-snug text-white/86 sm:gap-2.5 sm:text-[13px]"
+                      className={`flex items-start gap-2 break-words text-justify text-white/86 [hyphens:auto] [word-spacing:-0.04em] sm:gap-2.5 ${
+                        isRTL
+                          ? "text-[15px] leading-[1.9] sm:text-[16px]"
+                          : "text-[12px] leading-snug sm:text-[13px]"
+                      }`}
                     >
                       <span className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-[#7C878E]" />
                       <span>{point}</span>
@@ -347,7 +385,11 @@ function WhoWeAreSection() {
             type="button"
             onClick={() => goToSlide(active - 1)}
             disabled={active === 0}
-            className="text-[9px] uppercase cursor-pointer tracking-[0.22em] text-white/76 transition hover:text-white disabled:opacity-30 sm:text-[10px] sm:tracking-[0.28em]"
+            className={`cursor-pointer text-white/76 transition hover:text-white disabled:opacity-30 ${
+              isRTL
+                ? "text-[11px] tracking-normal sm:text-[12px]"
+                : "text-[9px] uppercase tracking-[0.22em] sm:text-[10px] sm:tracking-[0.28em]"
+            }`}
           >
             {t("whoWeAre.prev")}
           </button>
@@ -358,7 +400,11 @@ function WhoWeAreSection() {
             type="button"
             onClick={() => goToSlide(active + 1)}
             disabled={active === total - 1}
-            className="text-[9px] cursor-pointer uppercase tracking-[0.22em] text-white/76 transition hover:text-white disabled:opacity-30 sm:text-[10px] sm:tracking-[0.28em]"
+            className={`cursor-pointer text-white/76 transition hover:text-white disabled:opacity-30 ${
+              isRTL
+                ? "text-[11px] tracking-normal sm:text-[12px]"
+                : "text-[9px] uppercase tracking-[0.22em] sm:text-[10px] sm:tracking-[0.28em]"
+            }`}
           >
             {t("whoWeAre.next")}
           </button>

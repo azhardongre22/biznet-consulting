@@ -8,7 +8,8 @@ const EASE = [0.22, 1, 0.36, 1];
 
 const CEOMessage = () => {
   const sectionRef = useRef(null);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const isRTL = language === "ar";
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -26,7 +27,7 @@ const CEOMessage = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate w-full overflow-hidden bg-[#020812] py-12 text-white sm:py-14 md:py-16 lg:py-20"
+      className="relative isolate w-full overflow-hidden bg-gradient-to-b from-[#06131F] to-[#020812] py-12 text-white sm:py-14 md:py-16 lg:py-20"
     >
       <div className="pointer-events-none absolute inset-0 z-1 min-h-full overflow-hidden">
         <LightRays
@@ -55,7 +56,13 @@ const CEOMessage = () => {
           className="flex items-center gap-4"
         >
           <span className="h-px w-12 bg-[#7C878E]" />
-          <span className="font-subtext text-[10px] font-semibold uppercase tracking-[0.42em] text-[#7C878E]">
+          <span
+            className={`font-subtext font-semibold text-[#7C878E] ${
+              isRTL
+                ? "text-[12px] tracking-normal"
+                : "text-[10px] uppercase tracking-[0.42em]"
+            }`}
+          >
             {t("ceoMessage.eyebrow")}
           </span>
         </motion.div>
@@ -113,11 +120,19 @@ const CEOMessage = () => {
                 whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, margin: "-10% 0px" }}
                 transition={{ duration: 1, ease: EASE }}
-                className="font-headline max-w-[720px] break-words text-justify text-[16px] font-light leading-[1.7] tracking-[-0.01em] text-[#dce8f2] drop-shadow-[0_0_20px_rgba(232,216,168,0.18)] [hyphens:auto] sm:text-[18px] md:text-[22px] md:leading-[1.6] lg:text-[26px] lg:leading-[1.5]"
+                className={`font-headline max-w-[720px] break-words text-justify font-light text-[#dce8f2] drop-shadow-[0_0_20px_rgba(232,216,168,0.18)] [word-spacing:-0.04em] ${
+                  isRTL
+                    ? "whitespace-pre-line text-[18px] leading-[1.85] sm:text-[20px] md:text-[24px] md:leading-[1.75] lg:text-[28px] lg:leading-[1.7]"
+                    : "text-[16px] leading-[1.7] tracking-[-0.01em] [hyphens:auto] sm:text-[18px] md:text-[22px] md:leading-[1.6] lg:text-[26px] lg:leading-[1.5]"
+                }`}
               >
-                <span className="text-[#7C878E]/45">&ldquo;</span>
+                {isRTL ? null : (
+                  <span className="text-[#7C878E]/45">&ldquo;</span>
+                )}
                 {quote}
-                <span className="text-[#7C878E]/45">&rdquo;</span>
+                {isRTL ? null : (
+                  <span className="text-[#7C878E]/45">&rdquo;</span>
+                )}
               </motion.blockquote>
 
               <motion.div
@@ -129,10 +144,22 @@ const CEOMessage = () => {
               >
                 <div className="h-px w-12 shrink-0 bg-[#7C878E]" />
                 <div>
-                  <p className="font-headline text-[22px] font-light leading-none text-white md:text-[26px]">
+                  <p
+                    className={`font-headline font-light leading-none text-white ${
+                      isRTL
+                        ? "text-[24px] md:text-[28px]"
+                        : "text-[22px] md:text-[26px]"
+                    }`}
+                  >
                     {t("ceoMessage.ceoName")}
                   </p>
-                  <p className="font-subtext mt-2 text-[10px] font-semibold uppercase tracking-[0.36em] text-[#7C878E]">
+                  <p
+                    className={`font-subtext mt-2 font-semibold text-[#7C878E] ${
+                      isRTL
+                        ? "text-[12px] tracking-normal"
+                        : "text-[10px] uppercase tracking-[0.36em]"
+                    }`}
+                  >
                     {t("ceoMessage.ceoTitle")}
                   </p>
                 </div>

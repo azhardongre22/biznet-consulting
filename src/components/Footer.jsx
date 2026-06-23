@@ -180,10 +180,22 @@ function Footer() {
 
           {/* Right: partnership text + contact */}
           <div className="min-w-0 lg:col-span-6">
-            <p className="max-w-[420px] pl-[30px] text-left text-[15px] leading-relaxed text-white/78 md:mx-auto md:text-center md:pl-0 lg:mx-0 lg:pl-[30px] lg:text-left">
+            <p
+              className={`max-w-[420px] pl-[30px] text-left text-white/78 md:mx-auto md:text-center md:pl-0 lg:mx-0 lg:pl-[30px] lg:text-left ${
+                isRTL
+                  ? "whitespace-pre-line break-words text-justify text-[17px] font-light leading-[1.85] [word-spacing:-0.04em]"
+                  : "text-[15px] leading-relaxed"
+              }`}
+            >
               {t("footer.partnership")}
             </p>
-            <div className="mt-6 flex w-full min-w-0 flex-col items-start gap-4 text-[15px] leading-relaxed text-white/80 sm:mt-7 md:items-center lg:items-start lg:text-[16px]">
+            <div
+              className={`mt-6 flex w-full min-w-0 flex-col items-start gap-4 text-white/80 sm:mt-7 md:items-center lg:items-start ${
+                isRTL
+                  ? "text-[17px] leading-[1.85] lg:text-[18px]"
+                  : "text-[15px] leading-relaxed lg:text-[16px]"
+              }`}
+            >
               <a
                 href="mailto:hello@biznetconsulting.ae"
                 className="flex w-full max-w-[420px] items-start justify-start gap-3 transition hover:text-white md:justify-center lg:justify-start"
@@ -257,12 +269,22 @@ function Footer() {
             dir={isRTL ? "rtl" : "ltr"}
           >
             <div className={`text-center ${startText}`}>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-white/55">
+              <p
+                className={`font-semibold text-white/55 ${
+                  isRTL
+                    ? "text-[12px] tracking-normal"
+                    : "text-[10px] uppercase tracking-[0.26em]"
+                }`}
+              >
                 {t("footer.newsletterEyebrow")}
               </p>
 
               <p
-                className={`mx-auto mt-3 max-w-[420px] break-words text-justify text-[13px] leading-relaxed text-white/72 [hyphens:auto] [word-spacing:-0.04em] sm:mx-0`}
+                className={`mx-auto mt-3 max-w-[420px] break-words text-justify text-white/72 [word-spacing:-0.04em] sm:mx-0 ${
+                  isRTL
+                    ? "whitespace-pre-line text-[15px] font-light leading-[1.85]"
+                    : "text-[13px] leading-relaxed [hyphens:auto]"
+                }`}
               >
                 {t("footer.newsletterCopy")}
               </p>
@@ -367,7 +389,7 @@ function Footer() {
 
             {newsletterState.ok ? (
               <p
-                className={`mt-3 text-center text-[12px] text-emerald-200/90 ${startText}`}
+                className={`mt-3 whitespace-pre-line text-center text-[12px] text-emerald-200/90 ${startText}`}
               >
                 {newsletterState.message || t("footer.subscribedDefault")}
               </p>
@@ -387,10 +409,22 @@ function Footer() {
             dir={isRTL ? "rtl" : "ltr"}
           >
             <div className={`text-center ${startText}`}>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-white/55">
+              <p
+                className={`font-semibold text-white/55 ${
+                  isRTL
+                    ? "text-[12px] tracking-normal"
+                    : "text-[10px] uppercase tracking-[0.26em]"
+                }`}
+              >
                 {t("footer.contactEyebrow")}
               </p>
-              <p className="mx-auto mt-3 max-w-[420px] break-words text-justify text-[13px] leading-relaxed text-white/72 [hyphens:auto] [word-spacing:-0.04em] sm:mx-0">
+              <p
+                className={`mx-auto mt-3 max-w-[420px] break-words text-justify text-white/72 [word-spacing:-0.04em] sm:mx-0 ${
+                  isRTL
+                    ? "whitespace-pre-line text-[15px] font-light leading-[1.85]"
+                    : "text-[13px] leading-relaxed [hyphens:auto]"
+                }`}
+              >
                 {t("footer.contactCopy")}
               </p>
             </div>
@@ -481,7 +515,7 @@ function Footer() {
             </form>
             {footerContactState.ok ? (
               <p
-                className={`mt-3 text-center text-[12px] text-emerald-200/90 ${startText}`}
+                className={`mt-3 whitespace-pre-line text-center text-[12px] text-emerald-200/90 ${startText}`}
               >
                 {t("footer.contactOk")}
               </p>
@@ -501,6 +535,16 @@ function Footer() {
           <span>
             © {new Date().getFullYear()} {t("footer.copyright")}
           </span>
+          <span
+            className="hidden h-2 w-px bg-white/20 sm:inline-block"
+            aria-hidden
+          />
+          <Link
+            to="/faqs"
+            className="transition-colors hover:text-[#7C878E]"
+          >
+            FAQs
+          </Link>
           <span
             className="hidden h-2 w-px bg-white/20 sm:inline-block"
             aria-hidden

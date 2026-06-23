@@ -88,8 +88,8 @@ export default function ContactUsPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen overflow-hidden bg-[#04080f] text-white">
-        <section className="relative min-h-screen px-5 py-24 sm:px-8 lg:px-14 xl:px-20">
+      <main className="min-h-screen overflow-hidden bg-[#020812]">
+        <section className="relative min-h-screen bg-[linear-gradient(180deg,#EEF3F8_0%,#C7D1D8_40%,#384967_70%,#020812_100%)] px-5 py-24 text-[#384967] sm:px-8 lg:px-14 xl:px-20">
           <div className="pointer-events-none absolute inset-0 z-0 bg-[#0E4174]/10" />
 
           <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-16 lg:gap-20">
@@ -106,33 +106,61 @@ export default function ContactUsPage() {
                 }`}
                 dir={isRTL ? "rtl" : "ltr"}
               >
-                <p className="mb-7 font-['Aktiv_Grotesk'] text-xs font-normal uppercase tracking-[0.36em] text-white/80">
+                <p
+                  className={`mb-7 font-['Aktiv_Grotesk'] font-normal text-[#384967] ${
+                    isRTL
+                      ? "text-[14px] tracking-normal"
+                      : "text-xs uppercase tracking-[0.36em]"
+                  }`}
+                >
                   {t("contactPage.eyebrow")}
                 </p>
 
-                <h1 className="font-['Ivy_Presto'] text-2xl font-light leading-[1.02] tracking-[-0.04em] text-white sm:text-2xl lg:text-4xl xl:text-6xl">
+                <h1
+                  className={`font-['Ivy_Presto'] font-light leading-[1.05] text-[#384967] ${
+                    isRTL
+                      ? "text-[26px] tracking-normal sm:text-[26px] lg:text-[38px] xl:text-[62px]"
+                      : "text-2xl tracking-[-0.04em] sm:text-2xl lg:text-4xl xl:text-6xl"
+                  }`}
+                >
                   {t("contactPage.title")}
                 </h1>
 
-                <p className="mt-8 max-w-lg break-words text-justify font-['Aktiv_Grotesk'] text-base leading-8 text-white/75 [hyphens:auto] [word-spacing:-0.04em] sm:text-lg">
+                <p
+                  className={`mt-8 max-w-lg break-words text-justify font-['Aktiv_Grotesk'] text-[#5F6F7A] [word-spacing:-0.04em] ${
+                    isRTL
+                      ? "whitespace-pre-line text-[18px] font-light leading-[1.85] sm:text-[20px]"
+                      : "text-base leading-8 [hyphens:auto] sm:text-lg"
+                  }`}
+                >
                   {t("contactPage.lead")}
                 </p>
 
-                <div className="mt-10 grid gap-5 font-['Aktiv_Grotesk'] text-sm leading-7 text-white/80 sm:grid-cols-3">
+                <div
+                  className={`mt-10 grid gap-5 font-['Aktiv_Grotesk'] text-[#384967] sm:grid-cols-3 ${
+                    isRTL ? "text-[16px] leading-[1.85]" : "text-sm leading-7"
+                  }`}
+                >
                   <div>
-                    <p className="mb-1 text-xs uppercase tracking-[0.22em] text-white/55">
+                    <p
+                      className={`mb-1 text-[#5F6F7A] ${
+                        isRTL
+                          ? "text-[14px] tracking-normal"
+                          : "text-xs uppercase tracking-[0.22em]"
+                      }`}
+                    >
                       {t("contactPage.contactLabel")}
                     </p>
                     <div className="space-y-1" dir="ltr">
                       <a
                         href="tel:+971527488855"
-                        className="block transition hover:text-white"
+                        className="block transition hover:text-[#0E4174]"
                       >
                         +971 52 748 8855
                       </a>
                       <a
                         href="tel:+97143433334"
-                        className="block transition hover:text-white"
+                        className="block transition hover:text-[#0E4174]"
                       >
                         04 343 3334
                       </a>
@@ -140,7 +168,13 @@ export default function ContactUsPage() {
                   </div>
 
                   <div>
-                    <p className="mb-1 text-xs uppercase tracking-[0.22em] text-white/55">
+                    <p
+                      className={`mb-1 text-[#5F6F7A] ${
+                        isRTL
+                          ? "text-[14px] tracking-normal"
+                          : "text-xs uppercase tracking-[0.22em]"
+                      }`}
+                    >
                       {t("contactPage.addressLabel")}
                     </p>
                     <a
@@ -148,20 +182,26 @@ export default function ContactUsPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <p className="text-white/75 block transition hover:text-white">
+                      <p className="text-[#384967] block transition hover:text-[#0E4174]">
                         Oud Metha Offices Building, Office 324 - Dubai
                       </p>
                     </a>
                   </div>
 
                   <div>
-                    <p className="mb-1 text-xs uppercase tracking-[0.22em] text-white/55">
+                    <p
+                      className={`mb-1 text-[#5F6F7A] ${
+                        isRTL
+                          ? "text-[14px] tracking-normal"
+                          : "text-xs uppercase tracking-[0.22em]"
+                      }`}
+                    >
                       {t("contactPage.emailLabel")}
                     </p>
                     <a
                       href="mailto:hello@biznetconsulting.ae"
                       dir="ltr"
-                      className="transition hover:text-white"
+                      className="transition hover:text-[#0E4174]"
                     >
                       hello@biznetconsulting.ae
                     </a>
@@ -171,7 +211,7 @@ export default function ContactUsPage() {
 
               <motion.div
                 variants={fadeUp}
-                className="rounded-[2rem] border border-white/12 bg-white/5 p-5 shadow-[0_30px_90px_rgba(0,0,0,0.38)] backdrop-blur-2xl sm:p-8 lg:p-10"
+                className="rounded-[2rem] border border-[#C7D1D8] bg-[#F5F8FC] p-5 shadow-[0_24px_70px_rgba(56,73,103,0.18)] sm:p-8 lg:p-10"
                 dir={isRTL ? "rtl" : "ltr"}
               >
                 {/* Per stakeholder spec, form field labels stay English
@@ -201,7 +241,7 @@ export default function ContactUsPage() {
 
                   <label className="group block">
                     <span
-                      className={`block font-['Ivy_Presto'] text-xl font-light italic text-white/85 ${
+                      className={`block font-['Ivy_Presto'] text-xl font-light italic text-[#384967] ${
                         isRTL ? "text-right" : "text-left"
                       }`}
                     >
@@ -214,18 +254,18 @@ export default function ContactUsPage() {
                       onChange={(e) => setField("message", e.target.value)}
                       onBlur={() => touchField("message")}
                       aria-invalid={Boolean(touched.message && errors.message)}
-                      className={`mt-3 w-full resize-none border-0 border-b bg-transparent px-0 pb-3 font-['Aktiv_Grotesk'] text-base text-white/90 outline-none transition placeholder:text-white/35 focus:ring-0 ${
+                      className={`mt-3 w-full resize-none border-0 border-b bg-transparent px-0 pb-3 font-['Aktiv_Grotesk'] text-base text-[#384967] outline-none transition placeholder:text-[#7C878E] focus:ring-0 ${
                         isRTL ? "text-right" : "text-left"
                       } ${
                         touched.message && errors.message
-                          ? "border-red-400/70 focus:border-red-400"
-                          : "border-white/25 focus:border-white/70"
+                          ? "border-red-500/70 focus:border-red-600"
+                          : "border-[#7C878E]/40 focus:border-[#0E4174]"
                       }`}
                       placeholder="Tell us how we may assist you"
                     />
                     {touched.message && errors.message ? (
                       <p
-                        className={`mt-2 font-['Aktiv_Grotesk'] text-xs text-red-200/90 ${
+                        className={`mt-2 font-['Aktiv_Grotesk'] text-xs text-red-700 ${
                           isRTL ? "text-right" : "text-left"
                         }`}
                       >
@@ -241,19 +281,19 @@ export default function ContactUsPage() {
                       type="submit"
                       disabled={!isValid || submitState.loading}
                       aria-disabled={!isValid || submitState.loading}
-                      className="inline-flex cursor-pointer min-w-44 items-center justify-center rounded-full border border-white/70 bg-white px-8 py-4 font-['Aktiv_Grotesk'] text-sm uppercase tracking-[0.2em] text-[#04080f] shadow-[0_18px_35px_rgba(0,0,0,0.35)] transition hover:bg-transparent hover:text-white disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-[#04080f]"
+                      className="inline-flex cursor-pointer min-w-44 items-center justify-center rounded-full border border-[#0E4174] bg-[#0E4174] px-8 py-4 font-['Aktiv_Grotesk'] text-sm uppercase tracking-[0.2em] text-white shadow-[0_14px_28px_rgba(14,65,116,0.28)] transition hover:bg-[#0A2F55] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#0E4174]"
                     >
                       {submitState.loading
                         ? t("contactPage.submitting")
                         : t("contactPage.submitCta")}
                     </motion.button>
                     {submitState.ok ? (
-                      <p className="mt-4 font-['Aktiv_Grotesk'] text-sm text-emerald-200/90">
+                      <p className="mt-4 whitespace-pre-line font-['Aktiv_Grotesk'] text-sm text-emerald-700">
                         {t("contactPage.sentOk")}
                       </p>
                     ) : null}
                     {submitState.error ? (
-                      <p className="mt-4 font-['Aktiv_Grotesk'] text-sm text-red-200/90">
+                      <p className="mt-4 font-['Aktiv_Grotesk'] text-sm text-red-700">
                         {submitState.error}
                       </p>
                     ) : null}
@@ -303,7 +343,7 @@ function FloatingInput({
   return (
     <label className="group block">
       <span
-        className={`block font-['Ivy_Presto'] text-xl font-light italic text-white/85 ${alignClass}`}
+        className={`block font-['Ivy_Presto'] text-xl font-light italic text-[#384967] ${alignClass}`}
       >
         {label}*
       </span>
@@ -314,15 +354,15 @@ function FloatingInput({
         onChange={onChange}
         onBlur={onBlur}
         aria-invalid={Boolean(error)}
-        className={`mt-4 w-full border-0 border-b bg-transparent px-0 pb-3 font-['Aktiv_Grotesk'] text-base text-white/90 outline-none transition placeholder:text-transparent focus:ring-0 ${alignClass} ${
+        className={`mt-4 w-full border-0 border-b bg-transparent px-0 pb-3 font-['Aktiv_Grotesk'] text-base text-[#384967] outline-none transition placeholder:text-transparent focus:ring-0 ${alignClass} ${
           error
-            ? "border-red-400/70 focus:border-red-400"
-            : "border-white/25 focus:border-white/70"
+            ? "border-red-500/70 focus:border-red-600"
+            : "border-[#7C878E]/40 focus:border-[#0E4174]"
         }`}
       />
       {error ? (
         <p
-          className={`mt-2 font-['Aktiv_Grotesk'] text-xs text-red-200/90 ${alignClass}`}
+          className={`mt-2 font-['Aktiv_Grotesk'] text-xs text-red-700 ${alignClass}`}
         >
           {error}
         </p>

@@ -16,7 +16,7 @@ const stagger = {
 function UpcomingProjects() {
   const { t } = useLanguage();
   return (
-    <section className="relative w-full overflow-hidden bg-[#020812] py-[100px] md:py-[140px]">
+    <section className="relative w-full overflow-hidden bg-[#DDE5E8] py-[100px] md:py-[140px]">
       {/* Atmospheric radial palette wash */}
       <div
         className="pointer-events-none absolute inset-0 opacity-70"
@@ -36,9 +36,9 @@ function UpcomingProjects() {
         }}
       /> */}
 
-      {/* Soft top/bottom edge gradients */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#020812] to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#020812] to-transparent" />
+      {/* Soft top/bottom edge gradients — color-matched to the section's bg */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#DDE5E8] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#DDE5E8] to-transparent" />
 
       <div className="relative z-10 mx-auto w-full max-w-[980px] px-6 md:px-10">
         <motion.div
@@ -50,19 +50,19 @@ function UpcomingProjects() {
         >
           <motion.div
             variants={fadeUp}
-            className="inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.42em] text-[#7C878E]"
+            className="inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.42em] text-[#384967]"
           >
-            <span className="h-px w-8 bg-[#7C878E]/70" />
+            <span className="h-px w-8 bg-[#384967]" />
             {t("upcomingProjects.eyebrow")}
-            <span className="h-px w-8 bg-[#7C878E]/70" />
+            <span className="h-px w-8 bg-[#384967]" />
           </motion.div>
 
           <motion.h2
             variants={fadeUp}
-            className="mt-8 font-headline text-[36px] font-light leading-[1] tracking-[-0.025em] text-[#eef3f8] md:text-[48px] lg:text-[56px]"
+            className="mt-8 font-headline text-[36px] font-light leading-[1] tracking-[-0.025em] text-[#384967] md:text-[48px] lg:text-[56px]"
           >
             {t("upcomingProjects.titleLead")}{" "}
-            <span className="mt-8 font-headline text-[36px] font-light leading-[1] tracking-[-0.025em] text-[#eef3f8] md:text-[48px] lg:text-[56px] text-[#5aa9d6]">
+            <span className="mt-8 font-headline text-[36px] font-light leading-[1] tracking-[-0.025em] md:text-[48px] lg:text-[56px] text-[#0E4174]">
               {t("upcomingProjects.titleEm")}
             </span>
           </motion.h2>
@@ -74,21 +74,21 @@ function UpcomingProjects() {
 
           <motion.p
             variants={fadeUp}
-            className="font-subtext mt-10 max-w-[640px] text-[15px] font-light leading-[1.8] text-[#b6c8d9] md:text-[16px]"
+            className="font-subtext mt-10 max-w-[640px] text-[15px] font-light leading-[1.8] text-[#384967] md:text-[16px]"
           >
             {t("upcomingProjects.p1")}
           </motion.p>
 
           <motion.p
             variants={fadeUp}
-            className="font-subtext mt-5 max-w-[640px] text-[14.5px] font-light leading-[1.8] text-[#7C878E] md:text-[15px]"
+            className="font-subtext mt-5 max-w-[640px] text-[14.5px] font-light leading-[1.8] text-[#5F6F7A] md:text-[15px]"
           >
             {t("upcomingProjects.p2")}
           </motion.p>
 
           <motion.p
             variants={fadeUp}
-            className="mt-4 font-headline text-[22px] font-light leading-[1.35] text-[#eef3f8] md:text-[26px]"
+            className="mt-4 font-headline text-[22px] font-light leading-[1.35] text-[#384967] md:text-[26px]"
           >
             {t("upcomingProjects.closing")}
           </motion.p>

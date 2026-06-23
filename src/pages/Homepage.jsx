@@ -119,30 +119,37 @@ function Homepage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-x-clip bg-[#020812] text-white">
+    <main className="relative isolate min-h-screen overflow-x-clip bg-[#020812] text-white">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[#020812]"
+      />
+
       <Navbar />
 
       <BrandFilm />
       {/* <HeroSlider slides={slides} sectionId="home" autoPlay /> */}
 
-      <Suspense fallback={null}>
-        <div id="about">
-          <WhoWeAreSection />
-        </div>
-        <div id="services">
-          <ExploreGrid />
-        </div>
-        <div id="projects">
-          <CEOMessage />
-        </div>
-       
-        <div>
-          <SuccessStories />
-        </div>
-        <div id="contact">
-          <Footer />
-        </div>
-      </Suspense>
+      <div className="relative z-10 bg-[linear-gradient(180deg,#020812_0%,#06131f_12%,#EEF3F8_28%,#E7EDF0_42%,#7C878E_56%,#384967_70%,#06131F_86%,#020812_100%)]">
+        <Suspense fallback={null}>
+          <div id="about" className="relative z-10">
+            <WhoWeAreSection />
+          </div>
+          <div id="services" className="relative z-10">
+            <ExploreGrid />
+          </div>
+
+          <div className="relative z-10">
+            <SuccessStories />
+          </div>
+          <div id="projects" className="relative z-10">
+            <CEOMessage />
+          </div>
+          <div id="contact" className="relative z-10">
+            <Footer />
+          </div>
+        </Suspense>
+      </div>
 
       <LeadModal open={showLeadModal} onClose={closeLeadModal} />
     </main>

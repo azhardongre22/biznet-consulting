@@ -12,6 +12,7 @@ import Legacy from "./pages/Legacy";
 import PressRelease from "./pages/PressRelease";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
+import FAQ from "./pages/FAQ";
 import CeoMessageLanding from "./pages/CeoMessageLanding";
 import BNIcon from "./components/BNIcon";
 
@@ -33,6 +34,7 @@ const AppContent = () => {
         <Route path="/press-release" element={<PressRelease />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="/faqs" element={<FAQ />} />
         <Route path="/scan" element={<CeoMessageLanding />} />
       </Routes>
 

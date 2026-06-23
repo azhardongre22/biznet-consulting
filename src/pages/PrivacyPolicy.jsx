@@ -22,8 +22,9 @@ const stagger = {
 };
 
 export default function PrivacyPolicy() {
-  const { t, tArray } = useLanguage();
+  const { t, tArray, language } = useLanguage();
   const sections = tArray("privacyPolicy.sections");
+  const isArabic = language === "ar";
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[#020812] text-white">
@@ -54,7 +55,11 @@ export default function PrivacyPolicy() {
         >
           <motion.div
             variants={fadeUp}
-            className="mb-6 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.42em] text-[#7C878E]"
+            className={`mb-6 inline-flex items-center gap-3 font-medium text-[#7C878E] ${
+              isArabic
+                ? "text-[14px] tracking-normal md:text-[15px]"
+                : "text-[11px] uppercase tracking-[0.42em]"
+            }`}
           >
             <span className="h-px w-8 bg-[#7C878E]/70" />
             {t("privacyPolicy.eyebrow")}
@@ -62,10 +67,14 @@ export default function PrivacyPolicy() {
 
           <motion.h1
             variants={fadeUp}
-            className="font-headline text-[44px] font-light leading-[1] tracking-[-0.025em] text-[#eef3f8] md:text-[68px] lg:text-[80px]"
+            className={`font-headline font-light leading-[1.1] text-[#eef3f8] ${
+              isArabic
+                ? "text-[52px] tracking-normal md:text-[80px] lg:text-[96px]"
+                : "text-[44px] tracking-[-0.025em] md:text-[68px] lg:text-[80px]"
+            }`}
           >
             {t("privacyPolicy.titleLead")}
-            <span className="block  font-light text-[#5aa9d6]">
+            <span className="block font-light text-[#5aa9d6]">
               {t("privacyPolicy.titleEm")}
             </span>
           </motion.h1>
@@ -77,14 +86,22 @@ export default function PrivacyPolicy() {
 
           <motion.p
             variants={fadeUp}
-            className="font-subtext mt-8 max-w-[640px] text-[16px] font-light leading-[1.85] text-[#b6c8d9]"
+            className={`font-subtext mt-8 max-w-[640px] break-words text-justify font-light text-[#b6c8d9] [hyphens:auto] [word-spacing:-0.04em] ${
+              isArabic
+                ? "whitespace-pre-line text-[20px] leading-[2] md:text-[22px]"
+                : "text-[16px] leading-[1.85]"
+            }`}
           >
             {t("privacyPolicy.intro")}
           </motion.p>
 
           <motion.p
             variants={fadeUp}
-            className="font-subtext mt-6 text-[12px] uppercase tracking-[0.32em] text-[#7C878E]"
+            className={`font-subtext mt-6 text-[#7C878E] ${
+              isArabic
+                ? "text-[15px] tracking-normal"
+                : "text-[12px] uppercase tracking-[0.32em]"
+            }`}
           >
             {t("privacyPolicy.lastUpdated")}
           </motion.p>
@@ -110,12 +127,24 @@ export default function PrivacyPolicy() {
             className="relative mb-16 overflow-hidden rounded-[2px] border border-white/15 bg-white/[0.04] p-7 backdrop-blur-xl md:mb-20 md:p-10"
           >
             <div className="absolute left-0 top-0 h-full w-[2px] bg-gradient-to-b from-[#7C878E] via-[#0E4174] to-transparent" />
-            <p className="font-headline text-[22px] font-light italic leading-[1.45] text-[#eef3f8] md:text-[26px]">
+            <p
+              className={`font-headline break-words text-justify font-light text-[#eef3f8] [hyphens:auto] [word-spacing:-0.04em] ${
+                isArabic
+                  ? "text-[26px] leading-[1.7] md:text-[32px]"
+                  : "text-[22px] italic leading-[1.45] md:text-[26px]"
+              }`}
+            >
               {t("privacyPolicy.quote")}
             </p>
             <div className="mt-5 flex items-center gap-3">
               <span className="h-px w-8 bg-[#7C878E]" />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.42em] text-[#7C878E]">
+              <span
+                className={`font-semibold text-[#7C878E] ${
+                  isArabic
+                    ? "text-[13px] tracking-normal"
+                    : "text-[10px] uppercase tracking-[0.42em]"
+                }`}
+              >
                 {t("privacyPolicy.quoteAttr")}
               </span>
             </div>
@@ -141,7 +170,13 @@ export default function PrivacyPolicy() {
                     </span>
                     <span className="h-px flex-1 bg-white/10" />
                   </div>
-                  <h2 className="mt-5 font-headline text-[26px] font-light leading-[1.2] text-[#eef3f8] md:text-[30px]">
+                  <h2
+                    className={`mt-5 font-headline font-light text-[#eef3f8] [overflow-wrap:break-word] [word-break:normal] ${
+                      isArabic
+                        ? "text-[30px] leading-[1.4] md:text-[36px]"
+                        : "text-[26px] leading-[1.2] md:text-[30px]"
+                    }`}
+                  >
                     {s.title}
                   </h2>
                 </div>
@@ -151,7 +186,11 @@ export default function PrivacyPolicy() {
                     Array.isArray(p) ? (
                       <ul
                         key={i}
-                        className="font-subtext list-disc space-y-2 pl-5 text-[15px] font-light leading-[1.85] text-[#b6c8d9] md:text-[15.5px]"
+                        className={`font-subtext list-disc space-y-2 break-words text-justify font-light text-[#b6c8d9] [hyphens:auto] [word-spacing:-0.04em] ${
+                          isArabic
+                            ? "pr-5 pl-0 text-[18px] leading-[2] md:text-[19px]"
+                            : "pl-5 text-[15px] leading-[1.85] md:text-[15.5px]"
+                        }`}
                       >
                         {p.map((item, j) => (
                           <li key={j}>{item}</li>
@@ -160,7 +199,11 @@ export default function PrivacyPolicy() {
                     ) : (
                       <p
                         key={i}
-                        className="font-subtext text-[15px] font-light leading-[1.85] text-[#b6c8d9] md:text-[15.5px]"
+                        className={`font-subtext block break-words text-justify font-light text-[#b6c8d9] [hyphens:auto] [word-spacing:-0.04em] ${
+                          isArabic
+                            ? "whitespace-pre-line text-[18px] leading-[2] md:text-[19px]"
+                            : "text-[15px] leading-[1.85] md:text-[15.5px]"
+                        }`}
                       >
                         {p}
                       </p>
@@ -185,11 +228,23 @@ export default function PrivacyPolicy() {
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#0E4174]/30 via-[#384967]/10 to-transparent" />
             <div className="relative grid grid-cols-1 gap-8 text-center lg:grid-cols-12 lg:items-center lg:gap-12 lg:text-left">
               <div className="lg:col-span-7 xl:col-span-8">
-                <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#eef3f8]/70 sm:tracking-[0.42em]">
+                <div
+                  className={`font-semibold text-[#eef3f8]/70 ${
+                    isArabic
+                      ? "text-[14px] tracking-normal sm:text-[15px]"
+                      : "text-[11px] uppercase tracking-[0.32em] sm:tracking-[0.42em]"
+                  }`}
+                >
                   {t("privacyPolicy.ctaEyebrow")}
                 </div>
 
-                <p className="mx-auto mt-5 max-w-[760px] font-headline text-[26px] font-light leading-[1.25] text-[#eef3f8] sm:text-[34px] md:text-[42px] lg:mx-0 lg:text-[40px] xl:text-[46px]">
+                <p
+                  className={`mx-auto mt-5 max-w-[760px] font-headline break-words font-light text-[#eef3f8] [hyphens:auto] [word-spacing:-0.04em] lg:mx-0 lg:text-justify ${
+                    isArabic
+                      ? "text-[30px] leading-[1.5] sm:text-[40px] md:text-[48px] lg:text-[46px] xl:text-[52px]"
+                      : "text-[26px] leading-[1.25] sm:text-[34px] md:text-[42px] lg:text-[40px] xl:text-[46px]"
+                  }`}
+                >
                   {t("privacyPolicy.ctaTitle")}
                 </p>
               </div>

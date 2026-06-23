@@ -4,7 +4,22 @@
       "Bash(node -e \"const t = require\\('./src/i18n/translations.js'\\); console.log\\('en keys:', Object.keys\\(t.translations.en\\).length\\); console.log\\('ar keys:', Object.keys\\(t.translations.ar\\).length\\);\")",
       "Bash(npm run *)",
       "Bash(npx vite *)",
-      "Bash(node -e \"console.log\\(require\\('docx'\\).Document ? 'ok' : 'missing'\\)\")"
+      "Bash(node -e \"console.log\\(require\\('docx'\\).Document ? 'ok' : 'missing'\\)\")",
+      "Bash(node -e \"const c = require\\('fs'\\).readFileSync\\('src/pages/PrivacyPolicy.jsx','utf8'\\); require\\('@babel/parser'\\).parse\\(c, {sourceType:'module', plugins:['jsx']}\\); console.log\\('OK'\\)\")",
+      "Bash(node -e \"const c = require\\('fs'\\).readFileSync\\('src/i18n/translations.js','utf8'\\); require\\('@babel/parser'\\).parse\\(c, {sourceType:'module'}\\); console.log\\('OK'\\)\")",
+      "Bash(node -e \"const c = require\\('fs'\\).readFileSync\\('src/i18n/translations.js','utf8'\\); require\\('@babel/parser'\\).parse\\(c, {sourceType:'module'}\\); console.log\\('Parse: OK'\\);\")",
+      "Bash(node -e \"const c = require\\('fs'\\).readFileSync\\('src/pages/PrivacyPolicy.jsx','utf8'\\); require\\('@babel/parser'\\).parse\\(c, {sourceType:'module', plugins:['jsx']}\\); console.log\\('Parse: OK'\\)\")",
+      "Bash(node -e \"const fs=require\\('fs'\\); const p=require\\('@babel/parser'\\); p.parse\\(fs.readFileSync\\('src/components/WhoWeAreSection.jsx','utf8'\\),{sourceType:'module',plugins:['jsx']}\\); p.parse\\(fs.readFileSync\\('src/i18n/translations.js','utf8'\\),{sourceType:'module'}\\); console.log\\('Parse: OK'\\)\")",
+      "Bash(node -e \"const c = require\\('fs'\\).readFileSync\\('src/components/WhoWeAreSection.jsx','utf8'\\); require\\('@babel/parser'\\).parse\\(c, {sourceType:'module', plugins:['jsx']}\\); console.log\\('Parse: OK'\\)\")",
+      "Bash(node -e \"const c = require\\('fs'\\).readFileSync\\('src/components/WhoWeAreSection.jsx','utf8'\\); require\\('@babel/parser'\\).parse\\(c, {sourceType:'module', plugins:['jsx']}\\); console.log\\('JSX OK'\\)\")",
+      "Bash(node -e \"const c = require\\('fs'\\).readFileSync\\('src/i18n/translations.js','utf8'\\); require\\('@babel/parser'\\).parse\\(c, {sourceType:'module'}\\); console.log\\('translations OK'\\)\")",
+      "Bash(node -e \"const c = require\\('fs'\\).readFileSync\\('src/components/WhoWeAreSection.jsx','utf8'\\); require\\('@babel/parser'\\).parse\\(c, {sourceType:'module', plugins:['jsx']}\\); console.log\\('OK'\\)\")",
+      "Bash(node -e \"const c = require\\('fs'\\).readFileSync\\('src/components/ExploreGrid.jsx','utf8'\\); require\\('@babel/parser'\\).parse\\(c, {sourceType:'module', plugins:['jsx']}\\); console.log\\('JSX OK'\\)\")",
+      "Bash(node -e \"['src/components/WhoWeAreSection.jsx','src/components/ExploreGrid.jsx'].forEach\\(f=>{const c=require\\('fs'\\).readFileSync\\(f,'utf8'\\); require\\('@babel/parser'\\).parse\\(c,{sourceType:'module',plugins:['jsx']}\\); console.log\\(f,'OK'\\)}\\)\")",
+      "Bash(node -e \"['src/components/CEOMessage.jsx','src/components/Footer.jsx','src/components/ServiceGrid.jsx','src/pages/ContactUsPage.jsx','src/pages/AboutUsPage.jsx','src/i18n/translations.js'].forEach\\(f=>{const c=require\\('fs'\\).readFileSync\\(f,'utf8'\\); require\\('@babel/parser'\\).parse\\(c,{sourceType:'module',plugins:['jsx']}\\); console.log\\(f,'OK'\\)}\\)\")",
+      "Bash(node -e \"const c = require\\('fs'\\).readFileSync\\('src/pages/Homepage.jsx','utf8'\\); require\\('@babel/parser'\\).parse\\(c,{sourceType:'module',plugins:['jsx']}\\); console.log\\('OK'\\)\")",
+      "Bash(node -e \"const c=require\\('fs'\\).readFileSync\\('src/components/HeroSlider.jsx','utf8'\\); require\\('@babel/parser'\\).parse\\(c,{sourceType:'module',plugins:['jsx']}\\); console.log\\('OK'\\)\")",
+      "Bash(node -e ' *)"
     ]
   }
 }
