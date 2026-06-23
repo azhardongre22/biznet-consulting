@@ -21,16 +21,16 @@ function SlideButton({
       type="submit"
       disabled={disabled || loading}
       aria-disabled={disabled || loading}
-      className={`group relative inline-flex h-11 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-[#7C878E] font-medium disabled:cursor-not-allowed disabled:opacity-60 sm:h-[44px] ${className}`}
+      className={`group relative inline-flex h-11 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-[#0E4174] bg-[#0E4174] font-medium shadow-[0_10px_24px_rgba(14,65,116,0.22)] disabled:cursor-not-allowed disabled:opacity-60 sm:h-[44px] ${className}`}
     >
-      <span className="relative inline-flex h-11 translate-y-0 items-center justify-center gap-1 px-5 text-[9px] font-semibold uppercase tracking-[0.18em] text-[#06101c] transition duration-500 group-hover:-translate-y-[150%] sm:h-[44px]">
+      <span className="relative inline-flex h-11 translate-y-0 items-center justify-center gap-1 px-5 text-[9px] font-semibold uppercase tracking-[0.18em] text-white transition duration-500 group-hover:-translate-y-[150%] sm:h-[44px]">
         <span>{content}</span>
         <span>→</span>
       </span>
 
       <span
         aria-hidden="true"
-        className="absolute inline-flex h-11 w-full translate-y-[100%] items-center justify-center text-[9px] font-semibold uppercase tracking-[0.18em] text-[#06101c] transition duration-500 group-hover:translate-y-0 sm:h-[44px]"
+        className="absolute inline-flex h-11 w-full translate-y-[100%] items-center justify-center text-[9px] font-semibold uppercase tracking-[0.18em] text-[#0E4174] transition duration-500 group-hover:translate-y-0 sm:h-[44px]"
       >
         <span className="absolute h-full w-full translate-y-full skew-y-12 scale-y-0 bg-white transition duration-500 group-hover:translate-y-0 group-hover:scale-150" />
         <span className="relative z-10 inline-flex items-center gap-1 px-5">
@@ -147,7 +147,7 @@ export default function LeadModal({ open, onClose }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.97 }}
             transition={{ duration: 0.55, ease: EASE }}
-            className="relative w-full max-w-[540px] overflow-hidden rounded-2xl border border-white/15 bg-[#06111d]/95 p-6 shadow-[0_30px_90px_rgba(0,0,0,0.55)] backdrop-blur-2xl sm:p-8"
+            className="relative w-full max-w-[540px] overflow-hidden rounded-2xl border border-[#C7D1D8] bg-[#F5F8FC] p-6 shadow-[0_30px_90px_rgba(14,65,116,0.20)] sm:p-8"
           >
             {/* Brand accent edge */}
             <div className="pointer-events-none absolute left-0 top-0 h-full w-[2px] bg-gradient-to-b from-[#7C878E] via-[#0E4174] to-transparent" />
@@ -157,30 +157,30 @@ export default function LeadModal({ open, onClose }) {
               type="button"
               onClick={onClose}
               aria-label={t("leadModal.close")}
-              className="absolute right-4 top-4 z-10 grid h-9 w-9 cursor-pointer place-items-center rounded-full border border-white/15 text-white/70 transition hover:border-white/30 hover:text-white"
+              className="absolute right-4 top-4 z-10 grid h-9 w-9 cursor-pointer place-items-center rounded-full border border-[#C7D1D8] text-[#5F6F7A] transition hover:border-[#0E4174] hover:text-[#0E4174]"
             >
               <X className="h-4 w-4" />
             </button>
 
-            <p className="text-[10px] font-semibold uppercase tracking-[0.36em] text-[#7C878E]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.36em] text-[#0E4174]">
               {t("leadModal.eyebrow")}
             </p>
 
             <h2
               id="lead-modal-title"
-              className="mt-3 font-headline text-[26px] font-light leading-[1.15] tracking-[-0.02em] text-white sm:text-[30px]"
+              className="mt-3 font-headline text-[26px] font-light leading-[1.15] tracking-[-0.02em] text-[#384967] sm:text-[30px]"
             >
               {t("leadModal.title")}
             </h2>
 
-            <p className="mt-3 text-[13px] leading-[1.7] text-white/65 sm:text-[14px]">
+            <p className="mt-3 text-[13px] leading-[1.7] text-[#5F6F7A] sm:text-[14px]">
               {t("leadModal.lead")}
             </p>
 
             <form className="mt-6 grid gap-3" onSubmit={handleSubmit}>
               <div className="grid gap-3 sm:grid-cols-2">
                 <input
-                  className="h-11 min-h-[44px] w-full rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4"
+                  className="h-11 min-h-[44px] w-full rounded-lg border border-[#C7D1D8] bg-white px-3 text-[13px] text-[#384967] placeholder:text-[#7C878E] outline-none transition focus:border-[#0E4174] focus:ring-2 focus:ring-[#0E4174]/20 sm:px-4"
                   placeholder={t("leadModal.namePlaceholder")}
                   type="text"
                   autoComplete="name"
@@ -190,7 +190,7 @@ export default function LeadModal({ open, onClose }) {
                 />
 
                 <input
-                  className="h-11 min-h-[44px] w-full rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4"
+                  className="h-11 min-h-[44px] w-full rounded-lg border border-[#C7D1D8] bg-white px-3 text-[13px] text-[#384967] placeholder:text-[#7C878E] outline-none transition focus:border-[#0E4174] focus:ring-2 focus:ring-[#0E4174]/20 sm:px-4"
                   placeholder={t("leadModal.emailPlaceholder")}
                   type="email"
                   autoComplete="email"
@@ -201,7 +201,7 @@ export default function LeadModal({ open, onClose }) {
               </div>
 
               <textarea
-                className="min-h-[110px] w-full resize-none rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 py-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4"
+                className="min-h-[110px] w-full resize-none rounded-lg border border-[#C7D1D8] bg-white px-3 py-3 text-[13px] text-[#384967] placeholder:text-[#7C878E] outline-none transition focus:border-[#0E4174] focus:ring-2 focus:ring-[#0E4174]/20 sm:px-4"
                 placeholder={t("leadModal.messagePlaceholder")}
                 required
                 value={form.message}
@@ -222,13 +222,13 @@ export default function LeadModal({ open, onClose }) {
             </form>
 
             {state.ok ? (
-              <p className="mt-4 text-[13px] text-emerald-200/90">
+              <p className="mt-4 text-[13px] text-emerald-700">
                 {t("leadModal.ok")}
               </p>
             ) : null}
 
             {state.error ? (
-              <p className="mt-4 text-[13px] text-red-200/90">{state.error}</p>
+              <p className="mt-4 text-[13px] text-red-700">{state.error}</p>
             ) : null}
           </motion.div>
         </motion.div>

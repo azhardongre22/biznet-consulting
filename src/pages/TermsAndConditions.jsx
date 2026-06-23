@@ -211,11 +211,11 @@ export default function TermsAndConditions() {
 
               <div className="mt-8 flex justify-center">
                 <a
-                  href="mailto:hello@biznetconsulting.com"
+                  href="mailto:hello@biznetconsulting.ae"
                   className="inline-flex min-h-[50px] w-full max-w-[320px] items-center justify-center gap-2 rounded-full border border-[#7C878E]/70 bg-white/[0.04] px-4 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#eef3f8] transition hover:bg-[#7C878E] hover:text-[#06101c] sm:max-w-[380px] sm:gap-3 sm:px-6 sm:text-[11px] sm:tracking-[0.18em]"
                 >
                   <span className="whitespace-nowrap">
-                    hello@biznetconsulting.com
+                    hello@biznetconsulting.ae
                   </span>
                   <span aria-hidden className="shrink-0">
                     &rarr;

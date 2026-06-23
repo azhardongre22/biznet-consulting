@@ -26,7 +26,7 @@ const PUBLIC_SITE_URL = (
 const COMPANY = {
   name: "Biznet Consulting",
   address: "Oud Metha Offices Building, Office 324, Dubai",
-  email: "hello@biznetconsulting.com",
+  email: "hello@biznetconsulting.ae",
   phone: "+971 52 748 8855",
 };
 
