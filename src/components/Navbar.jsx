@@ -63,6 +63,14 @@ function Navbar() {
       image:
         "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1800&q=90",
     },
+    {
+      key: "faqs",
+      num: "05",
+      label: t("FAQ"),
+      tag: t("navbar.tagWhoWeAre"),
+      image:
+        "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=90",
+    },
   ];
 
   const [open, setOpen] = useState(false);
@@ -121,7 +129,10 @@ function Navbar() {
     } else if (page === "about") {
       navigateRouter("/about");
       return;
-    }
+    } else if (page === "faqs") {
+      navigateRouter("/faqs");
+      return;
+    } 
   
     // These map to sections on the homepage (hash navigation).
     if (location.pathname !== "/") {

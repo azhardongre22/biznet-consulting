@@ -263,11 +263,21 @@ app.get("/api/health", (_req, res) => {
 
 app.post("/api/contact", async (req, res) => {
   try {
+    const VALID_CONSULTATION_TYPES = [
+      "General Enquiry",
+      "Branding and Market Positioning",
+      "Business Formation & Feasibility",
+      "Hospitality & Experience Construction",
+      "Project Development",
+      "Project Management",
+    ];
+
     const firstName = sanitizeText(req.body?.firstName, 80);
     const lastName = sanitizeText(req.body?.lastName, 80);
     const name = sanitizeText(req.body?.name, 160);
     const email = sanitizeText(req.body?.email, 160);
     const phone = sanitizeText(req.body?.phone, 60);
+    const consultationType = sanitizeText(req.body?.consultationType, 80);
     const message = sanitizeText(req.body?.message, 4000);
     const source = sanitizeText(req.body?.source, 40);
 
@@ -278,6 +288,12 @@ app.post("/api/contact", async (req, res) => {
     }
     if (!email || !isValidEmail(email)) {
       return res.status(400).json({ ok: false, error: "Valid email is required." });
+    }
+    if (!phone) {
+      return res.status(400).json({ ok: false, error: "Phone number is required." });
+    }
+    if (!consultationType || !VALID_CONSULTATION_TYPES.includes(consultationType)) {
+      return res.status(400).json({ ok: false, error: "A valid consultation type is required." });
     }
     if (!message || message.length < 3) {
       return res.status(400).json({ ok: false, error: "Message is required." });
@@ -294,7 +310,8 @@ app.post("/api/contact", async (req, res) => {
       "",
       `Name: ${derivedName}`,
       `Email: ${email}`,
-      phone ? `Phone: ${phone}` : null,
+      `Phone: ${phone}`,
+      `Consultation Type: ${consultationType}`,
       source ? `Source: ${source}` : null,
       "",
       "Message:",
@@ -310,6 +327,21 @@ app.post("/api/contact", async (req, res) => {
       subject,
       text,
     });
+
+    // Auto-reply to the enquirer. BCC the admin inbox so a copy always
+    // lands there even if delivery to the submitter's address fails.
+    transporter
+      .sendMail({
+        from: MAIL_FROM,
+        to: email,
+        replyTo: COMPANY.email,
+        subject: `We've received your enquiry — ${COMPANY.name}`,
+        text: buildContactAutoReplyText({ name: derivedName, consultationType }),
+        html: buildContactAutoReplyHtml({ name: derivedName, consultationType }),
+      })
+      .catch((err) =>
+        console.error("Contact auto-reply failed:", err?.message || err),
+      );
 
     return res.json({ ok: true });
   } catch (err) {
@@ -690,6 +722,66 @@ app.post("/api/newsletter/unsubscribe", async (req, res) => {
     return res.status(500).json({ ok: false });
   }
 });
+
+function buildContactAutoReplyText({ name, consultationType }) {
+  return [
+    `Hi ${name},`,
+    "",
+    "Thank you for reaching out to Biznet Consulting.",
+    "",
+    `We've received your enquiry regarding "${consultationType}" and a member of our team will be in touch with you shortly.`,
+    "",
+    "In the meantime, feel free to explore our work at biznetconsulting.ae or reach us directly:",
+    `  Email: ${COMPANY.email}`,
+    `  Phone: ${COMPANY.phone}`,
+    `  Address: ${COMPANY.address}`,
+    "",
+    "Warm regards,",
+    `The ${COMPANY.name} Team`,
+  ].join("\n");
+}
+
+function buildContactAutoReplyHtml({ name, consultationType }) {
+  const year = new Date().getFullYear();
+  return `<!doctype html>
+<html>
+  <body style="margin:0;padding:0;background:#020812;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#eef3f8;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#020812;padding:48px 16px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:linear-gradient(135deg,rgba(14,65,116,0.35) 0%,rgba(56,73,103,0.18) 100%);border:1px solid rgba(255,255,255,0.10);border-radius:12px;padding:40px 36px;">
+            <tr>
+              <td>
+                <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.42em;text-transform:uppercase;color:#d3ad49;">Enquiry Received</p>
+                <h1 style="margin:0 0 20px;font-size:28px;line-height:1.25;font-weight:300;color:#eef3f8;">Thank you, <span style="color:#5aa9d6;font-style:italic;">${name}.</span></h1>
+                <p style="margin:0 0 16px;font-size:15px;line-height:1.75;color:#b6c8d9;">We've received your enquiry regarding <strong style="color:#eef3f8;">${consultationType}</strong> and a member of our team will be in touch with you shortly.</p>
+                <p style="margin:0 0 16px;font-size:15px;line-height:1.75;color:#b6c8d9;">In the meantime, feel free to reach us directly:</p>
+                <p style="margin:0 0 6px;font-size:13px;line-height:1.7;color:#b6c8d9;">
+                  <a href="mailto:${COMPANY.email}" style="color:#d3ad49;text-decoration:none;">${COMPANY.email}</a>
+                </p>
+                <p style="margin:0 0 24px;font-size:13px;line-height:1.7;color:#b6c8d9;">
+                  <a href="tel:${COMPANY.phone.replace(/\s/g, "")}" style="color:#d3ad49;text-decoration:none;">${COMPANY.phone}</a>
+                </p>
+                <p style="margin:0 0 28px;font-size:14px;line-height:1.75;color:#7C878E;">Warm regards,<br/>The ${COMPANY.name} Team</p>
+                <div style="height:1px;background:rgba(255,255,255,0.12);margin:0 0 20px;"></div>
+                <p style="margin:0;font-size:12px;line-height:1.7;color:#7C878E;letter-spacing:0.04em;">
+                  ${COMPANY.name}<br/>
+                  ${COMPANY.address}<br/>
+                  <a href="mailto:${COMPANY.email}" style="color:#d3ad49;text-decoration:none;">${COMPANY.email}</a> &middot; ${COMPANY.phone}
+                </p>
+                <p style="margin:12px 0 0;font-size:11px;line-height:1.7;color:#7C878E;">
+                  You're receiving this because you submitted an enquiry at <a href="${PUBLIC_SITE_URL}" style="color:#7C878E;text-decoration:underline;">${PUBLIC_SITE_URL}</a>. &copy; ${year} ${COMPANY.name}.<br/>
+                  <a href="${PUBLIC_SITE_URL}/privacy-policy" style="color:#7C878E;text-decoration:underline;">Privacy Policy</a>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+}
 
 function buildConfirmText({ confirmUrl, unsubscribeUrl }) {
   return [

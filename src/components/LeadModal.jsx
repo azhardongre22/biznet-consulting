@@ -44,7 +44,22 @@ function SlideButton({
 
 export default function LeadModal({ open, onClose }) {
   const { t } = useLanguage();
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const CONSULTATION_TYPES = [
+    "General Enquiry",
+    "Branding and Market Positioning",
+    "Business Formation & Feasibility",
+    "Hospitality & Experience Construction",
+    "Project Development",
+    "Project Management",
+  ];
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    consultationType: "",
+    message: "",
+  });
   const [state, setState] = useState({ loading: false, ok: false, error: "" });
 
   // ESC closes the modal.
@@ -95,7 +110,13 @@ export default function LeadModal({ open, onClose }) {
       }
 
       setState({ loading: false, ok: true, error: "" });
-      setForm({ name: "", email: "", message: "" });
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        consultationType: "",
+        message: "",
+      });
 
       // Auto-dismiss after success so the success state is felt but not sticky.
       // Pass "submitted" so the parent can apply the longer post-conversion
@@ -200,6 +221,36 @@ export default function LeadModal({ open, onClose }) {
                 />
               </div>
 
+              <div className="grid gap-3 sm:grid-cols-2">
+                <input
+                  className="h-11 min-h-[44px] w-full rounded-lg border border-[#C7D1D8] bg-white px-3 text-[13px] text-[#384967] placeholder:text-[#7C878E] outline-none transition focus:border-[#0E4174] focus:ring-2 focus:ring-[#0E4174]/20 sm:px-4"
+                  placeholder={t("leadModal.phonePlaceholder")}
+                  type="tel"
+                  autoComplete="tel"
+                  required
+                  value={form.phone}
+                  onChange={(e) => updateField("phone", e.target.value)}
+                />
+
+                <select
+                  className="h-11 min-h-[44px] w-full rounded-lg border border-[#C7D1D8] bg-white px-3 text-[13px] text-[#384967] outline-none transition focus:border-[#0E4174] focus:ring-2 focus:ring-[#0E4174]/20 sm:px-4"
+                  required
+                  value={form.consultationType}
+                  onChange={(e) =>
+                    updateField("consultationType", e.target.value)
+                  }
+                >
+                  <option value="" disabled>
+                    {t("leadModal.consultationTypePlaceholder")}
+                  </option>
+                  {CONSULTATION_TYPES.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <textarea
                 className="min-h-[110px] w-full resize-none rounded-lg border border-[#C7D1D8] bg-white px-3 py-3 text-[13px] text-[#384967] placeholder:text-[#7C878E] outline-none transition focus:border-[#0E4174] focus:ring-2 focus:ring-[#0E4174]/20 sm:px-4"
                 placeholder={t("leadModal.messagePlaceholder")}
@@ -209,15 +260,19 @@ export default function LeadModal({ open, onClose }) {
               />
 
               <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                
-
-                <SlideButton
-                  loading={state.loading}
-                  loadingChildren={t("leadModal.sendingState")}
-                  className="w-full sm:w-fit"
+                <button
+                  type="submit"
+                  disabled={state.loading}
+                  aria-disabled={state.loading}
+                  className="inline-flex h-11 w-full cursor-pointer items-center justify-center rounded-lg border border-[#0E4174] bg-[#0E4174] px-5 text-[9px] font-semibold uppercase tracking-[0.18em] text-white shadow-[0_10px_24px_rgba(14,65,116,0.22)] transition duration-300 hover:bg-white hover:text-[#0E4174] disabled:cursor-not-allowed disabled:opacity-60 sm:h-[44px] sm:w-fit"
                 >
-                  {t("leadModal.submitCta")}
-                </SlideButton>
+                  <span>
+                    {state.loading
+                      ? t("leadModal.sendingState")
+                      : t("leadModal.submitCta")}
+                  </span>
+                  <span className="ml-1">→</span>
+                </button>
               </div>
             </form>
 
