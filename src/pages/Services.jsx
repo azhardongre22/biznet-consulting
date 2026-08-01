@@ -1,13 +1,12 @@
 import { lazy } from "react";
 import Navbar from "../components/Navbar";
-import ServicesGrid from "../components/ServiceGrid";
-import UpcomingProjects from "../components/UpcomingProjects";
 import HeroSlider from "../components/HeroSlider";
 import SuccessStories from "../components/SuccessStories";
-import SliderImg1 from "../assets/images/ServiceSlider1-1.png";
-import SliderImg2 from "../assets/images/ServiceSlider2-1.png";
-import SliderImg3 from "../assets/images/ServiceSlider2-2.png";
+import SliderImg1 from "../assets/images/optimized/ServiceSlider1-1.webp";
+import SliderImg2 from "../assets/images/optimized/ServiceSlider2-1.webp";
+import SliderImg3 from "../assets/images/optimized/ServiceSlider2-2.webp";
 import { useLanguage } from "../i18n/LanguageContext";
+import ServiceSliderNew from "../components/ServiceSliderNew";
 
 const Footer = lazy(() => import("../components/Footer"));
 
@@ -27,8 +26,9 @@ const Services = () => {
     <>
       <Navbar />
       <HeroSlider slides={serviceSlides} sectionId="services-hero" autoPlay />
-      <ServicesGrid variant="light" />
-      <UpcomingProjects />
+      <div className="bg-gradient-to-b from-[#DDE5E8] to-[#7C878E] pt-16 md:pt-24">
+        <ServiceSliderNew />
+      </div>
       <SuccessStories />
       <Footer />
     </>

@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import SocialMediaIcons, {
-  defaultSocialLinks,
-} from "../components/SocialMediaIcons";
-import { useLanguage } from "../i18n/LanguageContext";
 
 // Maps a slide's `bgPositionMobile` value to a Tailwind class that sets
 // the background-position on mobile and resets to centered from `md` up.
@@ -35,12 +31,11 @@ function HeroSlider({
   sectionId = "home",
   autoPlay = true,
   autoPlayDelay = 6500,
-  socialLinks = defaultSocialLinks,
+  // socialLinks = defaultSocialLinks,
 }) {
   const [active, setActive] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
-  const { t } = useLanguage();
 
   const goToSlide = (index) => {
     if (slides.length === 0) return;
@@ -94,48 +89,33 @@ function HeroSlider({
       id={sectionId}
       className="relative h-screen w-full overflow-hidden"
     >
-      <aside className="absolute left-0 top-[68px] z-40 hidden h-[calc(100vh-68px)] w-[102px] bg-[#020812] md:block">
-        <div className="absolute left-1/2 top-[43px] -translate-x-1/2 font-serif text-[42px] font-light leading-none text-[#7C878E]">
-          {String(active + 1).padStart(2, "0")}
+      <div className="absolute left-6 top-[92px] z-40 hidden md:block lg:left-10">
+        <div className="flex items-end gap-2">
+          <span
+            className="font-serif text-[42px] font-light leading-none text-white"
+            style={{
+              WebkitTextStroke: "1px #000",
+              paintOrder: "stroke fill",
+            }}
+          >
+            {String(active + 1).padStart(2, "0")}
+          </span>
+          <span
+            className="mb-1 text-[12px] tracking-[0.18em] text-white"
+            style={{
+              WebkitTextStroke: "0.6px #000",
+              paintOrder: "stroke fill",
+            }}
+          >
+            / {String(slides.length).padStart(2, "0")}
+          </span>
         </div>
-
-        <div className="absolute left-1/2 top-[91px] -translate-x-1/2 text-[12px] tracking-[0.18em] text-[#2f6f9e]">
-          / {String(slides.length).padStart(2, "0")}
-        </div>
-
-        <div className="absolute left-1/2 top-[188px] flex -translate-x-1/2 flex-col items-center">
-          <div className="mb-[34px] h-[48px] w-px bg-white/45" />
-
-          <div className="flex rotate-90 items-center gap-[22px]">
-            <button
-              type="button"
-              onClick={() => goToSlide(active - 1)}
-              className="cursor-pointer text-[10px] uppercase tracking-[0.38em] text-[#7f9ab4] transition hover:text-white"
-            >
-              {t("whoWeAre.prev")}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => goToSlide(active + 1)}
-              className="cursor-pointer text-[10px] uppercase tracking-[0.38em] text-[#7f9ab4] transition hover:text-white"
-            >
-              {t("whoWeAre.next")}
-            </button>
-          </div>
-
-          <div className="mt-[34px] h-[28px] w-px bg-white/45" />
-        </div>
-
-        <div className="absolute bottom-[34px] left-1/2 -translate-x-1/2">
-          <SocialMediaIcons links={socialLinks} direction="col" />
-        </div>
-      </aside>
+      </div>
 
       {slides.map((slide, index) => (
         <div
           key={`${slide.eyebrow}-${index}`}
-          className={`absolute inset-y-0 left-0 right-0 transition-opacity duration-1000 md:left-[102px] ${
+          className={`absolute inset-0 transition-opacity duration-1000 ${
             active === index ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Globe } from "lucide-react";
-import FavIconLogo from "../assets/images/BN_Logo.png";
-import LogoText from "../assets/images/biznet-sec-white.png";
-import TagLine from "../assets/images/biznet-tagline.png";
+import FavIconLogo from "../assets/images/optimized/BN_Logo.webp";
+import LogoText from "../assets/images/optimized/biznet-sec-white.webp";
+import TagLine from "../assets/images/optimized/biznet-tagline.webp";
+import UpcomingProjectsImg from "../assets/images/upcoming-projects.png";
+import pressReleaseImage from "../assets/images/optimized/press-release.webp";
 import { useLanguage } from "../i18n/LanguageContext";
 
 const HOMEPAGE_SECTION_KEYS = new Set([
@@ -19,6 +21,16 @@ function navKeyFromPathAndHash(pathname, hash) {
   if (pathname === "/services") return "services";
   if (pathname === "/about") return "about";
   if (pathname === "/contact") return "contact";
+  if (pathname === "/upcoming-projects") return "projects";
+  if (
+    pathname === "/news-and-insights" ||
+    pathname.startsWith("/news-and-insights/") ||
+    pathname === "/press-release" ||
+    pathname.startsWith("/press-release/")
+  ) {
+    return "news";
+  }
+  if (pathname === "/faqs") return "faqs";
   if (pathname === "/") {
     const raw = hash.startsWith("#") ? hash.slice(1) : "";
     return raw && HOMEPAGE_SECTION_KEYS.has(raw) ? raw : "home";
@@ -27,8 +39,8 @@ function navKeyFromPathAndHash(pathname, hash) {
 }
 
 function Navbar() {
-  const { t, language, toggleLanguage } = useLanguage();
-  const isRTL = language === "ar";
+  const { t, language, dir, toggleLanguage } = useLanguage();
+  const isRTL = dir === "rtl";
 
   const menuItems = [
     {
@@ -56,8 +68,22 @@ function Navbar() {
         "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1800&q=90",
     },
     {
-      key: "contact",
+      key: "projects",
       num: "04",
+      label: t("navbar.projects"),
+      tag: t("navbar.tagProjects"),
+      image: UpcomingProjectsImg,
+    },
+    {
+      key: "news",
+      num: "05",
+      label: t("navbar.news"),
+      tag: t("navbar.tagNews"),
+      image: pressReleaseImage,
+    },
+    {
+      key: "contact",
+      num: "06",
       label: t("navbar.contact"),
       tag: t("navbar.tagGetInTouch"),
       image:
@@ -65,7 +91,7 @@ function Navbar() {
     },
     {
       key: "faqs",
-      num: "05",
+      num: "07",
       label: t("FAQ"),
       tag: t("navbar.tagWhoWeAre"),
       image:
@@ -122,6 +148,12 @@ function Navbar() {
   
     if (page === "services") {
       navigateRouter("/services");
+      return;
+    } else if (page === "projects") {
+      navigateRouter("/upcoming-projects");
+      return;
+    } else if (page === "news") {
+      navigateRouter("/news-and-insights");
       return;
     } else if (page === "contact") {
       navigateRouter("/contact");
@@ -382,14 +414,14 @@ function Navbar() {
                   alt="Biznet favicon"
                   loading="lazy"
                   decoding="async"
-                  className="h-auto w-[40px] object-contain sm:w-[46px] md:w-[52px]"
+                  className="h-auto w-[40px] object-contain sm:w-[46px] md:w-[80px]"
                 />
                 <img
                   src={LogoText}
                   alt="Biznet logo"
                   loading="lazy"
                   decoding="async"
-                  className="mt-3 h-auto w-[128px] object-contain sm:w-[150px] md:w-[172px]"
+                  className="mt-3 h-auto w-[128px] object-contain sm:w-[150px] md:w-[220px]"
                 />
                 <img
                   src={TagLine}

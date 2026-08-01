@@ -1,14 +1,14 @@
 import { Suspense, lazy } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
-import ServiceGrid from "../components/ServiceGrid";
+import ServiceSliderNew from "../components/ServiceSliderNew";
 import HeroSlider from "../components/HeroSlider";
-import Slider1Img from "../assets/images/about-slider-1-1.png";
-import Slider2Img from "../assets/images/about-slider-2-2-2.png";
-import Slider3Img from "../assets/images/about-slider-3.png";
-import SliderMobImg from "../assets/images/mobile-view-slider1.png";
+import Slider1Img from "../assets/images/optimized/about-slider-1-1.webp";
+import Slider2Img from "../assets/images/optimized/about-slider-2-2-2.webp";
+import Slider3Img from "../assets/images/optimized/about-slider-3.webp";
+import SliderMobImg from "../assets/images/optimized/mobile-view-slider1.webp";
 
-import PhilosophyImg from "../assets/images/about-core-philosophy.png";
+import PhilosophyImg from "../assets/images/optimized/about-core-philosophy.webp";
 import { useLanguage } from "../i18n/LanguageContext";
 
 const aboutSlideImages = [Slider1Img, Slider2Img, Slider3Img];
@@ -56,7 +56,7 @@ export default function AboutUsPage() {
       <HeroSlider slides={slides} sectionId="home" autoPlay={true} />
 
       {/* ============ PHILOSOPHY — FIRASAH ============ */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#EEF3F8] to-[#DDE5E8] py-[120px] md:py-[160px]">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#EEF3F8] to-[#DDE5E8] py-[120px] md:py-[50px]">
         {/* atmospheric backdrop */}
         <div
           className="pointer-events-none absolute inset-0 opacity-60"
@@ -192,7 +192,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* ============ VALUES ============ */}
-      <section className="relative overflow-hidden bg-[#DDE5E8] py-[120px] md:py-[160px]">
+      <section className="relative overflow-hidden bg-[#DDE5E8] py-[30px] md:py-[50px]">
         {/* ambient image backdrop */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.18]"
@@ -307,7 +307,7 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#DDE5E8] py-[130px] md:py-[180px]">
+      <section className="relative overflow-hidden bg-[#DDE5E8] py-[30px] md:py-[50px]">
         <div
           className="pointer-events-none absolute inset-0 opacity-50"
           style={{
@@ -436,7 +436,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* ============ SERVICES — PROJECT DEVELOPMENT ============ */}
-      <ServiceGrid variant="light" />
+      <ServiceSliderNew />
 
       <Suspense fallback={null}>
         <Footer />

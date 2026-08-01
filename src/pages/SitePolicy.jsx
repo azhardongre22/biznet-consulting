@@ -21,7 +21,7 @@ const stagger = {
   },
 };
 
-export default function PrivacyPolicy() {
+export default function SitePolicy() {
   const { t, tArray, language } = useLanguage();
   const sections = tArray("privacyPolicy.sections");
   const isArabic = language === "ar";

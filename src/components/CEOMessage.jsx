@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import ceoImage from "../assets/images/ceo4.jpg";
+import ceoImage from "../assets/images/optimized/ceo4.webp";
 import LightRays from "./LightRays";
 import { useLanguage } from "../i18n/LanguageContext";
 

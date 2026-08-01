@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import whoWeAreImage from "../assets/images/who-we-are1.jpg";
-import whatWeAreImage from "../assets/images/what-we-are-2.png";
-import whatWeDoImage from "../assets/images/what-we-do-2.png";
+import whoWeAreImage from "../assets/images/optimized/who-we-are1.webp";
+import whatWeAreImage from "../assets/images/optimized/what-we-are-2.webp";
+import whatWeDoImage from "../assets/images/optimized/what-we-do-2.webp";
 
 import { useLanguage } from "../i18n/LanguageContext";
 

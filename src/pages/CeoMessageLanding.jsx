@@ -8,12 +8,11 @@ import ivyPrestoText from "../assets/fonts/ivy-presto-headline/Ivy-Presto-Text-.
 import ivyPrestoTextLight from "../assets/fonts/ivy-presto-headline/Ivy-Presto-Text-Light.otf";
 import ivyPrestoTextThin from "../assets/fonts/ivy-presto-headline/Ivy-Presto-Text-Thin.otf";
 
-import HeroBg from "../assets/images/HeroBg.png";
-import ceoLogoBlack from "../assets/images/CEO LOGO PANTONE BLUE.png";
-import BNLogo from "../assets/images/BN_Logo.png";
-import FaviconBlue from "../assets/images/FAVICON BLUE.png";
+import HeroBg from "../assets/images/optimized/HeroBg.webp";
+import ceoLogoBlack from "../assets/images/optimized/CEO LOGO PANTONE BLUE.webp";
+import BNLogo from "../assets/images/optimized/BN_Logo.webp";
+import FaviconBlue from "../assets/images/optimized/FAVICON BLUE.webp";
 
-import SocialMediaIcons from "../components/SocialMediaIcons";
 
 // This page is intentionally English-only (it's the post-QR-scan landing).
 // Do not wire it up to the language context.
@@ -228,14 +227,6 @@ function CeoMessageLanding() {
                 </div>
               </div>
             </div>
-
-            <div
-              className="mt-7 flex flex-wrap items-center justify-center gap-2.5"
-              aria-label="Social links"
-            >
-              <SocialMediaIcons direction="row" variant="light" />
-            </div>
-
             <form
               onSubmit={handleSubscribe}
               className="mx-auto mt-7 max-w-[520px]"

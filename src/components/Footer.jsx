@@ -5,9 +5,9 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 import { useState } from "react";
-import BNLogo from "../assets/images/BN_Logo.png";
-import BiznetSecondaryLogo from "../assets/images/biznet-sec-white.png";
-import BiznetTagline from "../assets/images/biznet-tagline.png";
+import BNLogo from "../assets/images/optimized/BN_Logo.webp";
+import BiznetSecondaryLogo from "../assets/images/optimized/biznet-sec-white.webp";
+import BiznetTagline from "../assets/images/optimized/biznet-tagline.webp";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../i18n/LanguageContext";
 
@@ -39,8 +39,8 @@ function SlideButton({
   );
 }
 function Footer() {
-  const { t, language } = useLanguage();
-  const isRTL = language === "ar";
+  const { t, language, dir } = useLanguage();
+  const isRTL = dir === "rtl";
   const startText = isRTL ? "sm:text-right" : "sm:text-left";
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterHp, setNewsletterHp] = useState("");
@@ -52,20 +52,18 @@ function Footer() {
     error: "",
   });
 
-  const CONSULTATION_TYPES = [
-    "General Enquiry",
-    "Branding and Market Positioning",
-    "Business Formation & Feasibility",
-    "Hospitality & Experience Construction",
-    "Project Development",
-    "Project Management",
-  ];
+  // const CONSULTATION_TYPES = [
+  //   "General Enquiry",
+  //   "Branding and Market Positioning",
+  //   "Business Formation & Feasibility",
+  //   "Hospitality & Experience Construction",
+  //   "Project Development",
+  //   "Project Management",
+  // ];
 
   const [footerContact, setFooterContact] = useState({
     name: "",
     email: "",
-    phone: "",
-    consultationType: "",
     message: "",
   });
   const [footerContactState, setFooterContactState] = useState({
@@ -135,7 +133,8 @@ function Footer() {
       if (!resp.ok || !data?.ok)
         throw new Error(data?.error || "Failed to send.");
       setFooterContactState({ loading: false, ok: true, error: "" });
-      setFooterContact({ name: "", email: "", phone: "", consultationType: "", message: "" });
+      // setFooterContact({ name: "", email: "", phone: "", consultationType: "", message: "" });
+      setFooterContact({ name: "", email: "", message: "" });
     } catch (err) {
       setFooterContactState({
         loading: false,
@@ -156,7 +155,7 @@ function Footer() {
         BIZNET
       </div>
 
-      <div className="relative mx-auto w-full max-w-[1200px] px-4 pb-[calc(7rem+env(safe-area-inset-bottom,0px))] pt-12 sm:px-6 sm:pb-28 sm:pt-14 md:px-10 md:pb-32 md:pt-16">
+      <div className="relative mx-auto w-full max-w-[1200px] px-4 pb-[calc(7rem+env(safe-area-inset-bottom,0px))] pt-4 sm:px-6 sm:pb-28 sm:pt-4 md:px-10 md:pb-32 md:pt-4">
         <div className="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
           {/* Left: logo */}
           <div className="min-w-0 lg:col-span-6">
@@ -265,7 +264,7 @@ function Footer() {
                       aria-hidden
                     />
                   </span>
-                  <span dir="ltr">04 343 3334</span>
+                  <span dir="ltr">+971 4 343 3334</span>
                 </a>
               </div>
             </div>
@@ -444,91 +443,79 @@ function Footer() {
               className="mt-5 grid min-w-0 gap-3 sm:mt-6"
               onSubmit={submitFooterContact}
             >
-              {/* Single column so Name → Email → Message stacks in the
-                  requested order; on sm+ we still stack to keep the form
-                  reading top-to-bottom regardless of language. Per
-                  stakeholder spec the placeholders stay English ("Name",
-                  "Email", "Message") even when the rest of the site is
-                  in Arabic — only the alignment flips. */}
-              <input
-                className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
-                  isRTL ? "text-right" : "text-left"
-                }`}
-                placeholder="Name *"
-                type="text"
-                autoComplete="name"
-                required
-                value={footerContact.name}
-                onChange={(e) => {
-                  setFooterContact((p) => ({
-                    ...p,
-                    name: e.target.value,
-                  }));
-                  setFooterContactState((s) =>
-                    s.ok || s.error
-                      ? { loading: false, ok: false, error: "" }
-                      : s,
-                  );
-                }}
-              />
+              <div className="grid gap-3 sm:grid-cols-2">
+                <input
+                  className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
+                    isRTL ? "text-right" : "text-left"
+                  }`}
+                  placeholder="Name *"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  value={footerContact.name}
+                  onChange={(e) => {
+                    setFooterContact((p) => ({ ...p, name: e.target.value }));
+                    setFooterContactState((s) =>
+                      s.ok || s.error ? { loading: false, ok: false, error: "" } : s,
+                    );
+                  }}
+                />
 
-              <input
-                className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
-                  isRTL ? "text-right" : "text-left"
-                }`}
-                placeholder="Email *"
-                type="email"
-                autoComplete="email"
-                required
-                value={footerContact.email}
-                onChange={(e) => {
-                  setFooterContact((p) => ({
-                    ...p,
-                    email: e.target.value,
-                  }));
-                  setFooterContactState((s) =>
-                    s.ok || s.error
-                      ? { loading: false, ok: false, error: "" }
-                      : s,
-                  );
-                }}
-              />
+                <input
+                  className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
+                    isRTL ? "text-right" : "text-left"
+                  }`}
+                  placeholder="Email *"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={footerContact.email}
+                  onChange={(e) => {
+                    setFooterContact((p) => ({ ...p, email: e.target.value }));
+                    setFooterContactState((s) =>
+                      s.ok || s.error ? { loading: false, ok: false, error: "" } : s,
+                    );
+                  }}
+                />
+              </div>
 
-              <input
-                className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
-                  isRTL ? "text-right" : "text-left"
-                }`}
-                placeholder="Phone *"
-                type="tel"
-                autoComplete="tel"
-                required
-                value={footerContact.phone}
-                onChange={(e) => {
-                  setFooterContact((p) => ({ ...p, phone: e.target.value }));
-                  setFooterContactState((s) =>
-                    s.ok || s.error ? { loading: false, ok: false, error: "" } : s,
-                  );
-                }}
-              />
+              {/* <div className="grid gap-3 sm:grid-cols-2">
+                <input
+                  className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
+                    isRTL ? "text-right" : "text-left"
+                  }`}
+                  placeholder="Phone *"
+                  type="tel"
+                  autoComplete="tel"
+                  required
+                  value={footerContact.phone}
+                  onChange={(e) => {
+                    setFooterContact((p) => ({ ...p, phone: e.target.value }));
+                    setFooterContactState((s) =>
+                      s.ok || s.error ? { loading: false, ok: false, error: "" } : s,
+                    );
+                  }}
+                />
 
-              <select
-                className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
-                  isRTL ? "text-right" : "text-left"
-                } ${footerContact.consultationType ? "text-white" : "text-white/70"}`}
-                required
-                value={footerContact.consultationType}
-                onChange={(e) => {
-                  setFooterContact((p) => ({ ...p, consultationType: e.target.value }));
-                  setFooterContactState((s) =>
-                    s.ok || s.error ? { loading: false, ok: false, error: "" } : s,
-                  );
-                }}
-              >
-                <option value="" disabled className="text-[#ffffff]">Consultation Type *</option>
-                {CONSULTATION_TYPES.map((type) => (
-                  <option key={type} value={type} className="text-[#fffff]">{type}</option>
-                ))}
-              </select>
+                <select
+                  className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
+                    isRTL ? "text-right" : "text-left"
+                  } ${footerContact.consultationType ? "text-white" : "text-white/35"}`}
+                  required
+                  value={footerContact.consultationType}
+                  onChange={(e) => {
+                    setFooterContact((p) => ({ ...p, consultationType: e.target.value }));
+                    setFooterContactState((s) =>
+                      s.ok || s.error ? { loading: false, ok: false, error: "" } : s,
+                    );
+                  }}
+                >
+                  <option value="" disabled className="text-[#384967]">Consultation Type *</option>
+                  {CONSULTATION_TYPES.map((type) => (
+                    <option key={type} value={type} className="text-[#384967]">{type}</option>
+                  ))}
+                </select>
+              </div> */}
 
               <textarea
                 className={`min-h-[100px] w-full min-w-0 resize-none rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 py-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
@@ -538,14 +525,9 @@ function Footer() {
                 required
                 value={footerContact.message}
                 onChange={(e) => {
-                  setFooterContact((p) => ({
-                    ...p,
-                    message: e.target.value,
-                  }));
+                  setFooterContact((p) => ({ ...p, message: e.target.value }));
                   setFooterContactState((s) =>
-                    s.ok || s.error
-                      ? { loading: false, ok: false, error: "" }
-                      : s,
+                    s.ok || s.error ? { loading: false, ok: false, error: "" } : s,
                   );
                 }}
               />

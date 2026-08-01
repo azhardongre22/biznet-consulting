@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import Service1 from "../assets/images/project-development.png";
-import Service2 from "../assets/images/project-management.png";
-import Service3 from "../assets/images/branding3.png";
-import Service4 from "../assets/images/hospitality.png";
-import Service5 from "../assets/images/business-formation.png";
+import Service1 from "../assets/images/optimized/project-development.webp";
+import Service2 from "../assets/images/optimized/project-management.webp";
+import Service3 from "../assets/images/optimized/branding3.webp";
+import Service4 from "../assets/images/optimized/hospitality.webp";
+import Service5 from "../assets/images/optimized/business-formation.webp";
 import { useLanguage } from "../i18n/LanguageContext";
 
 const serviceImages = [Service1, Service2, Service5, Service4, Service3];
@@ -359,21 +359,18 @@ function ServiceGrid({ variant = "dark" }) {
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_18%,rgba(14,65,116,0.16),transparent_38%),radial-gradient(circle_at_8%_85%,rgba(56,73,103,0.14),transparent_40%)]" />
 
-      <div className="pointer-events-none absolute inset-0 opacity-[0.04]">
-        {/* <div className="h-full w-full bg-[linear-gradient(to_right,#7C878E_1px,transparent_1px),linear-gradient(to_bottom,#7C878E_1px,transparent_1px)] bg-[size:140px_140px]" /> */}
-      </div>
-
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-[1540px] flex-col px-5 py-10 sm:px-7 sm:py-12 md:h-screen md:min-h-0 md:px-12 md:py-12 lg:px-[102px] lg:py-14">
+      
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-[1540px] flex-col px-5 py-10 sm:px-7 sm:py-12 md:h-screen md:min-h-0 md:px-12 md:pt-2 lg:px-[102px] lg:pt-4">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-12%" }}
           transition={{ duration: 0.9, ease: EASE }}
-          className="mb-8 flex shrink-0 flex-col gap-5 md:mb-8 lg:mb-10"
+          className="mb-8 flex shrink-0 flex-col gap-5 md:mb-8 lg:mb-4"
         >
           <div className="flex flex-col gap-1.5">
             <span
-              className={`${isLight ? "text-[#384967]" : "text-[#7C878E]"} ${
+              className={`${isLight ? "text-[#384967]" : "text-[#7C878E] "} ${
                 isRTL
                   ? "text-[11px] tracking-normal sm:text-[12px] md:text-[13px] lg:text-[14px]"
                   : "text-[9px] uppercase tracking-[0.32em] sm:text-[10px] md:text-[11px] md:tracking-[0.46em] lg:text-[12px]"

@@ -142,7 +142,7 @@ export default function ContactUsPage() {
                 </h1>
 
                 <p
-                  className={`mt-8 max-w-lg break-words text-justify font-['Aktiv_Grotesk'] text-[#5F6F7A] [word-spacing:-0.04em] ${
+                  className={`mt-8 max-w-xl break-words text-justify font-['Aktiv_Grotesk'] text-[#5F6F7A] [word-spacing:-0.04em] ${
                     isRTL
                       ? "whitespace-pre-line text-[18px] font-light leading-[1.85] sm:text-[20px]"
                       : "text-base leading-8 [hyphens:auto] sm:text-lg"
@@ -177,7 +177,7 @@ export default function ContactUsPage() {
                         href="tel:+97143433334"
                         className="block transition hover:text-[#0E4174]"
                       >
-                        04 343 3334
+                        +971 4 343 3334
                       </a>
                     </div>
                   </div>

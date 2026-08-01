@@ -3,7 +3,9 @@ import { motion } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
 
 const imageModules = {
-  ...import.meta.glob("../assets/images/success-stories*.png", {
+  // PNG/WEBP sources are optimized into optimized/*.webp by npm run
+  // optimize:images. SVGs are left untouched at their original location.
+  ...import.meta.glob("../assets/images/optimized/success-stories*.webp", {
     eager: true,
     query: "?url",
     import: "default",
@@ -13,15 +15,14 @@ const imageModules = {
     query: "?url",
     import: "default",
   }),
-  ...import.meta.glob("../assets/images/success-stories*.webp", {
-    eager: true,
-    query: "?url",
-    import: "default",
-  }),
 };
 
 const images = Object.entries(imageModules)
-  .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+  // Order by file name (success-stories1..7) regardless of the folder the
+  // asset lives in — optimized WebPs and original SVGs sit in different dirs.
+  .sort(([a], [b]) =>
+    a.split("/").pop().localeCompare(b.split("/").pop(), undefined, { numeric: true }),
+  )
   .map(([, url]) => url);
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -37,7 +38,7 @@ export default function SuccessStories({ variant = "light" }) {
 
   return (
     <section
-      className={`relative w-full overflow-hidden py-20 md:py-28 ${
+      className={`relative w-full overflow-hidden py-28 md:py-32 ${
         isDark
           ? "bg-gradient-to-b from-[#384967] to-[#020812]"
           : "bg-gradient-to-b from-[#DDE5E8] to-[#7C878E]"
@@ -50,14 +51,7 @@ export default function SuccessStories({ variant = "light" }) {
         transition={{ duration: 0.9, ease: EASE }}
         className="relative z-10 mx-auto mb-12 max-w-4xl px-6 text-center md:mb-16"
       >
-        <p
-          className={`mb-4 text-[11px] font-medium uppercase tracking-[0.4em] ${
-            isDark ? "text-[#9FB4D4]" : "text-[#0E4174]"
-          }`}
-        >
-          {t("successStories.eyebrow")}
-        </p>
-
+       
         <h2
           className={`font-headline text-[32px] font-light leading-[1.05] tracking-[-0.03em] md:text-[46px] lg:text-[54px] ${
             isDark ? "text-[#EEF3F8]" : "text-[#384967]"

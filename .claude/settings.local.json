@@ -19,7 +19,11 @@
       "Bash(node -e \"['src/components/CEOMessage.jsx','src/components/Footer.jsx','src/components/ServiceGrid.jsx','src/pages/ContactUsPage.jsx','src/pages/AboutUsPage.jsx','src/i18n/translations.js'].forEach\\(f=>{const c=require\\('fs'\\).readFileSync\\(f,'utf8'\\); require\\('@babel/parser'\\).parse\\(c,{sourceType:'module',plugins:['jsx']}\\); console.log\\(f,'OK'\\)}\\)\")",
       "Bash(node -e \"const c = require\\('fs'\\).readFileSync\\('src/pages/Homepage.jsx','utf8'\\); require\\('@babel/parser'\\).parse\\(c,{sourceType:'module',plugins:['jsx']}\\); console.log\\('OK'\\)\")",
       "Bash(node -e \"const c=require\\('fs'\\).readFileSync\\('src/components/HeroSlider.jsx','utf8'\\); require\\('@babel/parser'\\).parse\\(c,{sourceType:'module',plugins:['jsx']}\\); console.log\\('OK'\\)\")",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "PowerShell(Get-Process -Name \"node\" -ErrorAction SilentlyContinue)",
+      "Bash(python \"C:\\\\Users\\\\Muhamed Azhar\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"compact form layout professional consulting\" --design-system -f markdown)",
+      "Bash(python \"C:\\\\Users\\\\Muhamed Azhar\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"consulting firm footer dark professional minimal\" --design-system -f markdown)",
+      "Bash(npx eslint *)"
     ]
   }
 }

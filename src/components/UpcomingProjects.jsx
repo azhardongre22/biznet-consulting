@@ -16,7 +16,7 @@ const stagger = {
 function UpcomingProjects() {
   const { t } = useLanguage();
   return (
-    <section className="relative w-full overflow-hidden bg-[#DDE5E8] py-[100px] md:py-[140px]">
+    <section className="relative w-full overflow-hidden bg-[#DDE5E8] pt-[10px] md:py-[20px]">
       {/* Atmospheric radial palette wash */}
       <div
         className="pointer-events-none absolute inset-0 opacity-70"

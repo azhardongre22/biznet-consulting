@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import mysql from "mysql2/promise";
 import nodemailer from "nodemailer";
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -283,6 +284,11 @@ app.post("/api/contact", async (req, res) => {
 
     const derivedName = name || [firstName, lastName].filter(Boolean).join(" ");
 
+    // The company-profile Lead Modal does not collect a consultation type,
+    // so that field is not required for this specific form. Every other
+    // form still must send a valid consultation type.
+    const isLeadModal = source === "lead-modal";
+
     if (!derivedName) {
       return res.status(400).json({ ok: false, error: "Name is required." });
     }
@@ -292,7 +298,10 @@ app.post("/api/contact", async (req, res) => {
     if (!phone) {
       return res.status(400).json({ ok: false, error: "Phone number is required." });
     }
-    if (!consultationType || !VALID_CONSULTATION_TYPES.includes(consultationType)) {
+    if (
+      !isLeadModal &&
+      (!consultationType || !VALID_CONSULTATION_TYPES.includes(consultationType))
+    ) {
       return res.status(400).json({ ok: false, error: "A valid consultation type is required." });
     }
     if (!message || message.length < 3) {
@@ -311,7 +320,7 @@ app.post("/api/contact", async (req, res) => {
       `Name: ${derivedName}`,
       `Email: ${email}`,
       `Phone: ${phone}`,
-      `Consultation Type: ${consultationType}`,
+      consultationType ? `Consultation Type: ${consultationType}` : null,
       source ? `Source: ${source}` : null,
       "",
       "Message:",
@@ -724,12 +733,15 @@ app.post("/api/newsletter/unsubscribe", async (req, res) => {
 });
 
 function buildContactAutoReplyText({ name, consultationType }) {
+  const enquiryLine = consultationType
+    ? `We've received your enquiry regarding "${consultationType}" and a member of our team will be in touch with you shortly.`
+    : "We've received your enquiry and a member of our team will be in touch with you shortly.";
   return [
     `Hi ${name},`,
     "",
     "Thank you for reaching out to Biznet Consulting.",
     "",
-    `We've received your enquiry regarding "${consultationType}" and a member of our team will be in touch with you shortly.`,
+    enquiryLine,
     "",
     "In the meantime, feel free to explore our work at biznetconsulting.ae or reach us directly:",
     `  Email: ${COMPANY.email}`,
@@ -743,6 +755,9 @@ function buildContactAutoReplyText({ name, consultationType }) {
 
 function buildContactAutoReplyHtml({ name, consultationType }) {
   const year = new Date().getFullYear();
+  const enquiryHtml = consultationType
+    ? `We've received your enquiry regarding <strong style="color:#eef3f8;">${consultationType}</strong> and a member of our team will be in touch with you shortly.`
+    : "We've received your enquiry and a member of our team will be in touch with you shortly.";
   return `<!doctype html>
 <html>
   <body style="margin:0;padding:0;background:#020812;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#eef3f8;">
@@ -754,7 +769,7 @@ function buildContactAutoReplyHtml({ name, consultationType }) {
               <td>
                 <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.42em;text-transform:uppercase;color:#d3ad49;">Enquiry Received</p>
                 <h1 style="margin:0 0 20px;font-size:28px;line-height:1.25;font-weight:300;color:#eef3f8;">Thank you, <span style="color:#5aa9d6;font-style:italic;">${name}.</span></h1>
-                <p style="margin:0 0 16px;font-size:15px;line-height:1.75;color:#b6c8d9;">We've received your enquiry regarding <strong style="color:#eef3f8;">${consultationType}</strong> and a member of our team will be in touch with you shortly.</p>
+                <p style="margin:0 0 16px;font-size:15px;line-height:1.75;color:#b6c8d9;">${enquiryHtml}</p>
                 <p style="margin:0 0 16px;font-size:15px;line-height:1.75;color:#b6c8d9;">In the meantime, feel free to reach us directly:</p>
                 <p style="margin:0 0 6px;font-size:13px;line-height:1.7;color:#b6c8d9;">
                   <a href="mailto:${COMPANY.email}" style="color:#d3ad49;text-decoration:none;">${COMPANY.email}</a>
@@ -1028,6 +1043,164 @@ app.get("/api/subscribers.csv", async (req, res) => {
   } catch (err) {
     console.error("GET /api/subscribers.csv failed:", err?.message || err);
     res.status(500).send("Failed to read subscribers.");
+  }
+});
+
+// ============================================================================
+// Press content (READ-ONLY) — served directly from MySQL by THIS backend.
+// ----------------------------------------------------------------------------
+// The public site reads press releases from here, NOT from the CMS admin API.
+// MySQL is the single source of truth: the CMS writes to it, the website reads
+// from it. So the CMS admin API (biznet-cms-api) can be down/restarting and the
+// public site keeps serving whatever is in the database.
+//
+// Uploaded hero images are static files. In production Nginx serves /uploads/
+// directly; locally this backend serves them from PRESS_UPLOADS_DIR. Either
+// way, image serving does not depend on the CMS API either.
+// ============================================================================
+
+// Lazy MySQL pool so the contact/newsletter features still start without DB
+// config, and a DB blip never crashes the whole server.
+let _pressPool = null;
+function pressPool() {
+  if (!_pressPool) {
+    _pressPool = mysql.createPool({
+      host: process.env.DB_HOST || "127.0.0.1",
+      port: Number(process.env.DB_PORT || 3306),
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME || "biznet_admin",
+      waitForConnections: true,
+      connectionLimit: 5,
+      queueLimit: 0,
+      charset: "utf8mb4",
+      timezone: "Z",
+    });
+  }
+  return _pressPool;
+}
+async function pressQuery(sql, params = []) {
+  const [rows] = await pressPool().execute(sql, params);
+  return rows;
+}
+
+// Uploaded media root (local dev). Point PRESS_UPLOADS_DIR at the CMS uploads
+// folder, e.g. D:\Biznet\Biznet CMS\server\uploads\cms
+const PRESS_UPLOADS_DIR =
+  process.env.PRESS_UPLOADS_DIR || path.join(__dirname, "uploads", "cms");
+app.use(
+  "/uploads/cms",
+  express.static(PRESS_UPLOADS_DIR, { maxAge: "7d", fallthrough: true }),
+);
+
+function pressMediaUrl(filePath) {
+  if (!filePath) return null;
+  const base = (process.env.UPLOADS_PUBLIC_BASE || "/uploads/cms").replace(
+    /\/+$/,
+    "",
+  );
+  return `${base}/${String(filePath).replace(/^\/+/, "")}`;
+}
+function pressHumanDate(dt) {
+  if (!dt) return null;
+  const d = dt instanceof Date ? dt : new Date(dt);
+  if (Number.isNaN(d.getTime())) return null;
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+}
+function pressIsoDate(dt) {
+  if (!dt) return null;
+  const d = dt instanceof Date ? dt : new Date(dt);
+  if (Number.isNaN(d.getTime())) return null;
+  return d.toISOString().slice(0, 10);
+}
+// Shapes a DB row into the object the public press components consume (keys
+// mirror the old src/data/pressReleases.js).
+function pressToPublic(row, { withBody = false } = {}) {
+  const out = {
+    slug: row.slug,
+    group: row.section,
+    category: row.category,
+    title: row.title,
+    excerpt: row.excerpt,
+    author: row.author,
+    readTime: row.read_time,
+    date: pressHumanDate(row.published_at),
+    isoDate: pressIsoDate(row.published_at),
+    image: pressMediaUrl(row.hero_file_path) || row.hero_image_url || null,
+    imageAlt: row.hero_image_alt,
+    slideHeading: row.slide_heading || undefined,
+    slideKicker: row.slide_kicker || undefined,
+    slideCta: row.slide_cta || undefined,
+    featured: !!row.is_featured,
+  };
+  if (withBody) out.body = row.body_html;
+  return out;
+}
+const PRESS_COLS = `pr.id, pr.slug, pr.section, pr.category, pr.title,
+  pr.excerpt, pr.author, pr.read_time, pr.hero_media_id, pr.hero_image_url,
+  pr.hero_image_alt, pr.slide_heading, pr.slide_kicker, pr.slide_cta,
+  pr.is_featured, pr.published_at, m.file_path AS hero_file_path`;
+const PRESS_FROM = `FROM press_releases pr
+  LEFT JOIN cms_media m ON m.id = pr.hero_media_id AND m.deleted_at IS NULL`;
+
+// GET /api/press-releases[?section=press|ceo] — published only, newest first.
+app.get("/api/press-releases", async (req, res) => {
+  try {
+    const { section } = req.query;
+    const where = ["pr.status = 'published'"];
+    const params = [];
+    if (section === "press" || section === "ceo") {
+      where.push("pr.section = ?");
+      params.push(section);
+    }
+    const rows = await pressQuery(
+      `SELECT ${PRESS_COLS} ${PRESS_FROM}
+        WHERE ${where.join(" AND ")}
+        ORDER BY pr.published_at DESC, pr.sort_order ASC, pr.id DESC`,
+      params,
+    );
+    res.json({ ok: true, items: rows.map((r) => pressToPublic(r)) });
+  } catch (err) {
+    console.error("GET /api/press-releases failed:", err?.message || err);
+    res
+      .status(503)
+      .json({ ok: false, error: "Press content is temporarily unavailable." });
+  }
+});
+
+// GET /api/press-releases/:slug
+app.get("/api/press-releases/:slug", async (req, res) => {
+  try {
+    const rows = await pressQuery(
+      `SELECT ${PRESS_COLS}, pr.body_html ${PRESS_FROM}
+        WHERE pr.slug = ? AND pr.status = 'published' LIMIT 1`,
+      [req.params.slug],
+    );
+    const row = rows[0];
+    if (!row) return res.status(404).json({ ok: false, error: "Article not found." });
+
+    const related = await pressQuery(
+      `SELECT ${PRESS_COLS} ${PRESS_FROM}
+        WHERE pr.section = ? AND pr.slug <> ? AND pr.status = 'published'
+        ORDER BY pr.published_at DESC, pr.sort_order ASC LIMIT 3`,
+      [row.section, row.slug],
+    );
+
+    res.json({
+      ok: true,
+      article: pressToPublic(row, { withBody: true }),
+      related: related.map((r) => pressToPublic(r)),
+    });
+  } catch (err) {
+    console.error("GET /api/press-releases/:slug failed:", err?.message || err);
+    res
+      .status(503)
+      .json({ ok: false, error: "Press content is temporarily unavailable." });
   }
 });
 

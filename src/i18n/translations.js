@@ -21,10 +21,14 @@ export const translations = {
       home: "Home",
       about: "About Us",
       services: "Services",
+      projects: "Projects",
+      news: "News & Insights",
       contact: "Contact",
       tagStart: "Start",
       tagWhoWeAre: "Who We Are",
       tagWhatWeDo: "What We Do",
+      tagProjects: "Coming Soon",
+      tagNews: "Newsroom",
       tagGetInTouch: "Get In Touch",
       menuOpen: "Open menu",
       menuClose: "Close menu",
@@ -154,18 +158,27 @@ export const translations = {
     },
 
     leadModal: {
-      eyebrow: "Let's Talk",
-      title: "Great developments begin long before construction.",
+      eyebrow: "Company Profile Access",
+      title: "View Our Company Profile",
       lead:
-        "From feasibility and planning to approvals and execution, every successful project begins with informed decisions.",
+        "Preview the Biznet Consultancy company profile below. To access and download the complete profile, please share your details and connect with our team.",
+      previewNote:
+        "This is a preview of our company profile. Submit your details to unlock and download the complete profile.",
+      previewBadge: "Preview",
+      fullscreen: "View full screen",
+      mobileInfo:
+        "Submit the form to receive the complete company profile. After successful submission, the full PDF will download automatically.",
+      exitFullscreen: "Exit full screen",
+      downloadUnlockedCta: "Download Full Company Profile",
+      downloadFallback:
+        "If your download doesn't start automatically, click here.",
       namePlaceholder: "Name",
       emailPlaceholder: "Email *",
       phonePlaceholder: "Phone *",
-      consultationTypePlaceholder: "Consultation Type *",
       messagePlaceholder: "Tell us about your project",
-      submitCta: "Tap The Team",
-      sendingState: "Sending...",
-      ok: "Thank you — we received your message and will be in touch shortly.",
+      submitCta: "Submit & Unlock Profile",
+      sendingState: "Submitting...",
+      ok: "Thank you. Your details have been submitted successfully. You can now download the complete company profile.",
       close: "Close",
     },
 
@@ -313,7 +326,7 @@ export const translations = {
           num: "01",
           label: "Project Development",
           intro:
-            "We bring developers' and landowners' vision and art into reality from the earliest stage of feasibility, project development, and management—shaping the right concept, land usage, product mix, and management approach. Our focus is on built outcomes that are not only feasible, but relevant to their location, audience, and long-term purpose.",
+            "We bring developers and landowners vision and art into reality from the earliest stage of feasibility, project development, and management—shaping the right concept, land usage, product mix, and management approach. Our focus is on built outcomes that are not only feasible, but relevant to their location, audience, and long-term purpose.",
         },
         {
           num: "02",
@@ -405,14 +418,14 @@ export const translations = {
     },
 
     pressRelease: {
-      eyebrow: "Press Release",
-      headlinePrefix: "Stories worth",
-      headlineEm: "sharing",
-      cardEyebrow: "Going Live Shortly",
+      eyebrow: "News & Insights",
+      headlinePrefix: "Coming",
+      headlineEm: "soon",
+      cardEyebrow: "Articles In Progress",
       cardDescription:
-        "Announcements, recognitions, partnerships and leadership updates are on the way. Join the list and we'll send each one the moment it's published.",
-      buttonLabel: "Keep Me Posted",
-      footerLabel: "Press Release",
+        "Our News & Insights stories are being prepared and will be published soon.\nMeanwhile, connect with us for any enquiry.",
+      buttonLabel: "Contact Us",
+      footerLabel: "News & Insights",
     },
 
     privacyPolicy: {
@@ -748,10 +761,14 @@ export const translations = {
       home: "الرئيسية",
       about: "من نحن",
       services: "خدماتنا",
+      projects: "مشاريع",
+      news: "الأخبار والرؤى",
       contact: "تواصل معنا",
       tagStart: "البداية",
       tagWhoWeAre: "من نحن",
       tagWhatWeDo: "ماذا نعمل",
+      tagProjects: "قريبا",
+      tagNews: "غرفة الأخبار",
       tagGetInTouch: "تواصل معنا",
       menuOpen: "فتح القائمة",
       menuClose: "إغلاق القائمة",
@@ -877,18 +894,26 @@ export const translations = {
     },
 
     leadModal: {
-      eyebrow: "لنتحدّث",
-      title: "المشاريع المتميّزة تبدأ قبل الإنشاء بزمن طويل",
+      eyebrow: "الوصول إلى ملف الشركة",
+      title: "اطّلع على ملف شركتنا",
       lead:
-        "من دراسات الجدوى والتخطيط، إلى الاعتمادات والتنفيذ، يبدأ كلّ مشروع ناجح بقرارات مدروسة",
+        "اطّلع على ملف شركة بزنت للاستشارات أدناه. وللوصول إلى الملف الكامل وتنزيله، يُرجى مشاركة بياناتك والتواصل مع فريقنا",
+      previewNote:
+        "هذه معاينة لملف شركتنا. أرسل بياناتك لفتح الملف الكامل وتنزيله",
+      previewBadge: "معاينة",
+      fullscreen: "عرض ملء الشاشة",
+      mobileInfo:
+        "أرسل النموذج لاستلام ملف الشركة الكامل. بعد الإرسال بنجاح، سيتم تنزيل ملف PDF الكامل تلقائيًا.",
+      exitFullscreen: "إنهاء ملء الشاشة",
+      downloadUnlockedCta: "تنزيل ملف الشركة الكامل",
+      downloadFallback: "إذا لم يبدأ التنزيل تلقائيًا، انقر هنا",
       namePlaceholder: "الاسم",
       emailPlaceholder: "البريد الإلكتروني *",
       phonePlaceholder: "رقم الهاتف *",
-      consultationTypePlaceholder: "نوع الاستشارة *",
       messagePlaceholder: "حدّثنا عن مشروعك",
-      submitCta: "تواصل مع الفريق",
-      sendingState: "جار الإرسال...",
-      ok: "شكرا لك، استلمنا رسالتك وسنعاود التواصل معك قريبا",
+      submitCta: "إرسال وفتح الملف",
+      sendingState: "جارٍ الإرسال...",
+      ok: "شكرًا لك. تم إرسال بياناتك بنجاح. يمكنك الآن تنزيل ملف الشركة الكامل",
       close: "إغلاق",
     },
 
@@ -1138,14 +1163,14 @@ export const translations = {
     },
 
     pressRelease: {
-      eyebrow: "البيانات الصحفية",
-      headlinePrefix: "قصص تستحقّ",
-      headlineEm: "أن تروى",
-      cardEyebrow: "قريبا جدّا",
+      eyebrow: "الأخبار والرؤى",
+      headlinePrefix: "قريبا",
+      headlineEm: "جدّا",
+      cardEyebrow: "المقالات قيد الإعداد",
       cardDescription:
-        "إعلانات، وتكريمات، وشراكات، ومستجدّات قيادية في طريقها إليك\nانضمّ إلى القائمة ليصلك كلّ جديد فور نشره",
-      buttonLabel: "أبقني على اطّلاع",
-      footerLabel: "البيانات الصحفية",
+        "قصص الأخبار والرؤى قيد الإعداد وستُنشر قريبا\nفي هذه الأثناء، تواصل معنا لأي استفسار",
+      buttonLabel: "تواصل معنا",
+      footerLabel: "الأخبار والرؤى",
     },
 
     privacyPolicy: {
