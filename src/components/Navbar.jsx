@@ -4,7 +4,7 @@ import { Globe } from "lucide-react";
 import FavIconLogo from "../assets/images/optimized/BN_Logo.webp";
 import LogoText from "../assets/images/optimized/biznet-sec-white.webp";
 import TagLine from "../assets/images/optimized/biznet-tagline.webp";
-import UpcomingProjectsImg from "../assets/images/upcoming-projects.png";
+import UpcomingProjectsImg from "../assets/images/optimized/upcoming-projects.webp";
 import pressReleaseImage from "../assets/images/optimized/press-release.webp";
 import { useLanguage } from "../i18n/LanguageContext";
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import SuccessStories from "../components/SuccessStories";
 import LeadModal from "../components/LeadModal";
-import heroBg from "../assets/images/business formation slider.png";
+import heroBg from "../assets/images/optimized/business formation slider.webp";
 const WhoWeAreSection = lazy(() => import("../components/WhoWeAreSection"));
 const ExploreGrid = lazy(() => import("../components/ExploreGrid"));
 const CEOMessage = lazy(() => import("../components/CEOMessage"));

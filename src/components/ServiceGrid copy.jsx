@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import Service1 from "../assets/images/project-development.png";
-import Service2 from "../assets/images/project-management.png";
-import Service3 from "../assets/images/branding3.png";
-import Service4 from "../assets/images/hospitality.png";
-import Service5 from "../assets/images/business-formation.png";
+import Service1 from "../assets/images/optimized/project-development.webp";
+import Service2 from "../assets/images/optimized/project-management.webp";
+import Service3 from "../assets/images/optimized/branding3.webp";
+import Service4 from "../assets/images/optimized/hospitality.webp";
+import Service5 from "../assets/images/optimized/business-formation.webp";
 import { useLanguage } from "../i18n/LanguageContext";
 
 const serviceImages = [Service1, Service2, Service5, Service4, Service3];

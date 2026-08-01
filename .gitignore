@@ -22,6 +22,22 @@ subscribers.json
 # Keep masters locally; never push the 60MB+ originals to GitHub.
 src/assets/company-profile/*.pdf
 
+# Raster image masters — keep locally; only push optimized WebP (+ SVGs/JSON).
+# Run `npm run optimize:images` after changing a source, then commit optimized/.
+src/assets/images/**/*.png
+src/assets/images/**/*.jpg
+src/assets/images/**/*.jpeg
+src/assets/images/**/*.webp
+!src/assets/images/optimized/
+!src/assets/images/optimized/**
+
+src/assets/icons/**/*.png
+src/assets/icons/**/*.jpg
+src/assets/icons/**/*.jpeg
+src/assets/icons/**/*.webp
+!src/assets/icons/optimized/
+!src/assets/icons/optimized/**
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

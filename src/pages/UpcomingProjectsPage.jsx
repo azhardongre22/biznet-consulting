@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
-import bgImage from "../assets/images/upcoming-projects.png";
+import bgImage from "../assets/images/optimized/upcoming-projects.webp";
 import { useLanguage } from "../i18n/LanguageContext";
 
 const Footer = lazy(() => import("../components/Footer"));
