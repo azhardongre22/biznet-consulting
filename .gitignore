@@ -18,6 +18,10 @@ dist-ssr
 data/
 subscribers.json
 
+# Large source brochure PDFs — app imports only from optimized/
+# Keep masters locally; never push the 60MB+ originals to GitHub.
+src/assets/company-profile/*.pdf
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
