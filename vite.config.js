@@ -9,15 +9,20 @@ export default defineConfig({
     // Distinct port so this can run alongside the CMS admin SPA (5173).
     port: 5174,
     proxy: {
-      // Everything the site needs is served by its OWN backend (:3001):
-      // contact/newsletter, press content (from MySQL), and uploaded media.
-      // The CMS admin API (:3010) is NOT a dependency of the public site.
-      "/api": {
-        target: "http://localhost:3001",
+      // CMS public API (biznet-cms-api) — press releases, etc.
+      // Must be registered before the broader /api rule.
+      "/api/cms": {
+        target: "http://127.0.0.1:3010",
         changeOrigin: true,
       },
+      // Site API (contact, newsletter) — leave on the public Biznet API.
+      "/api": {
+        target: "http://127.0.0.1:3001",
+        changeOrigin: true,
+      },
+      // CMS-uploaded media (heroes, etc.). In production Nginx serves this.
       "/uploads": {
-        target: "http://localhost:3001",
+        target: "http://127.0.0.1:3010",
         changeOrigin: true,
       },
     },

@@ -3,7 +3,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import PressCard from "../components/press/PressCard";
 import { fetchPressArticle } from "../lib/cms";
-// Bundled fallback so a CMS outage never breaks the article page.
+// Bundled offline fallback if /api/cms/press-releases/:slug is unreachable.
 import { getArticleBySlug, getRelatedArticles } from "../data/pressReleases";
 import { EnglishOnly } from "../i18n/LanguageContext";
 

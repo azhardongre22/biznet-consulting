@@ -1,15 +1,13 @@
 // Press data access for the public site.
-// Reads from THIS site's OWN backend (server.js on :3001, proxied at /api),
-// which queries MySQL directly. It does NOT depend on the CMS admin API — the
-// CMS only writes to the database; the site reads from it. So the CMS API can
-// be offline and the site still serves whatever is in the database.
+// Reads from the Biznet CMS public API (same-origin /api/cms/…), which is
+// served by the biznet-cms-api process behind Nginx in production.
+// Do NOT call 127.0.0.1:3010 from the browser — use relative /api/cms paths.
 //
-// The endpoint shapes rows to match the old src/data/pressReleases.js keys
+// Response shapes match what the press UI already consumes
 // (slug, group, category, title, excerpt, author, readTime, date, isoDate,
-// image, imageAlt, slide*, featured, and body as sanitized HTML on the detail
-// endpoint), so the existing press components consume it unchanged.
+// image, imageAlt, slide*, featured, and body as sanitized HTML on detail).
 
-const CMS_BASE = import.meta.env.VITE_PRESS_API_BASE || "/api";
+const CMS_BASE = import.meta.env.VITE_CMS_API_BASE || "/api/cms";
 
 // Fail fast-ish so a hung API doesn't freeze the page; callers fall back.
 async function getJson(url, { timeoutMs = 8000 } = {}) {
@@ -37,7 +35,9 @@ export async function fetchPressList() {
 // GET /api/cms/press-releases/:slug
 // Returns { notFound: true } for a 404, else { article, related }.
 export async function fetchPressArticle(slug) {
-  const res = await getJson(`${CMS_BASE}/press-releases/${encodeURIComponent(slug)}`);
+  const res = await getJson(
+    `${CMS_BASE}/press-releases/${encodeURIComponent(slug)}`,
+  );
   if (res.status === 404) return { notFound: true };
   if (!res.ok) throw new Error(`Article request failed (${res.status})`);
   const data = await res.json();

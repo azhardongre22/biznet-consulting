@@ -4,8 +4,7 @@ import Navbar from "../components/Navbar";
 import PressHeroSlider from "../components/press/PressHeroSlider";
 import PressCard from "../components/press/PressCard";
 import { fetchPressList } from "../lib/cms";
-// Bundled data — used as an offline fallback so the page never breaks if the
-// CMS API is unreachable.
+// Bundled offline fallback if /api/cms/press-releases is unreachable.
 import { PRESS_RELEASES } from "../data/pressReleases";
 import { EnglishOnly } from "../i18n/LanguageContext";
 
