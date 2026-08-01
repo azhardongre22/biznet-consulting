@@ -3,19 +3,15 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import PressCard from "../components/press/PressCard";
 import { fetchPressArticle } from "../lib/cms";
-// Bundled offline fallback if /api/cms/press-releases/:slug is unreachable.
-import { getArticleBySlug, getRelatedArticles } from "../data/pressReleases";
 import { EnglishOnly } from "../i18n/LanguageContext";
 
 const Footer = lazy(() => import("../components/Footer"));
 
 const HEAD = "#0E4174";
 
-// Renders the article body. The CMS sends sanitized HTML (already run through a
-// strict server-side allowlist), while the bundled fallback uses a block array.
-// We support both shapes.
+// CMS article bodies are sanitized HTML from /api/cms/press-releases/:slug.
 function ArticleBody({ body }) {
-  if (typeof body === "string") {
+  if (typeof body === "string" && body.trim()) {
     return (
       <div
         className="press-prose"
@@ -23,72 +19,7 @@ function ArticleBody({ body }) {
       ></div>
     );
   }
-
-  const blocks = Array.isArray(body) ? body : [];
-  return (
-    <div className="space-y-8 font-['Aktiv_Grotesk'] text-[17px] font-light leading-[1.92] text-[#2a2a26]">
-      {blocks.map((block, i) => {
-        if (typeof block === "string") {
-          return (
-            <p key={i} className="text-[17px] leading-[1.92]">
-              {block}
-            </p>
-          );
-        }
-        if (block.h) {
-          return (
-            <h2
-              key={i}
-              className="mt-14 font-['Ivy_Presto'] text-[clamp(24px,2.4vw,32px)] font-light leading-[1.18] tracking-[-0.02em]"
-              style={{ color: HEAD }}
-            >
-              {block.h}
-            </h2>
-          );
-        }
-        if (block.quote) {
-          return (
-            <figure
-              key={i}
-              className="my-14 border-l-2 border-[#0E4174] bg-[#fbfaf6] py-10 pl-10 pr-8"
-            >
-              <blockquote
-                className="font-['Ivy_Presto'] text-[clamp(22px,2.1vw,28px)] font-light italic leading-[1.42]"
-                style={{ color: HEAD }}
-              >
-                “{block.quote}”
-              </blockquote>
-              {block.by ? (
-                <figcaption className="mt-6 flex items-center gap-3 font-['Aktiv_Grotesk'] text-[10px] font-medium uppercase tracking-[0.32em] text-[#77736a]">
-                  <span className="h-px w-8 bg-[#77736a]/60" />
-                  {block.by}
-                </figcaption>
-              ) : null}
-            </figure>
-          );
-        }
-        if (block.list?.length) {
-          return (
-            <ul key={i} className="my-2 space-y-3 pl-0">
-              {block.list.map((li, idx) => (
-                <li
-                  key={idx}
-                  className="relative pl-9 text-[16.5px] font-light leading-[1.8] text-[#2a2a26]"
-                >
-                  <span
-                    aria-hidden
-                    className="absolute left-0 top-[14px] h-px w-6 bg-[#0E4174]"
-                  />
-                  {li}
-                </li>
-              ))}
-            </ul>
-          );
-        }
-        return null;
-      })}
-    </div>
-  );
+  return null;
 }
 
 function LoadingShell() {
@@ -121,37 +52,21 @@ export default function PressArticle() {
     let alive = true;
     setStatus("loading");
 
-    // Fall back to the bundled copy of this article, if we have one.
-    const useFallback = () => {
-      const a = getArticleBySlug(slug);
-      if (!alive) return;
-      if (a) {
-        setArticle(a);
-        setRelated(getRelatedArticles(slug, 3));
-        setStatus("ready");
-      } else {
-        setStatus("notfound");
-      }
-    };
-
     (async () => {
       try {
         const res = await fetchPressArticle(slug);
         if (!alive) return;
-        if (res.notFound) {
-          // Published article genuinely not in the CMS → try bundled, else 404.
-          useFallback();
+        if (res.notFound || !res.article) {
+          setStatus("notfound");
           return;
         }
         setArticle(res.article);
-        setRelated(res.related);
+        setRelated(res.related || []);
         setStatus("ready");
       } catch (err) {
-        console.warn(
-          "[press] CMS unavailable, using bundled data:",
-          err.message,
-        );
-        useFallback();
+        console.warn("[press] CMS unavailable:", err.message);
+        if (!alive) return;
+        setStatus("notfound");
       }
     })();
 

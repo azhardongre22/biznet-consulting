@@ -14,8 +14,8 @@ dist-ssr
 .env
 .env.*
 
-# Newsletter subscriber storage
-data/
+# Newsletter subscriber storage (repo-root only — do not ignore src/data/)
+/data/
 subscribers.json
 
 # Large source brochure PDFs — app imports only from optimized/

@@ -4,8 +4,6 @@ import Navbar from "../components/Navbar";
 import PressHeroSlider from "../components/press/PressHeroSlider";
 import PressCard from "../components/press/PressCard";
 import { fetchPressList } from "../lib/cms";
-// Bundled offline fallback if /api/cms/press-releases is unreachable.
-import { PRESS_RELEASES } from "../data/pressReleases";
 import { EnglishOnly } from "../i18n/LanguageContext";
 
 const Footer = lazy(() => import("../components/Footer"));
@@ -57,8 +55,7 @@ function StateShell({ children }) {
 }
 
 export default function PressRelease() {
-  // "loading" | "ready"  — on API failure we fall back to bundled data and
-  // still render (status becomes "ready"), so the public page never breaks.
+  // "loading" | "ready" — empty CMS / errors still render a stable empty state.
   const [status, setStatus] = useState("loading");
   const [articles, setArticles] = useState([]);
 
@@ -68,15 +65,11 @@ export default function PressRelease() {
       try {
         const items = await fetchPressList();
         if (!alive) return;
-        setArticles(items.length ? items : PRESS_RELEASES);
+        setArticles(items);
       } catch (err) {
-        // Graceful fallback — keep the site working if the CMS is down.
-        console.warn(
-          "[press] CMS unavailable, using bundled data:",
-          err.message,
-        );
+        console.warn("[press] CMS unavailable:", err.message);
         if (!alive) return;
-        setArticles(PRESS_RELEASES);
+        setArticles([]);
       } finally {
         if (alive) setStatus("ready");
       }
