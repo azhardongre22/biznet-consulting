@@ -64,6 +64,7 @@ function Footer() {
   const [footerContact, setFooterContact] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
   });
   const [footerContactState, setFooterContactState] = useState({
@@ -133,8 +134,7 @@ function Footer() {
       if (!resp.ok || !data?.ok)
         throw new Error(data?.error || "Failed to send.");
       setFooterContactState({ loading: false, ok: true, error: "" });
-      // setFooterContact({ name: "", email: "", phone: "", consultationType: "", message: "" });
-      setFooterContact({ name: "", email: "", message: "" });
+      setFooterContact({ name: "", email: "", phone: "", message: "" });
     } catch (err) {
       setFooterContactState({
         loading: false,
@@ -479,43 +479,22 @@ function Footer() {
                 />
               </div>
 
-              {/* <div className="grid gap-3 sm:grid-cols-2">
-                <input
-                  className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
-                    isRTL ? "text-right" : "text-left"
-                  }`}
-                  placeholder="Phone *"
-                  type="tel"
-                  autoComplete="tel"
-                  required
-                  value={footerContact.phone}
-                  onChange={(e) => {
-                    setFooterContact((p) => ({ ...p, phone: e.target.value }));
-                    setFooterContactState((s) =>
-                      s.ok || s.error ? { loading: false, ok: false, error: "" } : s,
-                    );
-                  }}
-                />
-
-                <select
-                  className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
-                    isRTL ? "text-right" : "text-left"
-                  } ${footerContact.consultationType ? "text-white" : "text-white/35"}`}
-                  required
-                  value={footerContact.consultationType}
-                  onChange={(e) => {
-                    setFooterContact((p) => ({ ...p, consultationType: e.target.value }));
-                    setFooterContactState((s) =>
-                      s.ok || s.error ? { loading: false, ok: false, error: "" } : s,
-                    );
-                  }}
-                >
-                  <option value="" disabled className="text-[#384967]">Consultation Type *</option>
-                  {CONSULTATION_TYPES.map((type) => (
-                    <option key={type} value={type} className="text-[#384967]">{type}</option>
-                  ))}
-                </select>
-              </div> */}
+              <input
+                className={`h-11 min-h-[44px] w-full min-w-0 rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
+                  isRTL ? "text-right" : "text-left"
+                }`}
+                placeholder={t("leadModal.phonePlaceholder")}
+                type="tel"
+                autoComplete="tel"
+                required
+                value={footerContact.phone}
+                onChange={(e) => {
+                  setFooterContact((p) => ({ ...p, phone: e.target.value }));
+                  setFooterContactState((s) =>
+                    s.ok || s.error ? { loading: false, ok: false, error: "" } : s,
+                  );
+                }}
+              />
 
               <textarea
                 className={`min-h-[100px] w-full min-w-0 resize-none rounded-lg border border-white/10 bg-[#0a1420]/70 px-3 py-3 text-[13px] text-white placeholder:text-white/35 outline-none transition focus:border-[#7C878E]/55 focus:ring-2 focus:ring-[#7C878E]/20 sm:px-4 ${
