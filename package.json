@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "optimize:images": "node scripts/optimize-images.mjs",
     "optimize:brochures": "node scripts/optimize-brochures.mjs",
-    "optimize:assets": "npm run optimize:images && npm run optimize:brochures"
+    "optimize:assets": "npm run optimize:images && npm run optimize:brochures",
+    "generate:og": "node scripts/generate-og-assets.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",
