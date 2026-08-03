@@ -344,5 +344,35 @@ html[lang="ar"] [class*="text-[220px]"]:not(.lang-keep, .lang-keep *)  { font-si
 
 /* Escape hatch: add the `lang-keep` class to any element whose text is
    always English / never translated (brand wordmarks, email addresses,
-   watermarks, etc.). The element and all its descendants will keep their
-   original font, uppercase, and tracking even in Arabic mode. */
+   watermarks, CampaignLeadModal, etc.). The :not(.lang-keep, .lang-keep *)
+   rules above skip Arabic overrides; these rules also restore English fonts
+   so descendants do not inherit Portada from html[lang="ar"] body. */
+html[lang="ar"] .lang-keep {
+  font-family: var(--font-subtext) !important;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+html[lang="ar"] .lang-keep h1,
+html[lang="ar"] .lang-keep h2,
+html[lang="ar"] .lang-keep h3,
+html[lang="ar"] .lang-keep h4,
+html[lang="ar"] .lang-keep h5,
+html[lang="ar"] .lang-keep h6,
+html[lang="ar"] .lang-keep .font-headline {
+  font-family: var(--font-headline) !important;
+}
+
+html[lang="ar"] .lang-keep .font-subtext,
+html[lang="ar"] .lang-keep input,
+html[lang="ar"] .lang-keep textarea,
+html[lang="ar"] .lang-keep button,
+html[lang="ar"] .lang-keep p,
+html[lang="ar"] .lang-keep span,
+html[lang="ar"] .lang-keep label {
+  font-family: var(--font-subtext) !important;
+}
+
+html[lang="ar"] .lang-keep [class*="uppercase"] {
+  text-transform: uppercase !important;
+}

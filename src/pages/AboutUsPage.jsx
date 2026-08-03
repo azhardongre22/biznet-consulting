@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import ServiceSliderNew from "../components/ServiceSliderNew";
 import HeroSlider from "../components/HeroSlider";
+import { CampaignLeadModalOnLoad } from "../components/CampaignLeadModal";
 import Slider1Img from "../assets/images/optimized/about-slider-1-1.webp";
 import Slider2Img from "../assets/images/optimized/about-slider-2-2-2.webp";
 import Slider3Img from "../assets/images/optimized/about-slider-3.webp";
@@ -441,6 +442,8 @@ export default function AboutUsPage() {
       <Suspense fallback={null}>
         <Footer />
       </Suspense>
+
+      <CampaignLeadModalOnLoad />
     </main>
   );
 }

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import BnLogo from "../assets/images/optimized/BN_Logo.webp";
-import LeadModal from "./LeadModal";
+import CampaignLeadModal from "./CampaignLeadModal";
 
 const BNIcon = () => {
-  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
       {/* Floating BN Icon — brand fill keeps the white logo visible on light pages */}
       <button
         type="button"
-        onClick={() => setIsLeadModalOpen(true)}
+        onClick={() => setIsModalOpen(true)}
         aria-label="Open enquiry form"
         className="
           group fixed bottom-4 right-4 z-[9999]
@@ -37,13 +37,10 @@ const BNIcon = () => {
         />
       </button>
 
-      {/* Lead Modal */}
-      {isLeadModalOpen && (
-        <LeadModal
-          open={isLeadModalOpen}
-          onClose={() => setIsLeadModalOpen(false)}
-        />
-      )}
+      <CampaignLeadModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   );
 };

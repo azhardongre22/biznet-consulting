@@ -182,6 +182,26 @@ export const translations = {
       close: "Close",
     },
 
+    campaignLeadModal: {
+      title: "Company & Business Formation",
+      lead: "The foundation for successful businesses starts here.",
+      namePlaceholder: "Name *",
+      emailPlaceholder: "Email *",
+      phonePlaceholder: "Phone *",
+      messagePlaceholder: "Mention your business enquiry",
+      submitCta: "Start Your Business",
+      submittedCta: "Submitted",
+      sendingState: "Submitting...",
+      ok: "Thank you. Your details have been submitted successfully. Our team will be in touch shortly.",
+      close: "Close",
+      errors: {
+        nameRequired: "Name is required.",
+        emailRequired: "Email is required.",
+        emailInvalid: "Please enter a valid email address.",
+        phoneRequired: "Phone number is required.",
+      },
+    },
+
     aboutPage: {
       slides: [
         {
@@ -915,6 +935,26 @@ export const translations = {
       sendingState: "جارٍ الإرسال...",
       ok: "شكرًا لك. تم إرسال بياناتك بنجاح. يمكنك الآن تنزيل ملف الشركة الكامل",
       close: "إغلاق",
+    },
+
+    campaignLeadModal: {
+      title: "تأسيس الشركات والأعمال",
+      lead: "أساس الأعمال الناجحة يبدأ من هنا.",
+      namePlaceholder: "الاسم *",
+      emailPlaceholder: "البريد الإلكتروني *",
+      phonePlaceholder: "رقم الهاتف *",
+      messagePlaceholder: "اذكر استفسارك التجاري",
+      submitCta: "ابدأ عملك",
+      submittedCta: "تم الإرسال",
+      sendingState: "جارٍ الإرسال...",
+      ok: "شكرًا لك. تم إرسال بياناتك بنجاح. سيتواصل فريقنا معك قريبًا",
+      close: "إغلاق",
+      errors: {
+        nameRequired: "الاسم مطلوب.",
+        emailRequired: "البريد الإلكتروني مطلوب.",
+        emailInvalid: "يرجى إدخال بريد إلكتروني صالح.",
+        phoneRequired: "رقم الهاتف مطلوب.",
+      },
     },
 
     aboutPage: {

@@ -9,20 +9,21 @@ export default defineConfig({
     // Distinct port so this can run alongside the CMS admin SPA (5173).
     port: 5174,
     proxy: {
-      // CMS public API (biznet-cms-api) — press releases, etc.
-      // Must be registered before the broader /api rule.
+      // Press/CMS reads are served by this repo's server.js (port 3001),
+      // not the separate biznet-cms-api (3010). Rewrite /api/cms → /api.
       "/api/cms": {
-        target: "http://127.0.0.1:3010",
+        target: "http://127.0.0.1:3001",
         changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api\/cms/, "/api"),
       },
-      // Site API (contact, newsletter) — leave on the public Biznet API.
+      // Site API (contact, newsletter, press) — local Express backend.
       "/api": {
         target: "http://127.0.0.1:3001",
         changeOrigin: true,
       },
-      // CMS-uploaded media (heroes, etc.). In production Nginx serves this.
+      // CMS-uploaded media — also served by server.js from PRESS_UPLOADS_DIR.
       "/uploads": {
-        target: "http://127.0.0.1:3010",
+        target: "http://127.0.0.1:3001",
         changeOrigin: true,
       },
     },

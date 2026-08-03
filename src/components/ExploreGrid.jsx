@@ -256,20 +256,32 @@ export default function ExploreGrid() {
           letter-spacing: 0.34em;
         }
 
-        .explore-slider .eg-thumbnail {
+        .explore-slider .eg-controls {
           position: absolute;
           bottom: 50px;
           left: 50%;
+          z-index: 40;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 18px;
           width: max-content;
-          z-index: 30;
+        }
+
+        .explore-slider.is-rtl .eg-controls {
+          left: auto;
+          right: 50%;
+        }
+
+        .explore-slider .eg-thumbnail {
+          position: relative;
+          width: max-content;
           display: flex;
           gap: 20px;
         }
 
         .explore-slider.is-rtl .eg-thumbnail {
-          left: auto;
-          right: 50%;
-          flex-direction: row-reverse;
+          flex-direction: row;
         }
 
         .explore-slider .eg-thumbnail .eg-thumb-item {
@@ -367,26 +379,16 @@ export default function ExploreGrid() {
         }
 
         .explore-slider .eg-arrows {
-          position: absolute;
-          top: auto;
-          left: auto;
-          right: 28px;
-          bottom: calc(50px + 220px + 18px);
-          transform: none;
-          z-index: 40;
-          width: auto;
-          max-width: none;
+          position: relative;
           display: flex;
           gap: 12px;
           align-items: center;
           justify-content: center;
+          width: auto;
         }
 
         .explore-slider.is-rtl .eg-arrows {
-          right: auto;
-          left: 28px;
-          transform: none;
-          flex-direction: row-reverse;
+          flex-direction: row;
         }
 
         .explore-slider .eg-arrow {
@@ -551,34 +553,22 @@ export default function ExploreGrid() {
         }
 
         @media screen and (max-width: 900px) {
-          .explore-slider .eg-thumbnail {
+          .explore-slider .eg-controls {
             left: 42%;
-            gap: 14px;
           }
 
-          .explore-slider.is-rtl .eg-thumbnail {
+          .explore-slider.is-rtl .eg-controls {
             left: auto;
             right: 42%;
+          }
+
+          .explore-slider .eg-thumbnail {
+            gap: 14px;
           }
 
           .explore-slider .eg-thumbnail .eg-thumb-item {
             width: 112px;
             height: 168px;
-          }
-
-          .explore-slider .eg-arrows {
-            top: auto;
-            left: auto;
-            right: 24px;
-            bottom: calc(50px + 168px + 14px);
-            transform: none;
-            max-width: none;
-          }
-
-          .explore-slider.is-rtl .eg-arrows {
-            right: auto;
-            left: 24px;
-            transform: none;
           }
 
           .explore-slider .eg-content {
@@ -653,15 +643,19 @@ export default function ExploreGrid() {
             right: 24px;
           }
 
-          .explore-slider .eg-thumbnail {
+          .explore-slider .eg-controls {
             left: 24px;
             bottom: 24px;
-            gap: 10px;
+            gap: 12px;
           }
 
-          .explore-slider.is-rtl .eg-thumbnail {
+          .explore-slider.is-rtl .eg-controls {
             left: auto;
             right: 24px;
+          }
+
+          .explore-slider .eg-thumbnail {
+            gap: 10px;
           }
 
           .explore-slider .eg-thumbnail .eg-thumb-item {
@@ -671,20 +665,6 @@ export default function ExploreGrid() {
 
           .explore-slider .eg-thumb-caption {
             display: none;
-          }
-
-          .explore-slider .eg-arrows {
-            left: auto;
-            right: 16px;
-            bottom: calc(24px + 104px + 12px);
-            transform: none;
-            width: auto;
-          }
-
-          .explore-slider.is-rtl .eg-arrows {
-            left: 16px;
-            right: auto;
-            transform: none;
           }
 
           .explore-slider .eg-main-button {
@@ -795,48 +775,59 @@ export default function ExploreGrid() {
         </AnimatePresence>
       </div>
 
-      <div className="eg-thumbnail" role="tablist" aria-label="Explore slides">
-        {thumbnails.map((slide) => {
-          const isCurrent = slide.id === active?.id;
-          return (
-            <button
-              type="button"
-              className="eg-thumb-item"
-              key={`thumb-${slide.id}`}
-              onClick={() => goToSlide(slide.id)}
-              disabled={locked || isCurrent}
-              aria-label={`Show ${slide.label}`}
-              aria-current={isCurrent ? "true" : undefined}
-            >
-              <img src={slide.image} alt="" draggable="false" />
-              <span className="eg-thumb-num font-headline">{slide.num}</span>
-              <span className="eg-thumb-caption font-headline">
-                {slide.label}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+      <div className="eg-controls">
+        <div
+          className="eg-arrows"
+          aria-label="Slider controls"
+          dir="ltr"
+        >
+          <button
+            type="button"
+            className="eg-arrow"
+            onClick={() => moveSlider("prev")}
+            aria-label="Previous slide"
+            disabled={locked}
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            className="eg-arrow"
+            onClick={() => moveSlider("next")}
+            aria-label="Next slide"
+            disabled={locked}
+          >
+            ›
+          </button>
+        </div>
 
-      <div className="eg-arrows" aria-label="Slider controls">
-        <button
-          type="button"
-          className="eg-arrow"
-          onClick={() => moveSlider("prev")}
-          aria-label="Previous slide"
-          disabled={locked}
+        <div
+          className="eg-thumbnail"
+          role="tablist"
+          aria-label="Explore slides"
+          dir="ltr"
         >
-          ‹
-        </button>
-        <button
-          type="button"
-          className="eg-arrow"
-          onClick={() => moveSlider("next")}
-          aria-label="Next slide"
-          disabled={locked}
-        >
-          ›
-        </button>
+          {thumbnails.map((slide) => {
+            const isCurrent = slide.id === active?.id;
+            return (
+              <button
+                type="button"
+                className="eg-thumb-item"
+                key={`thumb-${slide.id}`}
+                onClick={() => goToSlide(slide.id)}
+                disabled={locked || isCurrent}
+                aria-label={`Show ${slide.label}`}
+                aria-current={isCurrent ? "true" : undefined}
+              >
+                <img src={slide.image} alt="" draggable="false" />
+                <span className="eg-thumb-num font-headline">{slide.num}</span>
+                <span className="eg-thumb-caption font-headline">
+                  {slide.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

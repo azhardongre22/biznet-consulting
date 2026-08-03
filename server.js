@@ -284,10 +284,13 @@ app.post("/api/contact", async (req, res) => {
 
     const derivedName = name || [firstName, lastName].filter(Boolean).join(" ");
 
-    // Lead Modal and footer contact do not collect a consultation type,
-    // so that field is not required for those sources. Contact page still must.
+    // Lead Modal, campaign modal, and footer contact do not collect a
+    // consultation type, so that field is not required for those sources.
+    // Contact page still must.
     const skipConsultationType =
-      source === "lead-modal" || source === "footer";
+      source === "lead-modal" ||
+      source === "campaign-lead-modal" ||
+      source === "footer";
 
     if (!derivedName) {
       return res.status(400).json({ ok: false, error: "Name is required." });
@@ -304,7 +307,9 @@ app.post("/api/contact", async (req, res) => {
     ) {
       return res.status(400).json({ ok: false, error: "A valid consultation type is required." });
     }
-    if (!message || message.length < 3) {
+    // Campaign lead modal: name, email, and phone are required; message is optional.
+    // Other sources still require a message.
+    if (source !== "campaign-lead-modal" && (!message || message.length < 3)) {
       return res.status(400).json({ ok: false, error: "Message is required." });
     }
 

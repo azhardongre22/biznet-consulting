@@ -1,7 +1,7 @@
 // Press data access for the public site.
-// Reads from the Biznet CMS public API (same-origin /api/cms/…), which is
-// served by the biznet-cms-api process behind Nginx in production.
-// Do NOT call 127.0.0.1:3010 from the browser — use relative /api/cms paths.
+// Reads from this repo's Express API (server.js) via same-origin /api/cms/…
+// which Vite rewrites to /api/… in local dev. Production Nginx can keep the
+// /api/cms prefix or map it the same way.
 //
 // Response shapes match what the press UI already consumes
 // (slug, group, category, title, excerpt, author, readTime, date, isoDate,

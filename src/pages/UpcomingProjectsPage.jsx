@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
+import { CampaignLeadModalOnLoad } from "../components/CampaignLeadModal";
 import bgImage from "../assets/images/optimized/upcoming-projects.webp";
 import { useLanguage } from "../i18n/LanguageContext";
 
@@ -78,6 +79,8 @@ export default function UpcomingProjectsPage() {
       <Suspense fallback={null}>
         <Footer />
       </Suspense>
+
+      <CampaignLeadModalOnLoad />
     </main>
   );
 }

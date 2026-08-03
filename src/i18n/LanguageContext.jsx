@@ -41,6 +41,14 @@ function lookup(dictionary, key) {
   return cur;
 }
 
+/**
+ * Site-wide EN/AR language + document dir/lang.
+ *
+ * CampaignLeadModal is intentionally outside this system:
+ * - It must never call useLanguage / t()
+ * - It always renders English LTR copy with English fonts (lang-keep)
+ * - Do not route its strings through translations[language]
+ */
 export function LanguageProvider({ children }) {
   const [language, setLanguageState] = useState(readInitialLanguage);
 

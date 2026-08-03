@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { CampaignLeadModalOnLoad } from "../components/CampaignLeadModal";
 import { useLanguage } from "../i18n/LanguageContext";
 
 const fadeUp = {
@@ -362,6 +363,7 @@ export default function ContactUsPage() {
         </section>
       </main>
       <Footer />
+      <CampaignLeadModalOnLoad />
     </>
   );
 }

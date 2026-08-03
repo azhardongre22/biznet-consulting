@@ -2,6 +2,7 @@ import { lazy } from "react";
 import Navbar from "../components/Navbar";
 import HeroSlider from "../components/HeroSlider";
 import SuccessStories from "../components/SuccessStories";
+import { CampaignLeadModalOnLoad } from "../components/CampaignLeadModal";
 import SliderImg1 from "../assets/images/optimized/ServiceSlider1-1.webp";
 import SliderImg2 from "../assets/images/optimized/ServiceSlider2-1.webp";
 import SliderImg3 from "../assets/images/optimized/ServiceSlider2-2.webp";
@@ -31,6 +32,7 @@ const Services = () => {
       </div>
       <SuccessStories />
       <Footer />
+      <CampaignLeadModalOnLoad />
     </>
   );
 };

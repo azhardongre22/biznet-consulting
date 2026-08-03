@@ -288,22 +288,33 @@ export default function ServiceSliderNew() {
           letter-spacing: 0.34em;
         }
 
-        /* ---- Thumbnails ---- */
-        .service-slider-new .rs-thumbnail {
+        /* ---- Controls: arrows aligned to last card of the strip ---- */
+        .service-slider-new .rs-controls {
           position: absolute;
           bottom: 50px;
           left: 50%;
+          z-index: 40;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 18px;
           width: max-content;
-          z-index: 30;
+        }
+
+        .service-slider-new.is-rtl .rs-controls {
+          left: auto;
+          right: 50%;
+        }
+
+        .service-slider-new .rs-thumbnail {
+          position: relative;
+          width: max-content;
           display: flex;
           gap: 20px;
         }
 
-        /* RTL: mirror the strip to the left half, reverse reading order */
         .service-slider-new.is-rtl .rs-thumbnail {
-          left: auto;
-          right: 50%;
-          flex-direction: row-reverse;
+          flex-direction: row;
         }
 
         .service-slider-new .rs-thumbnail .rs-thumb-item {
@@ -401,28 +412,17 @@ export default function ServiceSliderNew() {
           letter-spacing: 0.1em;
         }
 
-        /* ---- Arrows — right end of screen, above the card row ---- */
         .service-slider-new .rs-arrows {
-          position: absolute;
-          top: auto;
-          left: auto;
-          right: 28px;
-          bottom: calc(50px + 220px + 18px);
-          transform: none;
-          z-index: 40;
-          width: auto;
-          max-width: none;
+          position: relative;
           display: flex;
           gap: 12px;
           align-items: center;
           justify-content: center;
+          width: auto;
         }
 
         .service-slider-new.is-rtl .rs-arrows {
-          right: auto;
-          left: 28px;
-          transform: none;
-          flex-direction: row-reverse;
+          flex-direction: row;
         }
 
         .service-slider-new .rs-arrow {
@@ -592,34 +592,22 @@ export default function ServiceSliderNew() {
         }
 
         @media screen and (max-width: 900px) {
-          .service-slider-new .rs-thumbnail {
+          .service-slider-new .rs-controls {
             left: 42%;
-            gap: 14px;
           }
 
-          .service-slider-new.is-rtl .rs-thumbnail {
+          .service-slider-new.is-rtl .rs-controls {
             left: auto;
             right: 42%;
+          }
+
+          .service-slider-new .rs-thumbnail {
+            gap: 14px;
           }
 
           .service-slider-new .rs-thumbnail .rs-thumb-item {
             width: 112px;
             height: 168px;
-          }
-
-          .service-slider-new .rs-arrows {
-            top: auto;
-            left: auto;
-            right: 24px;
-            bottom: calc(50px + 168px + 14px);
-            transform: none;
-            max-width: none;
-          }
-
-          .service-slider-new.is-rtl .rs-arrows {
-            right: auto;
-            left: 24px;
-            transform: none;
           }
 
           .service-slider-new .rs-content {
@@ -704,15 +692,19 @@ export default function ServiceSliderNew() {
             right: 24px;
           }
 
-          .service-slider-new .rs-thumbnail {
+          .service-slider-new .rs-controls {
             left: 24px;
             bottom: 24px;
-            gap: 10px;
+            gap: 12px;
           }
 
-          .service-slider-new.is-rtl .rs-thumbnail {
+          .service-slider-new.is-rtl .rs-controls {
             left: auto;
             right: 24px;
+          }
+
+          .service-slider-new .rs-thumbnail {
+            gap: 10px;
           }
 
           .service-slider-new .rs-thumbnail .rs-thumb-item {
@@ -722,20 +714,6 @@ export default function ServiceSliderNew() {
 
           .service-slider-new .rs-thumb-caption {
             display: none;
-          }
-
-          .service-slider-new .rs-arrows {
-            left: auto;
-            right: 16px;
-            bottom: calc(24px + 104px + 12px);
-            transform: none;
-            width: auto;
-          }
-
-          .service-slider-new.is-rtl .rs-arrows {
-            left: 16px;
-            right: auto;
-            transform: none;
           }
 
           .service-slider-new .rs-main-button {
@@ -851,48 +829,59 @@ export default function ServiceSliderNew() {
         </AnimatePresence>
       </div>
 
-      <div className="rs-thumbnail" role="tablist" aria-label="Service slides">
-        {thumbnails.map((slide) => {
-          const isCurrent = slide.id === active?.id;
-          return (
-            <button
-              type="button"
-              className="rs-thumb-item"
-              key={`thumb-${slide.id}`}
-              onClick={() => goToSlide(slide.id)}
-              disabled={locked || isCurrent}
-              aria-label={`Show ${slide.label}`}
-              aria-current={isCurrent ? "true" : undefined}
-            >
-              <img src={slide.image} alt="" draggable="false" />
-              <span className="rs-thumb-num font-headline">{slide.num}</span>
-              <span className="rs-thumb-caption font-headline">
-                {slide.label}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+      <div className="rs-controls">
+        <div
+          className="rs-arrows"
+          aria-label="Slider controls"
+          dir="ltr"
+        >
+          <button
+            type="button"
+            className="rs-arrow"
+            onClick={() => moveSlider("prev")}
+            aria-label="Previous slide"
+            disabled={locked}
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            className="rs-arrow"
+            onClick={() => moveSlider("next")}
+            aria-label="Next slide"
+            disabled={locked}
+          >
+            ›
+          </button>
+        </div>
 
-      <div className="rs-arrows" aria-label="Slider controls">
-        <button
-          type="button"
-          className="rs-arrow"
-          onClick={() => moveSlider("prev")}
-          aria-label="Previous slide"
-          disabled={locked}
+        <div
+          className="rs-thumbnail"
+          role="tablist"
+          aria-label="Service slides"
+          dir="ltr"
         >
-          ‹
-        </button>
-        <button
-          type="button"
-          className="rs-arrow"
-          onClick={() => moveSlider("next")}
-          aria-label="Next slide"
-          disabled={locked}
-        >
-          ›
-        </button>
+          {thumbnails.map((slide) => {
+            const isCurrent = slide.id === active?.id;
+            return (
+              <button
+                type="button"
+                className="rs-thumb-item"
+                key={`thumb-${slide.id}`}
+                onClick={() => goToSlide(slide.id)}
+                disabled={locked || isCurrent}
+                aria-label={`Show ${slide.label}`}
+                aria-current={isCurrent ? "true" : undefined}
+              >
+                <img src={slide.image} alt="" draggable="false" />
+                <span className="rs-thumb-num font-headline">{slide.num}</span>
+                <span className="rs-thumb-caption font-headline">
+                  {slide.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
