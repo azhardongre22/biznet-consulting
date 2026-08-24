@@ -1,7 +1,6 @@
-import { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import PressHeroSlider from "../components/press/PressHeroSlider";
 import PressCard from "../components/press/PressCard";
 import { fetchPressList } from "../lib/cms";
 import { EnglishOnly } from "../i18n/LanguageContext";
@@ -28,6 +27,25 @@ const TICKER_ITEMS = [
   "Central Bank outlook points to sustained expansion across diversified sectors",
   "UAE reinforces its position as a regional destination for investment, enterprise and real estate",
 ];
+
+// The three editorial categories. "All" is the default filter tab.
+const CATEGORIES = ["Press Release", "News", "Article"];
+
+/**
+ * Normalise whatever `category` an item carries into one of the three known
+ * buckets. Tolerant of casing / minor label drift so the filter keeps working
+ * before the CMS category field is finalised. Unmatched items fall to "Article".
+ */
+function normalizeCategory(raw) {
+  const v = String(raw || "")
+    .trim()
+    .toLowerCase();
+  if (!v) return "Article";
+  if (v.includes("press")) return "Press Release";
+  if (v.includes("article")) return "Article";
+  if (v.includes("news")) return "News";
+  return "Article";
+}
 
 function Eyebrow({ children, className = "" }) {
   return (
@@ -58,6 +76,8 @@ export default function PressRelease() {
   // "loading" | "ready" — empty CMS / errors still render a stable empty state.
   const [status, setStatus] = useState("loading");
   const [articles, setArticles] = useState([]);
+  // Active category filter: "All" | one of CATEGORIES.
+  const [filter, setFilter] = useState("All");
 
   useEffect(() => {
     let alive = true;
@@ -79,6 +99,36 @@ export default function PressRelease() {
     };
   }, []);
 
+  const pressArticles = useMemo(
+    () =>
+      articles
+        .filter((p) => p.group === "press")
+        .map((p) => ({ ...p, _category: normalizeCategory(p.category) })),
+    [articles],
+  );
+  const ceoArticles = useMemo(
+    () => articles.filter((p) => p.group === "ceo"),
+    [articles],
+  );
+
+  // Counts per tab, drawn from the full press pool (not the filtered view).
+  const counts = useMemo(() => {
+    const c = { All: pressArticles.length, "Press Release": 0, News: 0, Article: 0 };
+    pressArticles.forEach((p) => {
+      c[p._category] += 1;
+    });
+    return c;
+  }, [pressArticles]);
+
+  // Active newsroom pool feeding the Latest / Popular / Feature sections.
+  const pool = useMemo(
+    () =>
+      filter === "All"
+        ? pressArticles
+        : pressArticles.filter((p) => p._category === filter),
+    [pressArticles, filter],
+  );
+
   if (status === "loading") {
     return (
       <StateShell>
@@ -94,9 +144,6 @@ export default function PressRelease() {
       </StateShell>
     );
   }
-
-  const pressArticles = articles.filter((p) => p.group === "press");
-  const ceoArticles = articles.filter((p) => p.group === "ceo");
 
   if (!pressArticles.length && !ceoArticles.length) {
     return (
@@ -124,25 +171,19 @@ export default function PressRelease() {
     );
   }
 
-  const featured = pressArticles.filter((p) => p.featured).slice(0, 5);
-  const latest = pressArticles.slice(0, 4);
-  const featureRow = pressArticles.slice(1, 3);
-  const popular = pressArticles.slice(0, 4);
+  const latest = pool.slice(0, 4);
+  const featureRow = pool.slice(1, 3);
+  const popular = pool.slice(0, 4);
 
   return (
     <EnglishOnly>
       <Navbar />
 
       <main className="relative min-h-screen bg-white font-['Aktiv_Grotesk'] text-[#151511]">
-        {/* HERO SLIDER — proper gap below the fixed 68px navbar */}
-        <div className="mt-[68px]">
-          {featured.length ? <PressHeroSlider slides={featured} /> : null}
-        </div>
-
-        {/* SECTION HEAD — LATEST */}
+        {/* SECTION HEAD — LATEST + category filter tabs (replaces the hero slider) */}
         <section
           id="latest"
-          className={`flex flex-col items-start justify-between gap-5 border-y border-[#e6e1d6] py-8 sm:flex-row sm:items-end sm:gap-6 sm:py-9 md:py-10 ${PAGE_X}`}
+          className={`mt-[68px] border-t border-[#e6e1d6] pt-12 sm:pt-14 md:pt-16 ${PAGE_X}`}
         >
           <div className="min-w-0">
             <Eyebrow>Newsroom</Eyebrow>
@@ -153,81 +194,128 @@ export default function PressRelease() {
               Featured Insights
             </h2>
           </div>
-          <a
-            href="#journal"
-            className="inline-flex min-h-[44px] w-full shrink-0 items-center justify-center border border-[#e6e1d6] px-6 font-['Aktiv_Grotesk'] text-[10px] font-medium uppercase tracking-[0.32em] transition-all duration-500 hover:bg-[#0E4174] hover:text-white sm:min-h-[46px] sm:w-auto sm:px-7"
-            // style={{ color: HEAD }}
-          >
-            Explore Journal
-          </a>
-        </section>
 
-        {/* LATEST GRID — 1 col phone, 2 col tablet/small laptop, 4 col large laptop+ */}
-        <section
-          aria-label="Latest press releases"
-          className={`grid grid-cols-1 border-b border-[#e6e1d6] sm:grid-cols-2 xl:grid-cols-4 ${PAGE_X}`}
-        >
-          {latest.map((post, i) => {
-            const isLast = i === latest.length - 1;
-            const cellClasses = [
-              isLast ? "" : "border-b border-[#e6e1d6]",
-              i % 2 === 0 ? "sm:border-r sm:border-[#e6e1d6]" : "",
-              i >= 2 ? "sm:border-b-0" : "",
-              // On xl 4-col: right border on all but last; drop bottom borders
-              i < latest.length - 1 ? "xl:border-r xl:border-[#e6e1d6]" : "",
-              "xl:border-b-0",
-              // At sm–lg (2-col), restore bottom border for first row only
-              i < 2 ? "sm:border-b sm:border-[#e6e1d6] xl:border-b-0" : "",
-            ]
-              .filter(Boolean)
-              .join(" ");
-
-            return (
-              <div
-                key={post.slug}
-                className={`px-0 pb-10 pt-9 sm:px-5 sm:pb-11 sm:pt-10 md:px-6 lg:px-7 ${cellClasses}`}
-              >
-                <PressCard post={post} variant="standard" />
-              </div>
-            );
-          })}
-        </section>
-
-        {/* POPULAR + FEATURED — stack → 2-up features → 3-col on large laptops */}
-        <section
-          id="journal"
-          className={`grid grid-cols-1 gap-12 border-b border-[#e6e1d6] py-14 sm:py-16 md:gap-14 md:py-20 xl:grid-cols-[0.9fr_1.25fr_1.25fr] xl:gap-0 xl:py-24 ${PAGE_X}`}
-        >
-          <aside className="min-w-0 xl:border-r xl:border-[#e6e1d6] xl:pr-12">
-            <h2
-              className="mb-8 mt-4 font-['Ivy_Presto'] text-[clamp(22px,2.4vw,24px)] font-light leading-[1.1] sm:mb-9"
-              style={{ color: HEAD }}
+          {/* FILTER TABS + entry count */}
+          <div className="mt-9 flex flex-col gap-4 border-b border-[#e6e1d6] sm:mt-11 sm:flex-row sm:items-end sm:justify-between">
+            <div
+              role="tablist"
+              aria-label="Filter stories by category"
+              className="-mb-px flex flex-wrap items-center gap-x-8 gap-y-3"
             >
-              Popular right now
-            </h2>
-            <ul className="space-y-6 sm:space-y-7">
-              {popular.map((post) => (
-                <li key={`popular-${post.slug}`}>
-                  <PressCard post={post} variant="compact" />
-                </li>
-              ))}
-            </ul>
-          </aside>
-
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 xl:contents">
-            {featureRow.map((post, idx) => (
-              <PressCard
-                key={`feature-${post.slug}`}
-                post={post}
-                variant="feature"
-                className={idx === 0 ? "min-w-0 xl:pl-12" : "min-w-0 xl:pl-10"}
-              />
-            ))}
+              {["All", ...CATEGORIES].map((cat) => {
+                const isActive = filter === cat;
+                return (
+                  <button
+                    key={cat}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => setFilter(cat)}
+                    className={`relative cursor-pointer pb-4 font-['Aktiv_Grotesk'] text-[12px] font-bold uppercase tracking-[0.28em] transition-colors ${
+                      isActive
+                        ? "text-[#0E4174]"
+                        : "text-[#a8a29a] hover:text-[#615c54]"
+                    }`}
+                  >
+                    {cat}
+                    <span
+                      className={`absolute inset-x-0 bottom-0 h-[2px] transition-colors ${
+                        isActive ? "bg-[#0E4174]" : "bg-transparent"
+                      }`}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+            <span className="pb-4 font-['Aktiv_Grotesk'] text-[11px] font-medium uppercase tracking-[0.28em] text-[#a8a29a]">
+              {counts[filter]} {counts[filter] === 1 ? "Entry" : "Entries"}
+            </span>
           </div>
         </section>
 
-        {/* CEO POSTS — From the Visionary */}
-        {ceoArticles.length ? (
+        {/* LATEST GRID — 1 col phone, 2 col tablet/small laptop, 4 col large laptop+ */}
+        {latest.length ? (
+          <section
+            aria-label="Latest press releases"
+            className={`grid grid-cols-1 border-b border-[#e6e1d6] sm:grid-cols-2 xl:grid-cols-4 ${PAGE_X}`}
+          >
+            {latest.map((post, i) => {
+              const isLast = i === latest.length - 1;
+              const cellClasses = [
+                isLast ? "" : "border-b border-[#e6e1d6]",
+                i % 2 === 0 ? "sm:border-r sm:border-[#e6e1d6]" : "",
+                i >= 2 ? "sm:border-b-0" : "",
+                // On xl 4-col: right border on all but last; drop bottom borders
+                i < latest.length - 1 ? "xl:border-r xl:border-[#e6e1d6]" : "",
+                "xl:border-b-0",
+                // At sm–lg (2-col), restore bottom border for first row only
+                i < 2 ? "sm:border-b sm:border-[#e6e1d6] xl:border-b-0" : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
+
+              return (
+                <div
+                  key={post.slug}
+                  className={`px-0 pb-10 pt-9 sm:px-5 sm:pb-11 sm:pt-10 md:px-6 lg:px-7 ${cellClasses}`}
+                >
+                  <PressCard post={post} variant="standard" />
+                </div>
+              );
+            })}
+          </section>
+        ) : (
+          <section className={`border-b border-[#e6e1d6] py-20 text-center ${PAGE_X}`}>
+            <p className="font-['Ivy_Presto'] text-[clamp(22px,2.6vw,30px)] font-light leading-[1.2] text-[#0E4174]">
+              No {filter.toLowerCase()} entries yet.
+            </p>
+            <button
+              type="button"
+              onClick={() => setFilter("All")}
+              className="mt-6 inline-flex min-h-[44px] items-center gap-2 border border-[#e6e1d6] px-6 font-['Aktiv_Grotesk'] text-[10px] font-medium uppercase tracking-[0.32em] text-[#0E4174] transition hover:bg-[#0E4174] hover:text-white"
+            >
+              View all stories
+            </button>
+          </section>
+        )}
+
+        {/* POPULAR + FEATURED — stack → 2-up features → 3-col on large laptops */}
+        {pool.length ? (
+          <section
+            id="journal"
+            className={`grid grid-cols-1 gap-12 border-b border-[#e6e1d6] py-14 sm:py-16 md:gap-14 md:py-20 xl:grid-cols-[0.9fr_1.25fr_1.25fr] xl:gap-0 xl:py-24 ${PAGE_X}`}
+          >
+            <aside className="min-w-0 xl:border-r xl:border-[#e6e1d6] xl:pr-12">
+              <h2
+                className="mb-8 mt-4 font-['Ivy_Presto'] text-[clamp(22px,2.4vw,24px)] font-light leading-[1.1] sm:mb-9"
+                style={{ color: HEAD }}
+              >
+                Popular right now
+              </h2>
+              <ul className="space-y-6 sm:space-y-7">
+                {popular.map((post) => (
+                  <li key={`popular-${post.slug}`}>
+                    <PressCard post={post} variant="compact" />
+                  </li>
+                ))}
+              </ul>
+            </aside>
+
+            <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 xl:contents">
+              {featureRow.map((post, idx) => (
+                <PressCard
+                  key={`feature-${post.slug}`}
+                  post={post}
+                  variant="feature"
+                  className={idx === 0 ? "min-w-0 xl:pl-12" : "min-w-0 xl:pl-10"}
+                />
+              ))}
+            </div>
+          </section>
+        ) : null}
+
+        {/* CEO POSTS — From the Visionary (shown on the unfiltered "All" view) */}
+        {filter === "All" && ceoArticles.length ? (
           <section
             aria-label="CEO Posts"
             className={`border-b border-[#e6e1d6] py-14 sm:py-16 md:py-20 xl:py-24 ${PAGE_X}`}
