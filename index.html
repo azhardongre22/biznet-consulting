@@ -1,8 +1,67 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="biz-booting">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ================= Analytics: Consent Mode v2 + GTM ==================
+         Order matters: consent defaults MUST run before GTM loads so tags
+         respect them from the very first hit.
+
+         Consent policy (region-aware):
+           - EEA + UK + Switzerland: everything DENIED until the visitor opts
+             in. The consent banner that flips these to "granted" is added in
+             Stage 5; until then, EEA/UK traffic runs in Consent Mode's
+             cookieless "modeling" state.
+           - Rest of world (incl. UAE — the primary campaign market): granted,
+             so tracking is live immediately.
+         GA4 (G-D01JJWH726), Google Ads, Meta and LinkedIn are all configured
+         as tags INSIDE the GTM container (GTM-MTQK3WF7) — do NOT also add the
+         standalone gtag.js snippet or GA4 will double-count.
+    ===================================================================== -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      // EEA + UK + CH: denied by default (banner grants in Stage 5).
+      gtag("consent", "default", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "denied",
+        wait_for_update: 500,
+        region: [
+          "AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU",
+          "IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES",
+          "SE","IS","LI","NO","GB","CH",
+        ],
+      });
+      // Everywhere else (incl. UAE): granted by default.
+      gtag("consent", "default", {
+        ad_storage: "granted",
+        ad_user_data: "granted",
+        ad_personalization: "granted",
+        analytics_storage: "granted",
+      });
+      // Redact ad click identifiers until ad_storage is granted.
+      gtag("set", "ads_data_redaction", true);
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-MTQK3WF7");
+    </script>
+    <!-- End Google Tag Manager -->
 
     <title>Biznet Consulting</title>
     <meta
@@ -48,9 +107,111 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500;600&family=Tajawal:wght@300;400;500;700&family=Cairo:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- First-paint splash: covers the prerendered #root SEO markup until React
+         mounts, so crawl-friendly HTML never flashes on screen. Inline so it
+         paints before any stylesheet loads. -->
+    <style>
+      html.biz-booting,
+      html.biz-booting body {
+        overflow: hidden;
+      }
+      html.biz-booting #root {
+        visibility: hidden !important;
+      }
+      #biz-boot-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483647;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f4f6f9;
+        transition: opacity 300ms ease, visibility 300ms ease;
+      }
+      #biz-boot-loader img {
+        width: 116px;
+        height: auto;
+        display: block;
+        animation: biz-boot-pulse 1.25s ease-in-out infinite;
+      }
+      html:not(.biz-booting) #biz-boot-loader {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      @keyframes biz-boot-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(0.94);
+          opacity: 0.62;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #biz-boot-loader img {
+          animation: none;
+        }
+        #biz-boot-loader {
+          transition: none;
+        }
+      }
+    </style>
+    <noscript>
+      <style>
+        #biz-boot-loader {
+          display: none !important;
+        }
+        html.biz-booting #root {
+          visibility: visible !important;
+        }
+        html.biz-booting,
+        html.biz-booting body {
+          overflow: auto;
+        }
+      </style>
+    </noscript>
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-MTQK3WF7"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div
+      id="biz-boot-loader"
+      role="status"
+      aria-live="polite"
+      aria-label="Loading Biznet Consulting"
+    >
+      <img
+        src="/biznet-loader.png"
+        alt=""
+        width="116"
+        height="116"
+        fetchpriority="high"
+      />
+    </div>
     <div id="root"></div>
+    <script>
+      /* Failsafe: never leave visitors stuck on the splash if JS stalls. */
+      window.setTimeout(function () {
+        var html = document.documentElement;
+        if (!html.classList.contains("biz-booting")) return;
+        html.classList.remove("biz-booting");
+        var loader = document.getElementById("biz-boot-loader");
+        if (loader) loader.remove();
+      }, 8000);
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

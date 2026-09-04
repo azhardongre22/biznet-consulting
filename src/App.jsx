@@ -1,7 +1,8 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useLayoutEffect } from "react";
 import Lenis from "lenis";
 import Homepage from "./pages/Homepage";
 import Services from "./pages/Services";
+import ServiceDetailPage from "./pages/ServiceDetailPage";
 import {
   BrowserRouter,
   Routes,
@@ -22,6 +23,7 @@ import CeoMessageLanding from "./pages/CeoMessageLanding";
 import BNIcon from "./components/BNIcon";
 import PressArticle from "./pages/PressArticle";
 import FloatingSocials from "./components/FloatingSocials";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import UpcomingProjectsPage from "./pages/UpcomingProjectsPage";
 
 // Lazy-loaded + renamed off "PrivacyPolicy" so ad blockers don't kill the whole app bundle.
@@ -41,7 +43,8 @@ function LegacyPressRedirect() {
 const AppContent = () => {
   const location = useLocation();
   const hideBNIcon = location.pathname === "/scan";
-  const hideFloatingSocials = location.pathname === "/scan";
+  const hideFloatingSocials = location.pathname === "/scan" || location.pathname === "/" || location.pathname === "/about";
+  const hideFloatingWhatsApp = location.pathname === "/scan";
 
   return (
     <>
@@ -50,6 +53,7 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/services/:slug" element={<ServiceDetailPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/coming-soon" element={<ComingSoon />} />
@@ -72,12 +76,41 @@ const AppContent = () => {
       </Suspense>
 
       {!hideBNIcon && <BNIcon />}
+      {!hideFloatingWhatsApp && <FloatingWhatsApp />}
       {!hideFloatingSocials && <FloatingSocials />}
     </>
   );
 };
 
+function dismissBootLoader() {
+  const html = document.documentElement;
+  if (!html.classList.contains("biz-booting")) return;
+
+  const loader = document.getElementById("biz-boot-loader");
+  html.classList.remove("biz-booting");
+  if (!loader) return;
+
+  const remove = () => loader.remove();
+  loader.addEventListener("transitionend", remove, { once: true });
+  window.setTimeout(remove, 500);
+}
+
 const App = () => {
+  // Drop the first-paint splash only after React has replaced the prerendered
+  // HTML in #root, so the crawl-friendly SEO markup never flashes on screen.
+  useLayoutEffect(() => {
+    let cancelled = false;
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (!cancelled) dismissBootLoader();
+      });
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(id);
+    };
+  }, []);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.15,

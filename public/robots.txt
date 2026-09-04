@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Utility / QR landing pages that should not be indexed
+Disallow: /scan
+
+Sitemap: https://biznetconsulting.ae/sitemap.xml

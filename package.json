@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "server": "node server.js",
-    "build": "vite build",
+    "build": "node scripts/generate-sitemap.mjs && vite build && node scripts/prerender-seo.mjs",
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "prerender:seo": "node scripts/prerender-seo.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "optimize:images": "node scripts/optimize-images.mjs",
