@@ -318,7 +318,7 @@ function CeoMessageLanding() {
               alt="Biznet Consulting"
               loading="lazy"
               decoding="async"
-              className="hidden h-5 w-auto object-contain sm:block md:h-[30px]"
+              className="h-5 w-auto object-contain sm:h-7 md:h-[30px]"
               style={{ filter: NAVY_TINT }}
             />
           </div>
