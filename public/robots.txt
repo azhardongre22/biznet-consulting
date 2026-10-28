@@ -1,7 +1,8 @@
 User-agent: *
 Allow: /
 
-# Utility / QR landing pages that should not be indexed
+# API endpoints, CMS uploads index and the QR-code landing page
+Disallow: /api/
 Disallow: /scan
 
 Sitemap: https://biznetconsulting.ae/sitemap.xml

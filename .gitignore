@@ -13,30 +13,19 @@ dist-ssr
 *.local
 .env
 .env.*
+!.env.example
 
 # Newsletter subscriber storage (repo-root only — do not ignore src/data/)
 /data/
 subscribers.json
 
-# Large source brochure PDFs — app imports only from optimized/
-# Keep masters locally; never push the 60MB+ originals to GitHub.
-src/assets/company-profile/*.pdf
+# Full-resolution image masters — kept locally, never pushed. The app imports
+# the WebP output in src/assets/images/ (npm run optimize:images).
+/assets-src/
 
-# Raster image masters — keep locally; only push optimized WebP (+ SVGs/JSON).
-# Run `npm run optimize:images` after changing a source, then commit optimized/.
-src/assets/images/**/*.png
-src/assets/images/**/*.jpg
-src/assets/images/**/*.jpeg
-src/assets/images/**/*.webp
-!src/assets/images/optimized/
-!src/assets/images/optimized/**
-
-src/assets/icons/**/*.png
-src/assets/icons/**/*.jpg
-src/assets/icons/**/*.jpeg
-src/assets/icons/**/*.webp
-!src/assets/icons/optimized/
-!src/assets/icons/optimized/**
+# Build intermediates: SSR render bundle + cached pristine HTML template
+/.ssr/
+/.prerender-template.html
 
 # Editor directories and files
 .vscode/*

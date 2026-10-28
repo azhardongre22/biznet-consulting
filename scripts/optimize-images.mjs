@@ -1,18 +1,17 @@
 /**
  * Offline raster-image optimizer (Sharp).
  *
- * Reads every PNG/JPG/WEBP under src/assets/images/, downscales it to a width
- * that matches how it is actually displayed, and writes a WebP copy to
- * src/assets/images/optimized/<same subfolder>/<name>.webp.
+ * Reads the full-resolution masters in assets-src/images/ (git-ignored, kept
+ * locally), downscales each to the width it is actually displayed at, and
+ * writes a WebP to the same relative path under src/assets/images/, which is
+ * what the app imports and Vite bundles.
  *
- * Originals are never modified or deleted — they stay as the editable masters.
- * Components must import from `optimized/` so Vite only ever bundles the WebP.
+ *   assets-src/images/brand/biznet-mark-white.png → src/assets/images/brand/biznet-mark-white.webp
  *
  * Run:   npm run optimize:images
  *
- * NOTE: this is deliberately NOT part of `vite build`. Encoding ~80 images at
- * effort 6 takes far too long for a normal build. Re-run it manually whenever
- * you add or replace a source image, and commit the generated WebP files.
+ * Deliberately NOT part of `vite build` — encoding at effort 6 is slow. Re-run
+ * after adding or replacing a master, and commit the generated WebP files.
  */
 
 import fs from "node:fs/promises";
@@ -33,26 +32,17 @@ const SOURCE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp"]);
  * maxWidth is an upper bound only — images are never enlarged.
  */
 const PRESETS = [
-  // Full-bleed hero / slider backgrounds.
-  { name: "hero", test: /^herobg\./i, maxWidth: 1920, quality: 80 },
-  { name: "hero", test: /^serviceslider/i, maxWidth: 1920, quality: 80 },
-  { name: "hero", test: /^about-slider/i, maxWidth: 1920, quality: 80 },
-  { name: "hero", test: /^mobile-view-slider/i, maxWidth: 1080, quality: 80 },
+  // Full-bleed backgrounds.
+  { name: "hero", test: /background|hero/i, maxWidth: 1920, quality: 80 },
 
-  // Portrait / people photography — a little more quality on faces.
-  { name: "portrait", test: /^ceo\d*\./i, maxWidth: 1200, quality: 82 },
-  { name: "portrait", test: /^who-we-are/i, maxWidth: 1400, quality: 82 },
+  // Logos and wordmarks: crisp edges and flat colour, so quality matters far
+  // more than resolution.
+  { name: "logo", test: /^(brand|clients)\//i, maxWidth: 1000, quality: 92 },
 
-  // Logos, wordmarks and favicons: crisp edges and flat colour, so quality
-  // matters far more than resolution.
-  {
-    name: "logo",
-    test: /^(bn_logo|favicon|ceo logo|biznet-sec|biznet-tagline|x logo)/i,
-    maxWidth: 1000,
-    quality: 92,
-  },
+  // People photography — a little more quality on faces.
+  { name: "portrait", test: /^people\//i, maxWidth: 1200, quality: 82 },
 
-  // Everything else under images/ is content / section / card art.
+  // Everything else is content / section / card art.
   { name: "card", test: /.*/, maxWidth: 1400, quality: 80 },
 ];
 
@@ -63,15 +53,12 @@ const presetFor = (relativePath) =>
     quality: 80,
   };
 
-/**
- * Source roots to process. Each root is scanned recursively for raster images
- * and gets its own sibling `optimized/` output folder, mirroring the same
- * relative layout. Originals are never touched. Add a root here if raster
- * assets ever live somewhere new.
- */
+/** Master folder → output folder (same relative layout). */
 const ROOTS = [
-  path.resolve(__dirname, "../src/assets/images"),
-  path.resolve(__dirname, "../src/assets/icons"),
+  {
+    src: path.resolve(__dirname, "../assets-src/images"),
+    out: path.resolve(__dirname, "../src/assets/images"),
+  },
 ];
 
 const formatBytes = (bytes) =>
@@ -122,9 +109,7 @@ async function dedupeByOutput(relativePaths, srcDir) {
   return [...byOutput.entries()].map(([output, value]) => ({ ...value, output }));
 }
 
-async function optimizeRoot(srcDir, totals) {
-  const outDir = path.join(srcDir, "optimized");
-
+async function optimizeRoot({ src: srcDir, out: outDir }, totals) {
   let sources;
   try {
     sources = await collectSources(srcDir, outDir);
@@ -178,8 +163,8 @@ async function optimizeRoot(srcDir, totals) {
 async function main() {
   const totals = { in: 0, out: 0, count: 0 };
 
-  for (const srcDir of ROOTS) {
-    await optimizeRoot(srcDir, totals);
+  for (const root of ROOTS) {
+    await optimizeRoot(root, totals);
   }
 
   if (totals.count === 0) {

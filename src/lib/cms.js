@@ -43,3 +43,21 @@ export async function fetchPressArticle(slug) {
   const data = await res.json();
   return { article: data.article, related: data.related || [] };
 }
+
+// ---------------------------------------------------------------------------
+// Build-time prerender seeds this cache (scripts/prerender.mjs → entry-server)
+// so press pages render their real content synchronously on the server. In
+// the browser it stays empty and the pages fetch as normal.
+// ---------------------------------------------------------------------------
+const prefetched = { list: null, articles: new Map() };
+
+export function primePressCache({ list = null, articles = [] } = {}) {
+  prefetched.list = list;
+  prefetched.articles = new Map(articles.map((a) => [a.article.slug, a]));
+}
+
+/** Prefetched list, or null when nothing was primed. */
+export const getCachedPressList = () => prefetched.list;
+
+/** Prefetched { article, related }, or null. */
+export const getCachedPressArticle = (slug) => prefetched.articles.get(slug) || null;

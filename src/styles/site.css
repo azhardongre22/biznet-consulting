@@ -1,0 +1,135 @@
+/* ============================================================================
+   BIZNET HOMEPAGE — original editorial design.
+   Route-scoped under `.home-v2`. Light premium system: white canvas, navy
+   accents, Ivy Presto serif headings + grotesk body. No teal / orange.
+   Rules live in Tailwind's `components` layer so utility classes always win.
+   ============================================================================ */
+
+@layer components {
+  .home-v2 {
+    --bn-white: #ffffff;
+    --bn-navy: #0e4174;
+    --bn-navy-deep: #092d54;
+    --bn-blue: #245f9a;
+    --bn-slate: #62686d;
+    --bn-ink: #1d2733;
+    --bn-muted: #596573;
+    --bn-rule: #e5eaf0;
+    --bn-tint: #f4f6f9;
+
+    /* Brand pairing: Ivy Presto (serif display) + grotesk body. */
+    --hv2-display: "Ivy Presto", "Times New Roman", Georgia, serif;
+    --hv2-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    width: 100%;
+    background: #ffffff;
+    color: var(--bn-ink);
+    font-family: var(--hv2-body);
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .home-v2 .hv2-section {
+    background: #ffffff;
+  }
+
+  .home-v2 a:focus-visible,
+  .home-v2 button:focus-visible {
+    outline: 2px solid var(--bn-navy);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  /* ── Type helpers ──────────────────────────────────────────────────────── */
+
+  /* Serif display. Ivy Presto ships Light (300) + SemiBold (600) only, so we
+     never ask for 700+ (which would synthesize an ugly faux-bold). */
+  .hv2-display {
+    font-family: var(--hv2-display);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1.06;
+  }
+  .hv2-display--light {
+    font-weight: 300;
+  }
+
+  /* Reveal mask for a hero headline line. Carries the line's font-size so the
+     em padding scales with the type: the padding keeps descenders (g, j, p, y)
+     inside the clip, and the matching negative margin cancels it in layout. */
+  .hv2-line-mask {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .hv2-eyebrow {
+    font-family: var(--hv2-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--bn-slate);
+  }
+
+  /* Thin navy accent rule. */
+  .hv2-rule {
+    display: block;
+    height: 2px;
+    background: var(--bn-navy);
+    transform-origin: left center;
+  }
+
+  /* Framed editorial image — thin hairline border, square-ish corners. */
+  .hv2-frame {
+    border: 1px solid var(--bn-rule);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--bn-tint);
+  }
+
+  .hv2-photo {
+    display: block;
+    overflow: hidden;
+    border-radius: 3px;
+    background: var(--bn-tint);
+  }
+  .hv2-photo > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Parallax clip shell: oversized inner image translates inside a fixed window. */
+  .hv2-parallax {
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+  }
+  .hv2-parallax > .hv2-parallax__inner {
+    position: absolute;
+    inset: -12% 0;
+    width: 100%;
+    height: 124%;
+  }
+  .hv2-parallax > .hv2-parallax__inner > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* ── Reduced motion: everything stays put and visible ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .home-v2 *,
+  .home-v2 *::before,
+  .home-v2 *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

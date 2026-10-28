@@ -7,6 +7,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import "dotenv/config";
+import { registerSeoRoutes } from "./lib/seo-refresh.js";
 
 const app = express();
 app.set("trust proxy", true);
@@ -266,6 +267,7 @@ app.post("/api/contact", async (req, res) => {
   try {
     const VALID_CONSULTATION_TYPES = [
       "General Enquiry",
+      "Feasibility Study",
       "Branding and Market Positioning",
       "Business Formation & Feasibility",
       "Hospitality & Experience Construction",
@@ -279,6 +281,7 @@ app.post("/api/contact", async (req, res) => {
     const email = sanitizeText(req.body?.email, 160);
     const phone = sanitizeText(req.body?.phone, 60);
     const consultationType = sanitizeText(req.body?.consultationType, 80);
+    const describes = sanitizeText(req.body?.describes, 80);
     const message = sanitizeText(req.body?.message, 4000);
     const source = sanitizeText(req.body?.source, 40);
 
@@ -292,10 +295,18 @@ app.post("/api/contact", async (req, res) => {
       source === "campaign-lead-modal" ||
       source === "footer";
 
+    // The homepage footer enquiry collects only name, phone, an audience type
+    // and an optional message — so email and message are optional there.
+    const emailOptional = source === "footer";
+
     if (!derivedName) {
       return res.status(400).json({ ok: false, error: "Name is required." });
     }
-    if (!email || !isValidEmail(email)) {
+    if (emailOptional) {
+      if (email && !isValidEmail(email)) {
+        return res.status(400).json({ ok: false, error: "Please enter a valid email." });
+      }
+    } else if (!email || !isValidEmail(email)) {
       return res.status(400).json({ ok: false, error: "Valid email is required." });
     }
     if (!phone) {
@@ -307,9 +318,11 @@ app.post("/api/contact", async (req, res) => {
     ) {
       return res.status(400).json({ ok: false, error: "A valid consultation type is required." });
     }
-    // Campaign lead modal: name, email, and phone are required; message is optional.
-    // Other sources still require a message.
-    if (source !== "campaign-lead-modal" && (!message || message.length < 3)) {
+    // Campaign lead modal and the homepage footer enquiry treat the message as
+    // optional; other sources still require it.
+    const messageOptional =
+      source === "campaign-lead-modal" || source === "footer";
+    if (!messageOptional && (!message || message.length < 3)) {
       return res.status(400).json({ ok: false, error: "Message is required." });
     }
 
@@ -323,13 +336,14 @@ app.post("/api/contact", async (req, res) => {
       "New website enquiry",
       "",
       `Name: ${derivedName}`,
-      `Email: ${email}`,
+      email ? `Email: ${email}` : null,
       `Phone: ${phone}`,
+      describes ? `Best describes them: ${describes}` : null,
       consultationType ? `Consultation Type: ${consultationType}` : null,
       source ? `Source: ${source}` : null,
       "",
       "Message:",
-      message,
+      message || "(none provided)",
     ]
       .filter(Boolean)
       .join("\n");
@@ -337,25 +351,28 @@ app.post("/api/contact", async (req, res) => {
     await transporter.sendMail({
       from: MAIL_FROM,
       to: MAIL_TO,
-      replyTo: email,
+      replyTo: email || undefined,
       subject,
       text,
     });
 
-    // Auto-reply to the enquirer. BCC the admin inbox so a copy always
-    // lands there even if delivery to the submitter's address fails.
-    transporter
-      .sendMail({
-        from: MAIL_FROM,
-        to: email,
-        replyTo: COMPANY.email,
-        subject: `We've received your enquiry — ${COMPANY.name}`,
-        text: buildContactAutoReplyText({ name: derivedName, consultationType }),
-        html: buildContactAutoReplyHtml({ name: derivedName, consultationType }),
-      })
-      .catch((err) =>
-        console.error("Contact auto-reply failed:", err?.message || err),
-      );
+    // Auto-reply to the enquirer (only when an email was provided). BCC the
+    // admin inbox so a copy always lands there even if delivery to the
+    // submitter's address fails.
+    if (email) {
+      transporter
+        .sendMail({
+          from: MAIL_FROM,
+          to: email,
+          replyTo: COMPANY.email,
+          subject: `We've received your enquiry — ${COMPANY.name}`,
+          text: buildContactAutoReplyText({ name: derivedName, consultationType }),
+          html: buildContactAutoReplyHtml({ name: derivedName, consultationType }),
+        })
+        .catch((err) =>
+          console.error("Contact auto-reply failed:", err?.message || err),
+        );
+    }
 
     return res.json({ ok: true });
   } catch (err) {
@@ -1208,6 +1225,8 @@ app.get("/api/press-releases/:slug", async (req, res) => {
       .json({ ok: false, error: "Press content is temporarily unavailable." });
   }
 });
+
+registerSeoRoutes(app);
 
 app.listen(PORT, () => {
   console.log(`API server running on http://localhost:${PORT}`);

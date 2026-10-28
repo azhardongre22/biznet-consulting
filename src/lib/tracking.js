@@ -14,6 +14,9 @@
 
 export const ANALYTICS_EVENTS = {
   // Page / route level
+  // SPA route change (the first page load is counted by the GTM GA4 tag).
+  // GTM: Custom Event trigger "virtual_page_view" → GA4 event "page_view".
+  VIRTUAL_PAGE_VIEW: "virtual_page_view",
   LANDING_PAGE_VIEW: "landing_page_view",
   SERVICE_PAGE_VIEW: "service_page_view",
 
@@ -94,5 +97,15 @@ export function trackShare({ method, contentType = "article", itemId, ...rest } 
     page_path:
       typeof window !== "undefined" ? window.location.pathname : undefined,
     ...rest,
+  });
+}
+
+/** Virtual page view for client-side navigations (not the initial load). */
+export function trackPageView({ title, path } = {}) {
+  if (typeof window === "undefined") return;
+  pushEvent(ANALYTICS_EVENTS.VIRTUAL_PAGE_VIEW, {
+    page_title: title || document.title,
+    page_location: window.location.href,
+    page_path: path || window.location.pathname,
   });
 }

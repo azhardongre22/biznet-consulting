@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biznet Consulting — Website Notes & Recommendations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opt@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0E4174;
+    --navy-deep:#0B3560;
+    --teal:#1D7D91;
+    --ink:#3F5568;
+    --ink-soft:#5E7384;
+    --line:#DEE8EE;
+    --line-soft:#EAF1F5;
+    --panel:#F4F8FA;
+    --panel-blue:#EFF5F9;
+    --paper:#ffffff;
+    --eyebrow:#718898;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-font-smoothing:antialiased;}
+  body{
+    margin:0;
+    background:#E7ECEF;
+    color:var(--ink);
+    font-family:'Inter',Arial,sans-serif;
+    font-size:16px;
+    line-height:1.65;
+  }
+  .sheet{
+    max-width:860px;
+    margin:34px auto;
+    background:var(--paper);
+    padding:70px 76px 64px;
+    box-shadow:0 14px 48px rgba(16,48,73,.14);
+  }
+  /* type */
+  h1,h2,h3,h4{color:var(--navy);margin:0;}
+  .serif{font-family:'Newsreader',Georgia,serif;font-weight:400;}
+  p{margin:0 0 16px;}
+  a{color:var(--teal);text-decoration:none;}
+  strong{color:var(--navy-deep);font-weight:600;}
+  .eyebrow{
+    font-size:11px;letter-spacing:2.4px;text-transform:uppercase;
+    font-weight:700;color:var(--eyebrow);margin-bottom:14px;
+  }
+  /* masthead */
+  .mast{border-bottom:1px solid var(--line);padding-bottom:16px;
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:11px;letter-spacing:1.6px;font-weight:700;color:var(--navy);text-transform:uppercase;}
+  .mast span:last-child{color:#93A4B1;font-weight:600;letter-spacing:1.2px;}
+  /* cover block */
+  .cover{padding:46px 0 10px;}
+  .cover .kicker{color:var(--teal);font-size:12px;letter-spacing:2px;font-weight:700;text-transform:uppercase;margin-bottom:22px;}
+  .cover h1{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:46px;line-height:1.1;letter-spacing:-.5px;margin-bottom:22px;}
+  .cover h1 em{font-style:normal;color:var(--teal);}
+  .cover .lede{font-size:18px;line-height:1.6;color:var(--ink-soft);max-width:620px;}
+  .cover .rule{width:58px;height:2px;background:#B9CEDC;margin:30px 0;}
+  .byline{font-size:13px;color:#8496A3;}
+  .byline b{color:var(--navy);font-weight:600;}
+  /* sections */
+  section{padding:40px 0;border-top:1px solid var(--line-soft);}
+  section:first-of-type{border-top:0;}
+  h2.head{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:30px;line-height:1.18;margin-bottom:8px;letter-spacing:-.3px;}
+  .sub{color:var(--ink-soft);font-size:16px;max-width:640px;margin-bottom:26px;}
+  /* lead quote / takeaway */
+  .takeaway{border-left:3px solid var(--teal);background:var(--panel-blue);
+    padding:20px 24px;margin:26px 0;}
+  .takeaway p{margin:0;font-family:'Newsreader',Georgia,serif;font-size:19px;line-height:1.4;color:var(--navy);}
+  /* compact market table */
+  table{width:100%;border-collapse:collapse;margin:8px 0 6px;}
+  th{text-align:left;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;
+    color:#6E8595;font-weight:700;padding:11px 12px;border-bottom:1px solid var(--line);}
+  td{padding:13px 12px;border-bottom:1px solid var(--line-soft);font-size:14.5px;vertical-align:top;line-height:1.5;}
+  td.firm{font-weight:600;color:var(--navy-deep);white-space:nowrap;}
+  td.firm span{display:block;font-weight:500;color:#93A4B1;font-size:11px;letter-spacing:.3px;margin-top:2px;}
+  .note{font-size:13px;color:#8496A3;line-height:1.55;margin-top:14px;}
+  /* building blocks */
+  .block{display:grid;grid-template-columns:44px 1fr;gap:20px;padding:24px 0;border-top:1px solid var(--line-soft);}
+  .block:first-of-type{border-top:0;}
+  .block .no{font-family:'Newsreader',Georgia,serif;font-size:24px;color:var(--teal);line-height:1;padding-top:3px;}
+  .block h3{font-size:19px;font-weight:600;margin-bottom:7px;letter-spacing:-.2px;}
+  .block p{margin:0 0 12px;color:var(--ink);}
+  .block p:last-child{margin-bottom:0;}
+  .show{font-size:13.5px;color:var(--ink-soft);background:var(--panel);
+    border-radius:4px;padding:12px 15px;line-height:1.55;}
+  .show b{color:var(--navy);font-weight:600;}
+  /* process strip */
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0 6px;}
+  .flow .step{border-top:2px solid var(--navy);padding:14px 2px 2px;}
+  .flow .step b{display:block;font-size:11px;letter-spacing:1.4px;color:var(--teal);font-weight:700;margin-bottom:8px;}
+  .flow .step span{font-size:13px;color:var(--ink-soft);line-height:1.5;}
+  .flow .step em{font-style:normal;color:var(--navy);font-weight:600;font-size:15px;display:block;margin-bottom:5px;}
+  /* nav map */
+  .nav{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin:10px 0 18px;}
+  .nav div{background:var(--panel);border-top:2px solid #C4D6E0;padding:11px 9px;min-height:66px;}
+  .nav div.on{background:var(--panel-blue);border-color:var(--teal);}
+  .nav b{display:block;font-size:10.5px;color:var(--navy);letter-spacing:.4px;margin-bottom:7px;}
+  .nav span{font-size:10.5px;color:#7C8E9B;line-height:1.35;}
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px;}
+  .pillars div{border:1px solid var(--line);padding:14px 15px;}
+  .pillars b{display:block;color:var(--navy);font-size:14px;margin-bottom:5px;}
+  .pillars span{font-size:12.5px;color:var(--ink-soft);line-height:1.5;}
+  /* homepage order list */
+  ol.flowlist{list-style:none;counter-reset:f;margin:16px 0 0;padding:0;}
+  ol.flowlist li{counter-increment:f;display:grid;grid-template-columns:34px 1fr;gap:14px;
+    padding:13px 0;border-bottom:1px solid var(--line-soft);align-items:baseline;}
+  ol.flowlist li::before{content:counter(f,decimal-leading-zero);
+    font-family:'Newsreader',Georgia,serif;color:var(--teal);font-size:16px;}
+  ol.flowlist b{color:var(--navy);font-weight:600;font-size:15px;}
+  ol.flowlist span{color:var(--ink-soft);font-size:14px;}
+  /* plan */
+  .plan{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px;}
+  .phase{background:var(--panel);border-top:3px solid var(--teal);padding:20px 18px;}
+  .phase .ph{font-size:11px;letter-spacing:1.1px;font-weight:700;color:var(--teal);margin-bottom:12px;}
+  .phase h4{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:19px;margin-bottom:9px;}
+  .phase p{font-size:13px;color:var(--ink);line-height:1.55;margin:0;}
+  /* metrics */
+  .metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 30px;margin-top:10px;}
+  .metrics div{border-top:2px solid var(--line);padding-top:12px;}
+  .metrics b{display:block;color:var(--navy);font-size:15px;margin-bottom:4px;}
+  .metrics span{font-size:13.5px;color:var(--ink-soft);line-height:1.5;}
+  /* close */
+  .close{background:var(--navy);color:#fff;padding:34px 36px;margin-top:40px;}
+  .close .eyebrow{color:#9FC0D6;}
+  .close h3{color:#fff;font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:24px;line-height:1.3;margin-bottom:12px;}
+  .close p{color:#D9E6F0;margin:0;font-size:15px;line-height:1.65;}
+  footer{padding:24px 0 4px;color:#9DAEBA;font-size:12px;display:flex;justify-content:space-between;border-top:1px solid var(--line);}
+  @media print{
+    body{background:#fff;}
+    .sheet{box-shadow:none;margin:0;max-width:none;padding:24mm 22mm;}
+    section{break-inside:avoid;}
+    .block,.phase,.close{break-inside:avoid;}
+  }
+  @media(max-width:720px){
+    .sheet{padding:38px 24px;margin:0;}
+    .cover h1{font-size:34px;}
+    .flow,.nav,.plan,.pillars,.metrics{grid-template-columns:1fr;}
+    .nav div{min-height:0;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="mast">
+    <span>Biznet Consulting</span>
+    <span>Website Notes · October 2026</span>
+  </div>
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="kicker">UAE Real Estate Development Consultancy</div>
+    <h1>A website that earns the<br>first <em>conversation.</em></h1>
+    <p class="lede">We looked closely at how the strongest development consultancies in the UAE present themselves online, then worked out what Biznet's site needs to do to compete. This is the short version — what matters, why, and what to build.</p>
+    <div class="rule"></div>
+    <p class="byline">Prepared for <b>Biznet Consulting</b> · Feasibility · Development Advisory · Project Management</p>
+  </div>
+
+  <!-- THE POINT -->
+  <section>
+    <div class="eyebrow">Where we stand</div>
+    <h2 class="head serif">Most visitors decide in about ten seconds.</h2>
+    <p class="sub">In that time they are trying to answer one question: can these people help me make a better decision about my project? If the answer isn't obvious, they leave.</p>
+    <p>A development consultancy doesn't sell square metres or a product you can click and buy. It sells judgement — the confidence that someone experienced will tell you whether a scheme stacks up before you commit capital, and then keep it on track once you do. That's a harder thing to prove on a webpage, which is exactly why the website has to work harder.</p>
+    <p>The competitors worth watching have all figured this out. They don't open with a list of services. They open with the <strong>decision they help you make</strong>, show the path they take you down, and then back it up with real work. Everything on this page is aimed at getting Biznet to the same standard, without claiming anything the firm doesn't genuinely do.</p>
+    <div class="takeaway">
+      <p>Sell the confidence first. The capability is what proves it — not the other way round.</p>
+    </div>
+  </section>
+
+  <!-- WHAT THE MARKET DOES -->
+  <section>
+    <div class="eyebrow">What the market does well</div>
+    <h2 class="head serif">Five firms, five things worth learning from.</h2>
+    <p class="sub">We reviewed ten consultancies across Dubai and the wider UAE. Here are the five whose websites are the most useful to benchmark, and the single habit each one does better than most.</p>
+    <table>
+      <thead>
+        <tr><th style="width:34%">Firm</th><th>What their website gets right</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="firm">Stonehaven<span>Direct competitor</span></td><td>Dedicated pages for Feasibility and Highest &amp; Best Use that spell out the exact questions they answer and the outputs you receive.</td></tr>
+        <tr><td class="firm">Refine<span>Direct competitor</span></td><td>Clear routes for different clients — developers, landowners, investors — each written around that reader's decisions and risks.</td></tr>
+        <tr><td class="firm">Compass<span>Direct competitor</span></td><td>Project pages that state plainly what the firm was actually responsible for: sector, location, role, stage, result.</td></tr>
+        <tr><td class="firm">Mirage<span>Direct competitor</span></td><td>A simple lifecycle story — from first idea to handover — that makes an owner feel the firm will stay with them the whole way.</td></tr>
+        <tr><td class="firm">Cavendish Maxwell<span>Strategic advisor</span></td><td>Market commentary and signed expert articles that make technical credibility visible instead of just asserting it.</td></tr>
+      </tbody>
+    </table>
+    <p class="note">This is a read of public website content, not market share or traffic. The bigger global names (JLL, CBRE, Knight Frank, Cushman &amp; Wakefield) do the same things at larger scale — but Biznet wins on precision and proof, not volume.</p>
+  </section>
+
+  <!-- THE BUILDING BLOCKS -->
+  <section>
+    <div class="eyebrow">What a better site needs</div>
+    <h2 class="head serif">The seven things the site has to get right.</h2>
+    <p class="sub">None of these is complicated. Together they turn a brochure into something that actually moves a serious client toward a conversation. For each one, here's the piece to build.</p>
+
+    <div class="block">
+      <div class="no">01</div>
+      <div>
+        <h3>A hero that leads with the outcome</h3>
+        <p>The first screen shouldn't say "welcome" or list what the firm does. It should say what Biznet gives a client, in plain language, with one clear next step.</p>
+        <div class="show"><b>Build it like this:</b> a single line such as <i>"Development clarity, from land to landmark"</i>, one supporting sentence, one button ("Let's talk"), and the three core disciplines named underneath — Project Development · Project Management · Feasibility. Nothing else competing for attention.</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="no">02</div>
+      <div>
+        <h3>A plain account of how you work</h3>
+        <p>Clients want to know the method before they trust the result. A short, four-step path does more than a paragraph of promises.</p>
+        <div class="flow">
+          <div class="step"><b>Step 01</b><em>Evaluate</em><span>Objectives, constraints and the real potential of the project.</span></div>
+          <div class="step"><b>Step 02</b><em>Validate</em><span>Highest and best use, and whether the numbers actually work.</span></div>
+          <div class="step"><b>Step 03</b><em>Direct</em><span>Project definition, planning and coordination.</span></div>
+          <div class="step"><b>Step 04</b><em>Control</em><span>Monitoring, reporting and oversight through delivery.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="no">03</div>
+      <div>
+        <h3>Service cards that lead somewhere</h3>
+        <p>Each core service needs its own card on the homepage and its own detail page behind it. The card gives the one-line reason it exists; the page gives the scope, the outputs and the way in.</p>
+        <div class="show"><b>Build it like this:</b> number the services and give each a short, confident description and an "Explore →" link. For example — <b>Project Development:</b> shaping the opportunity and the right direction before execution begins. <b>Project Management:</b> owner-side control across execution. <b>Feasibility:</b> financial and market clarity, highest and best use, modelling and return. Brand &amp; positioning sits alongside as the fourth.</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="no">04</div>
+      <div>
+        <h3>Routes by who the visitor is</h3>
+        <p>An investor, a developer and a landowner are each weighing a different risk. The site should let each one find themselves quickly rather than reading everything.</p>
+        <div class="show"><b>Build it like this:</b> a short "who we work with" band — <b>Investors · Developers · Landowners · Private Clients</b> — each leading to content framed around that reader's decisions. Same firm, four doors in.</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="no">05</div>
+      <div>
+        <h3>Projects shown as proof, not photos</h3>
+        <p>Imagery alone proves nothing. The work needs a consistent format so a reader can see exactly what Biznet did and for whom.</p>
+        <div class="show"><b>Build it like this:</b> group projects by type — <b>Investment &amp; Development · Commercial · Private Villas &amp; Buildings · Residential</b> — and give every case the same spine: sector, location, Biznet's role, the stage, and the result. Only ever show permission-cleared work, and never describe someone else's project as your own.</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="no">06</div>
+      <div>
+        <h3>Insights that show expertise</h3>
+        <p>A small, genuine library of articles is the cheapest way to prove the firm knows its market — and the one that keeps earning attention long after it's published.</p>
+        <div class="show"><b>Build it like this:</b> a News &amp; Insights section with clear categories (News · Press Release · Article) and a date on everything. Write about feasibility, development planning and the UAE market — the questions clients actually ask — and pair each piece with a route to the relevant service. A short FAQ on the homepage does the same job for the quick questions.</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="no">07</div>
+      <div>
+        <h3>An enquiry that qualifies, gently</h3>
+        <p>The point of the site is a good first conversation. The contact step should be short, but it should learn one useful thing about who's asking.</p>
+        <div class="show"><b>Build it like this:</b> open with <i>"What best describes you?"</i> — Developer · Landowner · Investor · New business — then just name, email and phone, and room to describe the project. That one question tells the team how to prepare before they ever pick up the phone.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRUCTURE -->
+  <section>
+    <div class="eyebrow">How to lay it out</div>
+    <h2 class="head serif">A simple structure that holds all of it.</h2>
+    <p class="sub">Keep the main navigation short and let everything hang off it cleanly. Seven items is plenty.</p>
+    <div class="nav">
+      <div><b>Home</b><span>Proposition and proof</span></div>
+      <div><b>About</b><span>Approach, team, evidence</span></div>
+      <div class="on"><b>Services</b><span>The core disciplines</span></div>
+      <div><b>Projects</b><span>Case work by type</span></div>
+      <div><b>Sectors</b><span>Experience by asset</span></div>
+      <div><b>Insights</b><span>Articles and views</span></div>
+      <div><b>Contact</b><span>The enquiry route</span></div>
+    </div>
+    <div class="pillars">
+      <div><b>Project Development</b><span>Direction and project definition before execution begins.</span></div>
+      <div><b>Project Management</b><span>Owner-side programme, cost, reporting and coordination.</span></div>
+      <div><b>Feasibility &amp; Viability</b><span>Highest and best use, market fit, modelling and return.</span></div>
+    </div>
+    <p class="note">Brand &amp; positioning and company formation sit as supporting services, not headline navigation. Add standalone audience or sector pages only where there's real, differentiated content to fill them.</p>
+  </section>
+
+  <!-- HOMEPAGE FLOW -->
+  <section>
+    <div class="eyebrow">The homepage, top to bottom</div>
+    <h2 class="head serif">Purpose first, proof second, the ask last.</h2>
+    <p class="sub">A reader should be able to scroll once and come away knowing what Biznet decides for them, how it works, that it has done it before, and how to start.</p>
+    <ol class="flowlist">
+      <li><b>Hero —</b> <span>the outcome, the three disciplines, one call to action.</span></li>
+      <li><b>Who we are —</b> <span>a short, honest paragraph on what the firm actually does.</span></li>
+      <li><b>How we work —</b> <span>the four-step path: evaluate, validate, direct, control.</span></li>
+      <li><b>What we do —</b> <span>the service cards, each leading to its detail page.</span></li>
+      <li><b>Projects —</b> <span>selected work by type, with the role made clear.</span></li>
+      <li><b>Who we work with —</b> <span>the four client routes.</span></li>
+      <li><b>Insights —</b> <span>three or four recent pieces, dated and categorised.</span></li>
+      <li><b>Let's talk —</b> <span>the enquiry form that opens with "what best describes you?".</span></li>
+    </ol>
+  </section>
+
+  <!-- PLAN -->
+  <section>
+    <div class="eyebrow">How to get there</div>
+    <h2 class="head serif">Three stages, roughly a quarter of work.</h2>
+    <p class="sub">No need to build everything at once. Get the structure and the core pages right first, then add the proof, then tune it.</p>
+    <div class="plan">
+      <div class="phase">
+        <div class="ph">STAGE 1 · WEEKS 1–4</div>
+        <h4>Set the structure</h4>
+        <p>Lock the three core services, write the hero and the detail pages, agree which projects can be shown and what each claim is based on.</p>
+      </div>
+      <div class="phase">
+        <div class="ph">STAGE 2 · WEEKS 5–8</div>
+        <h4>Add the proof</h4>
+        <p>Publish the case studies and leadership profiles, switch on the client routes, write the first three articles, and refine the enquiry form.</p>
+      </div>
+      <div class="phase">
+        <div class="ph">STAGE 3 · WEEKS 9–12</div>
+        <h4>Tune and measure</h4>
+        <p>Check mobile and load speed, sort the technical SEO, then watch how people actually use it and adjust the copy and forms.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <section>
+    <div class="eyebrow">How we'll know it's working</div>
+    <h2 class="head serif">Four things worth counting.</h2>
+    <p class="sub">Visitor numbers on their own tell you very little. These four say whether the site is doing its real job.</p>
+    <div class="metrics">
+      <div><b>Qualified enquiries</b><span>Messages that name a service, a stage and a genuine project — not just traffic.</span></div>
+      <div><b>Service engagement</b><span>How far people read the service pages and whether they click through.</span></div>
+      <div><b>Search visibility</b><span>Non-branded searches that find Biznet, especially around feasibility and development.</span></div>
+      <div><b>Form completion</b><span>How many people who start the enquiry actually finish it.</span></div>
+    </div>
+  </section>
+
+  <!-- CLOSE -->
+  <div class="close">
+    <div class="eyebrow">The one thing to remember</div>
+    <h3>Clarity of evidence beats volume of claims.</h3>
+    <p>Biznet doesn't need the longest service menu or the biggest project list. It needs a site that states clearly what it helps clients decide, shows the method, and proves a few things properly. Do that, and the first conversation gets a lot easier to earn.</p>
+  </div>
+
+  <footer>
+    <span>Biznet Consulting — Website Notes &amp; Recommendations</span>
+    <span>October 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>
