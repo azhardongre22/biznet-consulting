@@ -1,5 +1,6 @@
 import { Suspense, lazy, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import usePageSeo from "../hooks/usePageSeo";
 import { PATHS } from "../data/seoData";
@@ -237,12 +238,12 @@ export default function FaqPage() {
               Reach out and our team will respond with focused guidance based on
               your project.
             </p>
-            <a
-              href="/contact"
+            <Link
+              to={PATHS.contact}
               className="mt-7 inline-flex items-center justify-center rounded-full border border-[#0E4174] bg-[#0E4174] px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white shadow-[0_10px_24px_rgba(14,65,116,0.22)] transition hover:bg-[#0A2F55]"
             >
               Contact us
-            </a>
+            </Link>
           </motion.div>
         </section>
       </main>

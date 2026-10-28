@@ -8,6 +8,8 @@
 // image, imageAlt, slide*, featured, and body as sanitized HTML on detail).
 
 const CMS_BASE = import.meta.env.VITE_CMS_API_BASE || "/api/cms";
+// Static demo builds (GitHub Pages) read a JSON snapshot instead of the API.
+const EXT = import.meta.env.VITE_CMS_STATIC ? ".json" : "";
 
 // Fail fast-ish so a hung API doesn't freeze the page; callers fall back.
 async function getJson(url, { timeoutMs = 8000 } = {}) {
@@ -26,7 +28,7 @@ async function getJson(url, { timeoutMs = 8000 } = {}) {
 
 // GET /api/cms/press-releases  -> array of articles (published only)
 export async function fetchPressList() {
-  const res = await getJson(`${CMS_BASE}/press-releases`);
+  const res = await getJson(`${CMS_BASE}/press-releases${EXT}`);
   if (!res.ok) throw new Error(`Press list request failed (${res.status})`);
   const data = await res.json();
   return Array.isArray(data.items) ? data.items : [];
@@ -36,7 +38,7 @@ export async function fetchPressList() {
 // Returns { notFound: true } for a 404, else { article, related }.
 export async function fetchPressArticle(slug) {
   const res = await getJson(
-    `${CMS_BASE}/press-releases/${encodeURIComponent(slug)}`,
+    `${CMS_BASE}/press-releases/${encodeURIComponent(slug)}${EXT}`,
   );
   if (res.status === 404) return { notFound: true };
   if (!res.ok) throw new Error(`Article request failed (${res.status})`);

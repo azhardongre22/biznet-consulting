@@ -14,7 +14,8 @@
     "generate:og": "node scripts/generate-og-images.mjs",
     "generate:redirects": "node scripts/generate-nginx-redirects.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
-    "verify:seo": "node scripts/verify-seo.mjs"
+    "verify:seo": "node scripts/verify-seo.mjs",
+    "build:demo": "node scripts/build-demo.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",

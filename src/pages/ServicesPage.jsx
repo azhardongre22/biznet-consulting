@@ -326,16 +326,18 @@ function ServiceIndex({ activeId }) {
           <ul className="grid grid-cols-1 gap-x-8 sm:grid-cols-3">
             {INDEX.map((s) => {
               const active = activeId === s.id;
+              // Raw href/history bypass the router, so prefix the deploy base.
+              const href = import.meta.env.BASE_URL.replace(/\/$/, "") + servicePath(s.id);
               return (
                 <li key={s.id}>
                   <a
-                    href={servicePath(s.id)}
+                    href={href}
                     onClick={(e) => {
                       e.preventDefault();
                       scrollToId(s.id);
                       // Reflect the clean service URL without a router navigation
                       // (which would reset the scroll to the top).
-                      window.history.replaceState(window.history.state, "", servicePath(s.id));
+                      window.history.replaceState(window.history.state, "", href);
                     }}
                     aria-current={active ? "true" : undefined}
                     className="group flex items-center justify-between gap-4 border-t-2 py-6 pr-2 transition-colors lg:pr-6"

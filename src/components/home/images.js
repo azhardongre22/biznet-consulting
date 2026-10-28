@@ -4,7 +4,7 @@
 // These are capability / scene photographs — never presented as named,
 // delivered Biznet projects.
 
-import heroDubai from "../../assets/images/photos/dubai-skyline-blue-hour.webp";
+import heroDubai from "../../assets/images/photos/home-hero.png";
 import aboutConstruction from "../../assets/images/photos/dubai-construction-cranes.webp";
 import featureUrban from "../../assets/images/photos/dubai-urban-development.webp";
 import landAssessment from "../../assets/images/photos/aerial-land-assessment.webp";

@@ -72,7 +72,8 @@ const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
+    // BASE_URL is "/" in production; the GitHub Pages demo builds under a sub-path.
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "")}>
       <AppRoutes />
     </BrowserRouter>
   );
